@@ -63,16 +63,19 @@ body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;
 <div id="track">
   <div id="stage">
     <canvas id="film"></canvas>
-    <section class="beat" data-from="0.04" data-to="0.24">
+    <section class="beat" data-from="0.03" data-to="0.21">
       <div><h2>מבנגקוק ועד האי הכי רחוק</h2></div>
     </section>
-    <section class="beat" data-from="0.32" data-to="0.52">
-      <div><h2>אוטובוסים, רכבות ומעבורות</h2><p>בכל העולם, בלי לצאת מהצ'אט</p></div>
+    <section class="beat" data-from="0.30" data-to="0.46">
+      <div><h2>אוטובוסים</h2><p>לילה, VIP או רגיל. אנחנו מוצאים ומזמינים</p></div>
     </section>
-    <section class="beat" data-from="0.58" data-to="0.78">
-      <div><h2>כותבים לאן ומתי</h2><p>ומקבלים כרטיס לוואטסאפ</p></div>
+    <section class="beat" data-from="0.55" data-to="0.71">
+      <div><h2>רכבות</h2><p>מיטה, תא פרטי או מושב, עם המפה לתחנה</p></div>
     </section>
-    <section class="beat" id="finale" data-from="0.88" data-to="1">
+    <section class="beat" data-from="0.78" data-to="0.88">
+      <div><h2>מעבורות</h2><p>ועד האי, בכרטיס אחד</p></div>
+    </section>
+    <section class="beat" id="finale" data-from="0.905" data-to="1">
       <div>
         <img class="logo" src="/brand/logo-white.png" alt="סוכן הטיול הגדול">
         <div><a class="cta" href="https://wa.me/972559171333" target="_blank" rel="noopener">
@@ -89,7 +92,7 @@ body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;
 (() => {
 "use strict";
 /* ====== CONFIG (filled by the build) ====== */
-const FRAME_COUNT = 192;
+const FRAME_COUNT = 768;            // 4 scenes x 192 frames, one flat sequence
 const pad = n => String(n + 1).padStart(4, "0");
 // A phone is a portrait window; a 16:9 frame stretched to cover it is a 2.4x blow-up of a middle
 // strip, which read as "bad quality" on a real device. So portrait viewports get frames that were
@@ -99,7 +102,7 @@ const pad = n => String(n + 1).padStart(4, "0");
 const PORTRAIT = matchMedia("(orientation: portrait)").matches;
 const SET = PORTRAIT ? "p" : "l";
 const src = i => `frames/${SET}/f${pad(i)}.webp`;
-const PX_PER_FRAME = 26;            // scroll distance that advances one frame (192 frames -> same total travel as before)
+const PX_PER_FRAME = 9;             // 768 frames; total travel ~6900px + one viewport
 /* ========================================== */
 
 const canvas = document.getElementById("film");
@@ -180,7 +183,7 @@ function onFrame(i, img) {
   loaded++;
   fill.style.width = `${Math.round(100 * loaded / FRAME_COUNT)}%`;
   // start once the first fifth is in; the rest streams while the visitor reads the opening
-  if (!started && (loaded >= Math.ceil(FRAME_COUNT / 5))) start();
+  if (!started && (loaded >= Math.ceil(FRAME_COUNT / 8))) start();
   if (started && i === current) { draw(i); }
 }
 
@@ -199,7 +202,7 @@ function load(i) {
 // load order: first frame immediately, then coarse-to-fine so scrubbing never hits a hole
 const order = [];
 const seen = new Set();
-for (let step = 32; step >= 1; step = step >> 1) {
+for (let step = 64; step >= 1; step = step >> 1) {
   for (let i = 0; i < FRAME_COUNT; i += step) {
     if (!seen.has(i)) { seen.add(i); order.push(i); }
   }
