@@ -1,22 +1,66 @@
 <!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>סומך טורס — תנאי שירות, ביטול ופרטיות</title>
 <style>
-:root{--paper:#fcfbf8;--ink:#17160f;--soft:#615c50;--line:#e6e0d3;--accent:#7a5a1e;--accent-soft:#f2ead8;--rule:#c9bfa8}
-@media(prefers-color-scheme:dark){:root{--paper:#100f0b;--ink:#e9e4d6;--soft:#948e7f;--line:#26241d;--accent:#cda862;--accent-soft:#1f1a10;--rule:#3a352a}}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);direction:rtl;
-font-family:"Frank Ruhl Libre","David Libre","Times New Roman",Georgia,serif;line-height:1.85;font-size:16px}
-.wrap{max-width:720px;margin:0 auto;padding:48px 22px 80px}
-.head{text-align:center;border-bottom:2px solid var(--rule);padding-bottom:18px}
-.firm{font-size:13px;letter-spacing:.22em;color:var(--accent);font-weight:700;font-family:Arial,sans-serif}
-h1{font-size:24px;margin:.5em 0 .1em;font-weight:700}.sub{color:var(--soft);font-size:13px;font-family:Arial,sans-serif}
-.pre{font-size:14.5px;margin:24px 0 6px}
-h2{font-size:16px;margin:26px 0 4px;font-weight:700;font-family:Arial,sans-serif}h2 .n{color:var(--accent);margin-inline-end:6px}
-ol{list-style:none;counter-reset:s;margin:0;padding:0}ol>li{counter-increment:s;position:relative;padding-inline-start:42px;margin:.5em 0;font-size:14.5px}
-ol>li::before{content:counter(s)".";position:absolute;inset-inline-start:0;color:var(--soft);font-family:Arial,sans-serif;font-size:13px}
-.defs{list-style:none;padding:0;margin:0}.defs li{margin:.5em 0;font-size:14.5px}.defs b,.pre b{color:var(--accent)}
-.accept{border:1px solid var(--rule);border-radius:8px;background:var(--accent-soft);padding:13px 17px;margin-top:26px;font-size:14.5px}
-.accept b{color:var(--accent)}.sig{margin-top:30px;border-top:1px solid var(--line);padding-top:12px;font-size:12px;color:var(--soft);font-family:Arial,sans-serif;text-align:center}
+:root{
+  --paper:#faf7f0; --raised:#fffdf8; --ink:#191710; --soft:#6b6455; --faint:#938b79;
+  --line:#e7dfcd; --accent:#8a6520; --accent-ink:#6d4f18; --wash:#f3ecdc;
+}
+@media(prefers-color-scheme:dark){:root{
+  --paper:#0f0e0a; --raised:#171510; --ink:#ece6d7; --soft:#9b9382; --faint:#7b7362;
+  --line:#2a271e; --accent:#d1ab63; --accent-ink:#e0bd7c; --wash:#1c1913;
+}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);direction:rtl;
+  font-family:"Frank Ruhl Libre","David Libre","Times New Roman",Georgia,serif;
+  line-height:1.8;font-size:16.5px;-webkit-font-smoothing:antialiased}
+.sans{font-family:"Assistant","Heebo","Segoe UI",Arial,sans-serif}
+.wrap{max-width:680px;margin:0 auto;padding:34px 22px 72px}
+a{color:var(--accent-ink);text-underline-offset:3px}
+
+.back{display:inline-block;margin-bottom:22px;font-family:"Assistant","Heebo",Arial,sans-serif;
+  font-size:13.5px;color:var(--faint);text-decoration:none}
+.back:hover{color:var(--accent-ink)}
+
+.head{text-align:center;border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:8px}
+.firm{font-family:"Assistant","Heebo",Arial,sans-serif;font-size:11.5px;letter-spacing:.24em;
+  color:var(--faint);text-transform:uppercase}
+h1{font-size:clamp(22px,4.6vw,27px);line-height:1.28;margin:.5em 0 .22em;font-weight:700;text-wrap:balance}
+.sub{color:var(--faint);font-size:12.5px;font-family:"Assistant","Heebo",Arial,sans-serif;letter-spacing:.04em}
+
+.pre{font-size:16px;margin:26px 0 4px;color:var(--soft)}
+.pre b{color:var(--ink);font-weight:700}
+
+h2{font-size:15px;margin:32px 0 8px;font-weight:700;font-family:"Assistant","Heebo",Arial,sans-serif;
+  letter-spacing:.01em;scroll-margin-top:18px}
+h2 .n{color:var(--accent);margin-inline-end:7px;font-variant-numeric:tabular-nums}
+
+ol{list-style:none;counter-reset:s;margin:0;padding:0}
+ol>li{counter-increment:s;position:relative;padding-inline-start:34px;margin:.62em 0;font-size:16px;color:var(--soft)}
+ol>li::before{content:counter(s)".";position:absolute;inset-inline-start:0;top:.05em;color:var(--faint);
+  font-family:"Assistant","Heebo",Arial,sans-serif;font-size:12.5px;font-variant-numeric:tabular-nums}
+.defs{list-style:none;padding:0;margin:0}
+.defs li{margin:.62em 0;font-size:16px;color:var(--soft);padding-inline-start:0}
+.defs b,.pre b{color:var(--accent-ink)}
+
+.accept{border:1px solid var(--line);border-inline-start:3px solid var(--accent);border-radius:10px;
+  background:var(--wash);padding:16px 19px;margin-top:32px;font-size:16px}
+.accept b{color:var(--accent-ink)}
+
+.sig{margin-top:36px;border-top:1px solid var(--line);padding-top:16px;font-size:12.5px;color:var(--faint);
+  font-family:"Assistant","Heebo",Arial,sans-serif;text-align:center;line-height:1.8}
+
+@media print{
+  :root{--paper:#fff;--ink:#000;--soft:#222;--faint:#555;--line:#bbb;--wash:#f6f2e8}
+  body{font-size:11pt;line-height:1.55}
+  .wrap{max-width:none;padding:0}
+  .back{display:none}
+  h2{margin-top:16pt;page-break-after:avoid}
+  ol>li,.defs li{page-break-inside:avoid}
+  .accept{page-break-inside:avoid}
+}
 </style></head><body><div class="wrap">
+<a class="back" href="/">→ חזרה לעמוד הראשי</a>
 <div class="head"><div class="firm">סומך טורס</div><h1>תנאי שירות, מדיניות ביטול והחזרים, ומדיניות פרטיות</h1><div class="sub">גרסה 1.1</div></div>
 <p class="pre">מסמך זה מסדיר את היחסים המשפטיים בין העוסק <b>סומך טורס</b> (להלן: <b>"נותן השירות"</b>) לבין כל מזמין המבצע הזמנה באמצעות השירות (להלן: <b>"הלקוח"</b>). ההזמנה והתשלום כפופים לתנאים שלהלן, והלקוח מאשר בעצם ביצוע התשלום כי קרא, הבין והסכים לכולם.</p>
 <h2><span class="n">1.</span> הגדרות</h2>
