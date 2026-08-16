@@ -1,0 +1,210 @@
+<!doctype html><html lang="he" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>המסע — סוכן הטיול הגדול</title>
+<meta name="description" content="מבנגקוק ועד האי. הזמנת כרטיסי אוטובוס, רכבת ומעבורת בוואטסאפ.">
+<link rel="icon" href="/brand/logo.png">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap">
+<style>
+:root{--ink:#f2f2f2;--bg:#0a0a0a;--wa:#25D366}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;
+  font-family:"Heebo",system-ui,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+/* the scroll track: its height IS the movie's length */
+#track{position:relative}
+#stage{position:sticky;top:0;height:100svh;overflow:hidden}
+#film{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* darkening for legibility of overlays */
+#stage::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.42));pointer-events:none}
+/* text beats */
+.beat{position:absolute;inset:0;display:grid;place-items:center;text-align:center;
+  opacity:0;pointer-events:none;padding:0 24px}
+.beat h2{font-size:clamp(30px,6.5vw,58px);font-weight:900;margin:0;line-height:1.25;
+  text-shadow:0 2px 24px rgba(0,0,0,.75), 0 0 4px rgba(0,0,0,.6);text-wrap:balance}
+.beat p{font-size:clamp(17px,2.6vw,22px);margin:14px 0 0;text-shadow:0 1px 14px rgba(0,0,0,.8)}
+.beat .logo{width:min(280px,64vw);filter:invert(1);mix-blend-mode:screen}
+.cta{display:inline-flex;align-items:center;gap:10px;margin-top:26px;padding:16px 34px;border-radius:999px;
+  background:var(--wa);color:#fff;text-decoration:none;font-size:18px;font-weight:700;
+  box-shadow:0 4px 24px rgba(37,211,102,.45)}
+.cta svg{width:22px;height:22px}
+/* loader */
+#loader{position:fixed;inset:0;background:var(--bg);display:grid;place-items:center;z-index:10;
+  transition:opacity .5s ease}
+#loader.done{opacity:0;pointer-events:none}
+#loader .box{text-align:center}
+#loader img{width:min(240px,60vw);filter:invert(1);mix-blend-mode:screen}
+#bar{width:min(240px,60vw);height:2px;background:#2a2a2a;margin:26px auto 0;overflow:hidden}
+#fill{height:100%;width:0%;background:var(--ink);transition:width .2s ease}
+#hint{margin-top:16px;font-size:13px;color:#8a8a8a}
+/* scroll nudge */
+#nudge{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:5;
+  font-size:13px;color:#eee;opacity:0;transition:opacity .6s ease;pointer-events:none;
+  text-shadow:0 1px 8px rgba(0,0,0,.9)}
+#nudge.show{opacity:.9}
+#nudge .chev{display:block;margin:6px auto 0;width:16px;height:16px;border-inline-start:2px solid #eee;border-block-end:2px solid #eee;transform:rotate(-45deg);animation:dip 1.6s ease-in-out infinite}
+@keyframes dip{0%,100%{translate:0 0;opacity:.9}50%{translate:0 7px;opacity:.4}}
+@media(prefers-reduced-motion:reduce){
+  #nudge .chev{animation:none}
+}
+</style></head><body>
+<div id="loader"><div class="box">
+  <img src="/brand/logo.png" alt="סוכן הטיול הגדול">
+  <div id="bar"><div id="fill"></div></div>
+  <div id="hint">טוענים את המסע...</div>
+</div></div>
+
+<div id="track">
+  <div id="stage">
+    <canvas id="film"></canvas>
+    <section class="beat" data-from="0.04" data-to="0.24">
+      <div><h2>מבנגקוק ועד האי הכי רחוק</h2></div>
+    </section>
+    <section class="beat" data-from="0.32" data-to="0.52">
+      <div><h2>אוטובוסים, רכבות ומעבורות</h2><p>בכל העולם, בלי לצאת מהצ'אט</p></div>
+    </section>
+    <section class="beat" data-from="0.58" data-to="0.78">
+      <div><h2>כותבים לאן ומתי</h2><p>ומקבלים כרטיס לוואטסאפ</p></div>
+    </section>
+    <section class="beat" id="finale" data-from="0.88" data-to="1">
+      <div>
+        <img class="logo" src="/brand/logo.png" alt="סוכן הטיול הגדול">
+        <div><a class="cta" href="https://wa.me/972559171333" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.86 9.86 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.13c-.24.68-1.2 1.25-1.96 1.41-.52.11-1.2.2-3.5-.75-2.94-1.22-4.83-4.2-4.98-4.4-.14-.19-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.27-.29.58-.36.78-.36.19 0 .39 0 .56.01.18.01.42-.7.8.61.39.7 1.33 2.44 1.45 2.61.12.18.2.39.04.62-.15.24-.23.38-.45.59-.22.2-.36.36-.52.58-.15.2-.31.42-.13.73.18.31.8 1.32 1.72 2.14 1.18 1.05 2.17 1.38 2.48 1.53.31.15.49.13.67-.08.18-.2.77-.9.98-1.21.2-.31.41-.26.68-.15.28.1 1.76.83 2.06.98.31.15.51.22.58.35.08.12.08.7-.16 1.38Z"/></svg>
+          דברו איתנו בוואטסאפ
+        </a></div>
+      </div>
+    </section>
+  </div>
+</div>
+<div id="nudge">גללו למטה<span class="chev"></span></div>
+
+<script>
+(() => {
+"use strict";
+/* ====== CONFIG (filled by the build) ====== */
+const FRAME_COUNT = 96;
+const pad = n => String(n + 1).padStart(4, "0");
+const src = i => `frames/f${pad(i)}.webp`;
+const PX_PER_FRAME = 52;            // scroll distance that advances one frame
+/* ========================================== */
+
+const canvas = document.getElementById("film");
+const ctx = canvas.getContext("2d");
+const track = document.getElementById("track");
+const loader = document.getElementById("loader");
+const fill = document.getElementById("fill");
+const nudge = document.getElementById("nudge");
+const beats = [...document.querySelectorAll(".beat")].map(el => ({
+  el, from: +el.dataset.from, to: +el.dataset.to
+}));
+const finale = document.getElementById("finale");
+
+const frames = new Array(FRAME_COUNT).fill(null);
+let loaded = 0, started = false, current = -1;
+
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function sizeCanvas() {
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  canvas.width = Math.round(innerWidth * dpr);
+  canvas.height = Math.round(canvas.getBoundingClientRect().height * dpr);
+  current = -1; // force redraw
+}
+function sizeTrack() {
+  track.style.height = reduced ? "100svh" : `${FRAME_COUNT * PX_PER_FRAME + innerHeight}px`;
+}
+
+function draw(i) {
+  const img = frames[i] || frames.slice(0, i).reverse().find(Boolean) || frames.find(Boolean);
+  if (!img) return;
+  const cw = canvas.width, ch = canvas.height;
+  const iw = img.width, ih = img.height;
+  const s = Math.max(cw / iw, ch / ih);
+  const w = iw * s, h = ih * s;
+  ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+}
+
+function fraction() {
+  const max = track.offsetHeight - innerHeight;
+  return max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 1;
+}
+
+let dirty = true;
+addEventListener("scroll", () => { dirty = true; }, { passive: true });
+addEventListener("resize", () => { sizeCanvas(); sizeTrack(); dirty = true; });
+
+function tick() {
+  if (dirty) {
+    dirty = false;
+    const f = reduced ? 1 : fraction();
+    const idx = Math.min(FRAME_COUNT - 1, Math.round(f * (FRAME_COUNT - 1)));
+    if (idx !== current) { current = idx; draw(idx); }
+    for (const b of beats) {
+      const span = b.to - b.from;
+      const p = (f - b.from) / span;
+      let o = 0;
+      if (p > 0 && p < 1) o = Math.min(1, Math.min(p, 1 - p) / 0.25);
+      if (b.el === finale && f >= b.to - 0.02) o = 1; // the ending holds
+      b.el.style.opacity = o.toFixed(3);
+      b.el.style.pointerEvents = (b.el === finale && o > 0.5) ? "auto" : "none";
+    }
+    nudge.classList.toggle("show", started && f < 0.02 && !reduced);
+  }
+  requestAnimationFrame(tick);
+}
+
+function start() {
+  if (started) return;
+  started = true;
+  loader.classList.add("done");
+  sizeCanvas(); sizeTrack(); dirty = true;
+  requestAnimationFrame(tick);
+}
+
+function onFrame(i, img) {
+  frames[i] = img;
+  loaded++;
+  fill.style.width = `${Math.round(100 * loaded / FRAME_COUNT)}%`;
+  // start once the first fifth is in; the rest streams while the visitor reads the opening
+  if (!started && (loaded >= Math.ceil(FRAME_COUNT / 5))) start();
+  if (started && i === current) { draw(i); }
+}
+
+function load(i) {
+  return fetch(src(i))
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.blob(); })
+    .then(b => ("createImageBitmap" in window) ? createImageBitmap(b) : new Promise((res, rej) => {
+      const im = new Image();
+      im.onload = () => res(im); im.onerror = rej;
+      im.src = URL.createObjectURL(b);
+    }))
+    .then(img => onFrame(i, img))
+    .catch(() => { loaded++; }); // a missing frame must not wedge the loader
+}
+
+// load order: first frame immediately, then coarse-to-fine so scrubbing never hits a hole
+const order = [];
+const seen = new Set();
+for (let step = 32; step >= 1; step = step >> 1) {
+  for (let i = 0; i < FRAME_COUNT; i += step) {
+    if (!seen.has(i)) { seen.add(i); order.push(i); }
+  }
+}
+if (reduced) {
+  load(FRAME_COUNT - 1).then(start);
+} else {
+  let cursor = 0;
+  const POOL = 6;
+  const next = () => {
+    if (cursor >= order.length) return;
+    const i = order[cursor++];
+    load(i).then(next);
+  };
+  for (let k = 0; k < POOL; k++) next();
+  // absolute fallback: never trap a visitor on the loader
+  setTimeout(start, 15000);
+}
+})();
+</script>
+</body></html>
