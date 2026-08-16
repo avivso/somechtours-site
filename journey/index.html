@@ -16,14 +16,20 @@ body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;
 #stage{position:sticky;top:0;height:100svh;overflow:hidden}
 #film{position:absolute;inset:0;width:100%;height:100%;display:block}
 /* darkening for legibility of overlays */
-#stage::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.42));pointer-events:none}
+#stage::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.46));pointer-events:none;z-index:1}
+.beat{z-index:2}
+#finale > div{position:relative;padding:34px 40px 30px;border-radius:24px}
+#finale > div::before{content:"";position:absolute;inset:-30px -60px;border-radius:50%;
+  background:radial-gradient(ellipse at center,rgba(0,0,0,.55) 0%,rgba(0,0,0,.35) 45%,transparent 72%);z-index:-1}
 /* text beats */
 .beat{position:absolute;inset:0;display:grid;place-items:center;text-align:center;
   opacity:0;pointer-events:none;padding:0 24px}
 .beat h2{font-size:clamp(30px,6.5vw,58px);font-weight:900;margin:0;line-height:1.25;
   text-shadow:0 2px 24px rgba(0,0,0,.75), 0 0 4px rgba(0,0,0,.6);text-wrap:balance}
 .beat p{font-size:clamp(17px,2.6vw,22px);margin:14px 0 0;text-shadow:0 1px 14px rgba(0,0,0,.8)}
-.beat .logo{width:min(280px,64vw);filter:invert(1);mix-blend-mode:screen}
+.beat .logo{width:min(300px,68vw);
+  /* true-alpha white artwork; the glow is a stack of soft white shadows around the hiker and letters */
+  filter:drop-shadow(0 0 5px rgba(255,255,255,1)) drop-shadow(0 0 16px rgba(255,255,255,.75)) drop-shadow(0 0 40px rgba(255,255,255,.4))}
 .cta{display:inline-flex;align-items:center;gap:10px;margin-top:26px;padding:16px 34px;border-radius:999px;
   background:var(--wa);color:#fff;text-decoration:none;font-size:18px;font-weight:700;
   box-shadow:0 4px 24px rgba(37,211,102,.45)}
@@ -33,7 +39,7 @@ body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;
   transition:opacity .5s ease}
 #loader.done{opacity:0;pointer-events:none}
 #loader .box{text-align:center}
-#loader img{width:min(240px,60vw);filter:invert(1);mix-blend-mode:screen}
+#loader img{width:min(240px,60vw);filter:drop-shadow(0 0 14px rgba(255,255,255,.35))}
 #bar{width:min(240px,60vw);height:2px;background:#2a2a2a;margin:26px auto 0;overflow:hidden}
 #fill{height:100%;width:0%;background:var(--ink);transition:width .2s ease}
 #hint{margin-top:16px;font-size:13px;color:#8a8a8a}
@@ -49,7 +55,7 @@ body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;
 }
 </style></head><body>
 <div id="loader"><div class="box">
-  <img src="/brand/logo.png" alt="סוכן הטיול הגדול">
+  <img src="/brand/logo-white.png" alt="סוכן הטיול הגדול">
   <div id="bar"><div id="fill"></div></div>
   <div id="hint">טוענים את המסע...</div>
 </div></div>
@@ -68,7 +74,7 @@ body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;
     </section>
     <section class="beat" id="finale" data-from="0.88" data-to="1">
       <div>
-        <img class="logo" src="/brand/logo.png" alt="סוכן הטיול הגדול">
+        <img class="logo" src="/brand/logo-white.png" alt="סוכן הטיול הגדול">
         <div><a class="cta" href="https://wa.me/972559171333" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.86 9.86 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.13c-.24.68-1.2 1.25-1.96 1.41-.52.11-1.2.2-3.5-.75-2.94-1.22-4.83-4.2-4.98-4.4-.14-.19-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.27-.29.58-.36.78-.36.19 0 .39 0 .56.01.18.01.42-.7.8.61.39.7 1.33 2.44 1.45 2.61.12.18.2.39.04.62-.15.24-.23.38-.45.59-.22.2-.36.36-.52.58-.15.2-.31.42-.13.73.18.31.8 1.32 1.72 2.14 1.18 1.05 2.17 1.38 2.48 1.53.31.15.49.13.67-.08.18-.2.77-.9.98-1.21.2-.31.41-.26.68-.15.28.1 1.76.83 2.06.98.31.15.51.22.58.35.08.12.08.7-.16 1.38Z"/></svg>
           דברו איתנו בוואטסאפ
@@ -83,10 +89,17 @@ body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;
 (() => {
 "use strict";
 /* ====== CONFIG (filled by the build) ====== */
-const FRAME_COUNT = 96;
+const FRAME_COUNT = 192;
 const pad = n => String(n + 1).padStart(4, "0");
-const src = i => `frames/f${pad(i)}.webp`;
-const PX_PER_FRAME = 52;            // scroll distance that advances one frame
+// A phone is a portrait window; a 16:9 frame stretched to cover it is a 2.4x blow-up of a middle
+// strip, which read as "bad quality" on a real device. So portrait viewports get frames that were
+// centre-cropped from the master at FULL source height (real pixels), and landscape gets 1280x720.
+// Chosen once at load: a mid-session orientation flip would need both sets, and 22MB is not a
+// price a phone should pay for a rotation.
+const PORTRAIT = matchMedia("(orientation: portrait)").matches;
+const SET = PORTRAIT ? "p" : "l";
+const src = i => `frames/${SET}/f${pad(i)}.webp`;
+const PX_PER_FRAME = 26;            // scroll distance that advances one frame (192 frames -> same total travel as before)
 /* ========================================== */
 
 const canvas = document.getElementById("film");
