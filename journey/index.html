@@ -1,5 +1,5 @@
 <!doctype html><html lang="he" dir="rtl"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>המסע — סוכן הטיול הגדול</title>
 <meta name="description" content="מבנגקוק ועד האי. הזמנת כרטיסי אוטובוס, רכבת ומעבורת בוואטסאפ.">
 <link rel="icon" href="/brand/logo.png">
@@ -16,7 +16,8 @@ body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;
   font-family:"Heebo",system-ui,Arial,sans-serif;-webkit-font-smoothing:antialiased}
 /* the scroll track: its height IS the movie's length */
 #track{position:relative}
-#stage{position:sticky;top:0;height:100svh;overflow:hidden}
+/* the largest viewport: when a phone browser collapses its toolbar, the stage already covers the extra strip */
+#stage{position:sticky;top:0;height:100vh;height:100lvh;overflow:hidden}
 #film{position:absolute;inset:0;width:100%;height:100%;display:block}
 /* darkening for legibility of overlays */
 #stage::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.46));pointer-events:none;z-index:1}
@@ -101,21 +102,32 @@ body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;
 "use strict";
 /* ====== CONFIG (filled by the build) ====== */
 const FRAME_COUNT = 768;            // 4 scenes x 192 frames, one flat sequence
-const BUILD = "v3";                 // bump with every frame rebuild: it keys the on-device cache
+const BUILD = "v5";                 // bump with every frame rebuild: it keys the on-device store
 const pad = n => String(n + 1).padStart(4, "0");
 // A phone is a portrait window; a 16:9 frame stretched to cover it is a 2.4x blow-up of a middle
 // strip, which read as "bad quality" on a real device. So portrait viewports get frames cut from
 // the master at FULL source height, with a per-frame pan that keeps the bus, train and ferry
-// centred (they drift across the wide frame). Landscape gets 1600x900. Chosen once at load: a
-// mid-session orientation flip would need both sets, and that is not a price a phone should pay.
-const PORTRAIT = matchMedia("(orientation: portrait)").matches;
+// centred (they drift across the wide frame). Landscape gets 1600x900. Chosen once at load; a
+// rotation reloads the page (the frames are already on the device, so that is cheap).
+// Prefer the real viewport shape; the media query is the fallback for the (rare) case where a
+// browser has not laid out yet and reports 0x0. start() re-checks and reloads once if the guess
+// turned out wrong, so a bad guess costs one reload, not a whole session of the wrong set.
+const PORTRAIT = (innerWidth > 0 && innerHeight > 0)
+  ? innerHeight >= innerWidth
+  : matchMedia("(orientation: portrait)").matches;
 const SET = PORTRAIT ? "p" : "l";
 // Every frame exists twice: AVIF (about a third fewer bytes at equal-or-better quality) and WebP.
 // The first frame is tried as AVIF; if this browser cannot decode it, the whole film is WebP.
 let FMT = "avif";
-const src = i => `frames/${SET}/f${pad(i)}.${FMT}?${BUILD}`;
+const urlOf = (i, fmt) => `frames/${SET}/f${pad(i)}.${fmt}?${BUILD}`;
 const PX_PER_FRAME = 9;             // 768 frames; total travel ~6900px + one viewport
 const POOL = 16;                    // concurrent fetches: the CDN is ~100ms away, so this is the throughput knob
+// Memory: the encoded frames are small (15-31MB for the whole film) and are all kept; DECODED
+// frames are big (2.6MB portrait / 5.8MB landscape each), so only a window around the playhead
+// plus a coarse permanent set (every 32nd frame) is kept decoded, ~300MB at most either way.
+const COARSE = 32;
+const WINDOW = PORTRAIT ? 48 : 26;
+const DECODERS = 3;                 // concurrent decodes; WebKit decodes on the main thread, so keep this small
 /* ========================================== */
 
 const canvas = document.getElementById("film");
@@ -129,23 +141,38 @@ const beats = [...document.querySelectorAll(".beat")].map(el => ({
 }));
 const finale = document.getElementById("finale");
 
-const frames = new Array(FRAME_COUNT).fill(null);
-let loaded = 0, started = false, current = -1;
+const blobs = new Array(FRAME_COUNT).fill(null);     // encoded frames, all kept
+const fmtOf = new Array(FRAME_COUNT).fill(null);
+const bitmaps = new Array(FRAME_COUNT).fill(null);   // decoded frames, bounded window only
+const decoded = new Set();
+const decoding = new Uint8Array(FRAME_COUNT);
+const decodeFails = new Uint8Array(FRAME_COUNT);
+let fetched = 0, started = false, current = -1, dirty = true;
 
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function sizeCanvas() {
   const dpr = Math.min(devicePixelRatio || 1, 2);
-  canvas.width = Math.round(innerWidth * dpr);
-  canvas.height = Math.round(canvas.getBoundingClientRect().height * dpr);
+  const r = canvas.getBoundingClientRect();
+  canvas.width = Math.round((r.width || innerWidth) * dpr);
+  canvas.height = Math.round((r.height || innerHeight) * dpr);
   current = -1; // force redraw
 }
 function sizeTrack() {
-  track.style.height = reduced ? "100svh" : `${FRAME_COUNT * PX_PER_FRAME + innerHeight}px`;
+  track.style.height = reduced ? "100vh" : `${FRAME_COUNT * PX_PER_FRAME + innerHeight}px`;
 }
 
+// nearest decoded frame to i (i itself first, then outward); the coarse set guarantees one nearby
+function nearest(i) {
+  if (bitmaps[i]) return bitmaps[i];
+  for (let d = 1; d < FRAME_COUNT; d++) {
+    if (i - d >= 0 && bitmaps[i - d]) return bitmaps[i - d];
+    if (i + d < FRAME_COUNT && bitmaps[i + d]) return bitmaps[i + d];
+  }
+  return null;
+}
 function draw(i) {
-  const img = frames[i] || frames.slice(0, i).reverse().find(Boolean) || frames.find(Boolean);
+  const img = nearest(i);
   if (!img) return;
   const cw = canvas.width, ch = canvas.height;
   const iw = img.width, ih = img.height;
@@ -159,7 +186,6 @@ function fraction() {
   return max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 1;
 }
 
-let dirty = true;
 addEventListener("scroll", () => { dirty = true; }, { passive: true });
 addEventListener("resize", () => { sizeCanvas(); sizeTrack(); dirty = true; });
 
@@ -168,13 +194,18 @@ function tick() {
     dirty = false;
     const f = reduced ? 1 : fraction();
     const idx = Math.min(FRAME_COUNT - 1, Math.round(f * (FRAME_COUNT - 1)));
-    if (idx !== current) { current = idx; draw(idx); }
+    // redraw on every dirty tick, not only on a move: a frame that finishes decoding while the
+    // playhead sits still must replace the stand-in that draw() picked earlier
+    const moved = idx !== current;
+    current = idx;
+    draw(idx);
+    if (moved) refreshWindow();
     for (const b of beats) {
       const span = b.to - b.from;
       const p = (f - b.from) / span;
       let o = 0;
       if (p > 0 && p < 1) o = Math.min(1, Math.min(p, 1 - p) / 0.25);
-      if (b.el === finale && f >= b.to - 0.02) o = 1; // the ending holds
+      if (b.el === finale && p >= 0.75) o = 1; // the ending holds once fully in
       b.el.style.opacity = o.toFixed(3);
       b.el.style.pointerEvents = (b.el === finale && o > 0.5) ? "auto" : "none";
     }
@@ -185,10 +216,63 @@ function tick() {
 
 function start() {
   if (started) return;
+  // the set was picked before layout; if the real viewport disagrees, reload once (guarded so it
+  // can never loop) and the correct set comes straight out of the on-device store
+  if (innerWidth > 0 && innerHeight > 0 && (innerHeight >= innerWidth) !== PORTRAIT && !sessionStorage.getItem("j-set-fixed")) {
+    try { sessionStorage.setItem("j-set-fixed", "1"); location.reload(); return; } catch (e) {}
+  }
   started = true;
   loader.classList.add("done");
   sizeCanvas(); sizeTrack(); dirty = true;
   requestAnimationFrame(tick);
+}
+
+// ---- decode window ---------------------------------------------------------------------------
+function wanted(i) {
+  return i % COARSE === 0 || (current >= 0 && Math.abs(i - current) <= WINDOW) || (current < 0 && i <= WINDOW);
+}
+function decodeBlob(b) {
+  return ("createImageBitmap" in window) ? createImageBitmap(b) : new Promise((res, rej) => {
+    const im = new Image();
+    im.onload = () => res(im); im.onerror = rej;
+    im.src = URL.createObjectURL(b);
+  });
+}
+let decodersBusy = 0;
+function pickDecode() {
+  const c = Math.max(0, current);
+  for (let d = 0; d <= WINDOW; d++) {              // nearest first, ahead before behind
+    const a = c + d, b = c - d;
+    if (a < FRAME_COUNT && blobs[a] && !bitmaps[a] && !decoding[a]) return a;
+    if (b >= 0 && blobs[b] && !bitmaps[b] && !decoding[b]) return b;
+  }
+  for (let i = 0; i < FRAME_COUNT; i += COARSE) if (blobs[i] && !bitmaps[i] && !decoding[i]) return i;
+  return -1;
+}
+function scheduleDecodes() {
+  while (decodersBusy < DECODERS) {
+    const i = pickDecode();
+    if (i < 0) return;
+    decoding[i] = 1; decodersBusy++;
+    decodeBlob(blobs[i]).then(bm => {
+      if (wanted(i)) { bitmaps[i] = bm; decoded.add(i); dirty = true; }
+      else if (bm.close) bm.close();
+      if (!started && fetched >= SKELETON && bitmaps[0]) start();
+    }).catch(() => {
+      // an undecodable frame: if it was AVIF, this browser cannot do AVIF after all.
+      // Either way the frame is fetched once more (as WebP); a second failure leaves it a hole
+      // rather than looping fetch-decode-fail forever.
+      const wasAvif = fmtOf[i] === "avif";
+      if (decodeFails[i]++ < 1) { dropFrame(i); if (wasAvif) flipToWebp(); else kick(); }
+      else blobs[i] = null;
+    }).finally(() => { decoding[i] = 0; decodersBusy--; scheduleDecodes(); });
+  }
+}
+function refreshWindow() {
+  for (const i of decoded) {
+    if (!wanted(i)) { const bm = bitmaps[i]; bitmaps[i] = null; decoded.delete(i); if (bm && bm.close) bm.close(); }
+  }
+  scheduleDecodes();
 }
 
 // ---- on-device frame store -------------------------------------------------------------------
@@ -208,38 +292,54 @@ async function fetchFrame(url) {
     const hit = await store.match(url).catch(() => null);
     if (hit) return hit;
   }
-  const r = await fetch(url);
-  if (!r.ok) throw new Error(r.status);
+  const opts = ("AbortSignal" in window && AbortSignal.timeout) ? { signal: AbortSignal.timeout(20000) } : {};
+  const r = await fetch(url, opts);
+  if (!r.ok) { const e = new Error(String(r.status)); e.status = r.status; throw e; }
   if (store) store.put(url, r.clone()).catch(() => {});
   return r;
 }
-
-function onFrame(i, img) {
-  frames[i] = img;
-  loaded++;
-  fill.style.width = `${Math.round(100 * loaded / FRAME_COUNT)}%`;
-  if (started && i === current) { draw(i); }
+// one frame's bytes: up to three tries; a missing/undecodable AVIF falls back to WebP for that frame
+async function getBlob(i) {
+  let fmt = FMT, lastErr = null;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    if (FMT === "webp") fmt = "webp";
+    try {
+      const r = await fetchFrame(urlOf(i, fmt));
+      const b = await r.blob();
+      return { b, fmt };
+    } catch (e) {
+      lastErr = e;
+      if (fmt === "avif" && e && e.status === 404) { fmt = "webp"; continue; }
+      await new Promise(res => setTimeout(res, 300 * (attempt + 1)));
+    }
+  }
+  throw lastErr || new Error("frame " + i);
 }
 
-function decode(url) {
-  return fetchFrame(url)
-    .then(r => r.blob())
-    .then(b => ("createImageBitmap" in window) ? createImageBitmap(b) : new Promise((res, rej) => {
-      const im = new Image();
-      im.onload = () => res(im); im.onerror = rej;
-      im.src = URL.createObjectURL(b);
-    }));
+function onBlob(i, b, fmt) {
+  blobs[i] = b; fmtOf[i] = fmt;
+  fetched++;
+  fill.style.width = `${Math.min(100, Math.round(100 * fetched / SKELETON))}%`;
+  if (wanted(i)) scheduleDecodes();
 }
-function load(i) {
-  return decode(src(i))
-    .then(img => onFrame(i, img))
-    .catch(() => { loaded++; }); // a missing frame must not wedge the loader
+function dropFrame(i) { // forget a fetched frame so the pool fetches it again
+  if (blobs[i]) fetched--;
+  blobs[i] = null; fmtOf[i] = null; requested[i] = 0;
+}
+function flipToWebp() {
+  if (FMT === "webp") return;
+  FMT = "webp";
+  // frames fetched as AVIF but not yet decoded are useless now: fetch them again as WebP
+  for (let i = 0; i < FRAME_COUNT; i++) {
+    if (blobs[i] && fmtOf[i] === "avif" && !bitmaps[i] && !decoding[i]) dropFrame(i);
+  }
+  kick();
 }
 
 // ---- load order --------------------------------------------------------------------------------
 // 1) a coarse skeleton of the whole film (every 64th, 32nd, 16th frame: 48 frames) so scrubbing
 //    anywhere always finds a nearby frame, and the page can start on it;
-// 2) then a wavefront: whichever un-fetched frame is nearest AHEAD of the playhead, so what the
+// 2) then a wavefront out from the playhead, two frames ahead for every one behind, so what the
 //    visitor is about to see is what arrives next, wherever they are.
 const requested = new Uint8Array(FRAME_COUNT);
 const skeleton = [];
@@ -247,39 +347,58 @@ for (let step = 64; step >= 16; step = step >> 1) {
   for (let i = 0; i < FRAME_COUNT; i += step) if (!skeleton.includes(i)) skeleton.push(i);
 }
 const SKELETON = skeleton.length;
-let skelCursor = 0, done = 0;
+let skelCursor = 0, active = 0, retryTimer = 0;
+const failed = [];
 function pickNext() {
   while (skelCursor < skeleton.length) { const i = skeleton[skelCursor++]; if (!requested[i]) return i; }
   const c = Math.max(0, current);
-  for (let k = 0; k < FRAME_COUNT; k++) { const i = (c + k) % FRAME_COUNT; if (!requested[i]) return i; }
+  for (let d = 0; d < FRAME_COUNT; d++) {
+    const a = c + d, b = c - ((d + 1) >> 1);
+    if (a < FRAME_COUNT && !requested[a]) return a;
+    if (b >= 0 && !requested[b]) return b;
+  }
   return -1;
 }
-// The format probe IS the first frame: decode f0001 as AVIF; if that fails, switch to WebP
-// (frame 0 then simply joins the queue as WebP). One real decode, no synthetic test image.
-function probe() {
-  requested[0] = 1;
-  return decode(src(0))
-    .then(img => onFrame(0, img))
-    .catch(() => { FMT = "webp"; requested[0] = 0; });
+function slot() {
+  const i = pickNext();
+  if (i < 0) {
+    active--;
+    // frames that failed all their tries get one more round later (a phone that lost signal for a moment)
+    if (failed.length && !retryTimer) retryTimer = setTimeout(() => { retryTimer = 0; while (failed.length) requested[failed.pop()] = 0; kick(); }, 4000);
+    return;
+  }
+  requested[i] = 1;
+  getBlob(i).then(({ b, fmt }) => onBlob(i, b, fmt)).catch(() => { failed.push(i); }).then(slot);
+}
+function kick() { while (active < POOL) { active++; slot(); } }
+
+// The format probe IS the first frame: decode f0001 as AVIF; if that fails, the film is WebP.
+// The pool does not wait for it: the few frames fetched as AVIF meanwhile are simply re-fetched.
+function probe(i) {
+  requested[i] = 1;
+  return getBlob(i)
+    .then(({ b, fmt }) => decodeBlob(b).then(bm => { bitmaps[i] = bm; decoded.add(i); onBlob(i, b, fmt); dirty = true; })
+      .catch(() => { if (fmt === "avif") { requested[i] = 0; flipToWebp(); } }))
+    .catch(() => { requested[i] = 0; });
 }
 if (reduced) {
-  probe().then(() => load(FRAME_COUNT - 1)).then(start);
+  probe(FRAME_COUNT - 1).then(start);
+  setTimeout(start, 12000);
 } else {
-  const next = () => {
-    const i = pickNext();
-    if (i < 0) return;
-    requested[i] = 1;
-    load(i).then(() => {
-      done++;
-      // start as soon as the skeleton is in; the rest streams while the visitor reads the opening
-      if (!started && done >= SKELETON) start();
-      next();
-    });
-  };
-  probe().then(() => { done = requested[0]; for (let k = 0; k < POOL; k++) next(); });
+  probe(0).then(() => { if (!started && fetched >= SKELETON && bitmaps[0]) start(); });
+  kick();
   // absolute fallback: never trap a visitor on the loader
   setTimeout(start, 12000);
 }
+
+// a rotation needs the other frame set; the frames are on the device, so a reload is the cheap way
+const orient = matchMedia("(orientation: portrait)");
+let orientTimer = 0;
+const onOrient = () => {
+  clearTimeout(orientTimer);
+  orientTimer = setTimeout(() => { if (started && orient.matches !== PORTRAIT) location.reload(); }, 500);
+};
+if (orient.addEventListener) orient.addEventListener("change", onOrient); else if (orient.addListener) orient.addListener(onOrient);
 })();
 </script>
 </body></html>
