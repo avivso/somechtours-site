@@ -102,7 +102,7 @@ body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;
 "use strict";
 /* ====== CONFIG (filled by the build) ====== */
 const FRAME_COUNT = 768;            // 4 scenes x 192 frames, one flat sequence
-const BUILD = "v5";                 // bump with every frame rebuild: it keys the on-device store
+const BUILD = "v6";                 // bump with every frame rebuild: it keys the on-device store
 const pad = n => String(n + 1).padStart(4, "0");
 // A phone is a portrait window; a 16:9 frame stretched to cover it is a 2.4x blow-up of a middle
 // strip, which read as "bad quality" on a real device. So portrait viewports get frames cut from
@@ -123,10 +123,14 @@ const urlOf = (i, fmt) => `frames/${SET}/f${pad(i)}.${fmt}?${BUILD}`;
 const PX_PER_FRAME = 9;             // 768 frames; total travel ~6900px + one viewport
 const POOL = 16;                    // concurrent fetches: the CDN is ~100ms away, so this is the throughput knob
 // Memory: the encoded frames are small (15-31MB for the whole film) and are all kept; DECODED
-// frames are big (2.6MB portrait / 5.8MB landscape each), so only a window around the playhead
-// plus a coarse permanent set (every 32nd frame) is kept decoded, ~300MB at most either way.
-const COARSE = 32;
-const WINDOW = PORTRAIT ? 48 : 26;
+// frames are big, so only a window around the playhead plus a coarse permanent set is kept decoded.
+// The window is sized from a BYTE budget, not a frame count, because a landscape frame is 2.2x the
+// pixels of a portrait one -- counting frames put landscape 40% over budget. A phone rotated to
+// landscape gets this set too, so the budget is a phone's, not a desktop's.
+const FRAME_BYTES = (PORTRAIT ? 608 * 1080 : 1600 * 900) * 4;
+const PIXEL_BUDGET = 290e6;
+const COARSE = PORTRAIT ? 32 : 48;
+const WINDOW = Math.max(12, Math.round((PIXEL_BUDGET / FRAME_BYTES - FRAME_COUNT / COARSE) / 2));
 const DECODERS = 3;                 // concurrent decodes; WebKit decodes on the main thread, so keep this small
 /* ========================================== */
 
@@ -143,6 +147,7 @@ const finale = document.getElementById("finale");
 
 const blobs = new Array(FRAME_COUNT).fill(null);     // encoded frames, all kept
 const fmtOf = new Array(FRAME_COUNT).fill(null);
+const fmtForce = new Array(FRAME_COUNT).fill(null);  // per-frame format override (a corrupt AVIF)
 const bitmaps = new Array(FRAME_COUNT).fill(null);   // decoded frames, bounded window only
 const decoded = new Set();
 const decoding = new Uint8Array(FRAME_COUNT);
@@ -217,10 +222,13 @@ function tick() {
 function start() {
   if (started) return;
   // the set was picked before layout; if the real viewport disagrees, reload once (guarded so it
-  // can never loop) and the correct set comes straight out of the on-device store
-  if (innerWidth > 0 && innerHeight > 0 && (innerHeight >= innerWidth) !== PORTRAIT && !sessionStorage.getItem("j-set-fixed")) {
-    try { sessionStorage.setItem("j-set-fixed", "1"); location.reload(); return; } catch (e) {}
-  }
+  // can never loop) and the correct set comes straight out of the on-device store. Reading the
+  // guard throws outright when storage is blocked, so the whole check sits inside the try.
+  try {
+    if (innerWidth > 0 && innerHeight > 0 && (innerHeight >= innerWidth) !== PORTRAIT && !sessionStorage.getItem("j-set-fixed")) {
+      sessionStorage.setItem("j-set-fixed", "1"); location.reload(); return;
+    }
+  } catch (e) {}
   started = true;
   loader.classList.add("done");
   sizeCanvas(); sizeTrack(); dirty = true;
@@ -257,13 +265,13 @@ function scheduleDecodes() {
     decodeBlob(blobs[i]).then(bm => {
       if (wanted(i)) { bitmaps[i] = bm; decoded.add(i); dirty = true; }
       else if (bm.close) bm.close();
-      if (!started && fetched >= SKELETON && bitmaps[0]) start();
+      // start() runs OUTSIDE this chain: a throw inside it must not be read as "frame undecodable"
+      if (!started && fetched >= SKELETON && bitmaps[0]) queueMicrotask(start);
     }).catch(() => {
-      // an undecodable frame: if it was AVIF, this browser cannot do AVIF after all.
-      // Either way the frame is fetched once more (as WebP); a second failure leaves it a hole
-      // rather than looping fetch-decode-fail forever.
-      const wasAvif = fmtOf[i] === "avif";
-      if (decodeFails[i]++ < 1) { dropFrame(i); if (wasAvif) flipToWebp(); else kick(); }
+      // An undecodable frame. The probe already proved this browser can decode the format, so this
+      // is a corrupt frame, not a missing capability: re-fetch THIS frame as WebP and leave the rest
+      // of the film alone. A second failure leaves it a hole rather than looping fetch-decode-fail.
+      if (decodeFails[i]++ < 1) { fmtForce[i] = "webp"; dropFrame(i); kick(); }
       else blobs[i] = null;
     }).finally(() => { decoding[i] = 0; decodersBusy--; scheduleDecodes(); });
   }
@@ -273,6 +281,7 @@ function refreshWindow() {
     if (!wanted(i)) { const bm = bitmaps[i]; bitmaps[i] = null; decoded.delete(i); if (bm && bm.close) bm.close(); }
   }
   scheduleDecodes();
+  kick(); // the playhead moved: restart the pool if it had drained, so it fetches around the new position
 }
 
 // ---- on-device frame store -------------------------------------------------------------------
@@ -300,16 +309,16 @@ async function fetchFrame(url) {
 }
 // one frame's bytes: up to three tries; a missing/undecodable AVIF falls back to WebP for that frame
 async function getBlob(i) {
-  let fmt = FMT, lastErr = null;
+  let fmt = fmtForce[i] || FMT, lastErr = null;
   for (let attempt = 0; attempt < 3; attempt++) {
-    if (FMT === "webp") fmt = "webp";
+    if (FMT === "webp" || fmtForce[i] === "webp") fmt = "webp";
     try {
       const r = await fetchFrame(urlOf(i, fmt));
       const b = await r.blob();
       return { b, fmt };
     } catch (e) {
       lastErr = e;
-      if (fmt === "avif" && e && e.status === 404) { fmt = "webp"; continue; }
+      if (fmt === "avif" && e && e.status === 404) { fmt = "webp"; fmtForce[i] = "webp"; continue; }
       await new Promise(res => setTimeout(res, 300 * (attempt + 1)));
     }
   }
@@ -326,6 +335,8 @@ function dropFrame(i) { // forget a fetched frame so the pool fetches it again
   if (blobs[i]) fetched--;
   blobs[i] = null; fmtOf[i] = null; requested[i] = 0;
 }
+// Only the probe calls this: the browser cannot decode AVIF at all. It does NOT start the pool,
+// because a reduced-motion visitor wants exactly one frame, not the whole film.
 function flipToWebp() {
   if (FMT === "webp") return;
   FMT = "webp";
@@ -333,7 +344,6 @@ function flipToWebp() {
   for (let i = 0; i < FRAME_COUNT; i++) {
     if (blobs[i] && fmtOf[i] === "avif" && !bitmaps[i] && !decoding[i]) dropFrame(i);
   }
-  kick();
 }
 
 // ---- load order --------------------------------------------------------------------------------
@@ -357,20 +367,26 @@ function pickNext() {
     if (a < FRAME_COUNT && !requested[a]) return a;
     if (b >= 0 && !requested[b]) return b;
   }
+  // The wavefront above only reaches back to current-384, so a visitor who jumped to the end would
+  // strand everything before it. Whatever it missed is picked up here, in plain order.
+  for (let i = 0; i < FRAME_COUNT; i++) if (!requested[i]) return i;
   return -1;
 }
+// One in-flight fetch. Claims the next frame BEFORE occupying a slot, so an empty queue ends the
+// loop instead of re-entering it (a while that only tested `active` spun forever and froze the tab).
 function slot() {
   const i = pickNext();
   if (i < 0) {
     active--;
     // frames that failed all their tries get one more round later (a phone that lost signal for a moment)
     if (failed.length && !retryTimer) retryTimer = setTimeout(() => { retryTimer = 0; while (failed.length) requested[failed.pop()] = 0; kick(); }, 4000);
-    return;
+    return false;
   }
   requested[i] = 1;
   getBlob(i).then(({ b, fmt }) => onBlob(i, b, fmt)).catch(() => { failed.push(i); }).then(slot);
+  return true;
 }
-function kick() { while (active < POOL) { active++; slot(); } }
+function kick() { while (active < POOL) { active++; if (!slot()) break; } }
 
 // The format probe IS the first frame: decode f0001 as AVIF; if that fails, the film is WebP.
 // The pool does not wait for it: the few frames fetched as AVIF meanwhile are simply re-fetched.
@@ -382,10 +398,13 @@ function probe(i) {
     .catch(() => { requested[i] = 0; });
 }
 if (reduced) {
-  probe(FRAME_COUNT - 1).then(start);
+  // exactly one frame, and one retry of it if the format flipped underneath us
+  probe(FRAME_COUNT - 1)
+    .then(() => bitmaps[FRAME_COUNT - 1] ? null : probe(FRAME_COUNT - 1))
+    .then(start);
   setTimeout(start, 12000);
 } else {
-  probe(0).then(() => { if (!started && fetched >= SKELETON && bitmaps[0]) start(); });
+  probe(0).then(() => { kick(); if (!started && fetched >= SKELETON && bitmaps[0]) start(); });
   kick();
   // absolute fallback: never trap a visitor on the loader
   setTimeout(start, 12000);

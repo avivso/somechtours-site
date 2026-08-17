@@ -14,6 +14,7 @@
 <link rel="icon" href="/brand/logo.png">
 <link rel="apple-touch-icon" href="/brand/logo.png">
 <link rel="preload" href="/brand/fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/brand/fonts/heebo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"TravelAgency","name":"סוכן הטיול הגדול",
 "alternateName":["סומך טורס","סוכן הטיול הגדול"],
@@ -25,8 +26,8 @@
 </script>
 <style>
 /* Heebo (OFL) self-hosted: one variable file per script, no third-party round trips before first paint */
-@font-face{font-family:'Heebo';font-style:normal;font-weight:100 900;font-display:swap;src:url(/brand/fonts/heebo-hebrew.woff2) format('woff2');unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
 @font-face{font-family:'Heebo';font-style:normal;font-weight:100 900;font-display:swap;src:url(/brand/fonts/heebo-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Heebo';font-style:normal;font-weight:100 900;font-display:swap;src:url(/brand/fonts/heebo-hebrew.woff2) format('woff2');unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
 :root{--paper:#fff;--ink:#141414;--soft:#5a5a5a;--faint:#8a8a8a;--line:#e6e6e6;--wa:#25D366;--wa-ink:#0b3d22}
 @media(prefers-color-scheme:dark){:root{--paper:#0d0d0d;--ink:#f2f2f2;--soft:#b0b0b0;--faint:#7d7d7d;--line:#242424}}
 *{box-sizing:border-box}
@@ -37,8 +38,9 @@ body{margin:0;background:var(--paper);color:var(--ink);direction:rtl;
   min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:40px 22px;text-align:center}
 main{max-width:520px;width:100%}
-.logo{width:min(300px,80vw);height:auto;display:block;margin:-9% auto -11%}
-@media(prefers-color-scheme:dark){.logo{filter:invert(1)}}
+/* true-alpha artwork, one file per theme: the old opaque-white PNG inverted into a black box on
+   a dark background. No padding in these files, so no negative margins to claw it back. */
+.logo{width:min(300px,80vw);height:auto;display:block;margin:0 auto}
 h1{font-size:clamp(20px,4.6vw,25px);font-weight:700;margin:4px 0 0;letter-spacing:-.01em;line-height:1.35;text-wrap:balance}
 p.lede{margin:10px auto 0;max-width:26em;color:var(--soft);font-size:16.5px;text-wrap:balance}
 .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;margin-top:30px;
@@ -55,7 +57,10 @@ footer a:hover{color:var(--ink)}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style></head><body>
 <main>
-  <img class="logo" src="/brand/logo.png" alt="סוכן הטיול הגדול" width="512" height="512">
+  <picture>
+    <source srcset="/brand/logo-white.png" media="(prefers-color-scheme: dark)">
+    <img class="logo" src="/brand/logo-alpha.png" alt="סוכן הטיול הגדול" width="509" height="270">
+  </picture>
   <h1>כרטיסי אוטובוס, רכבת ומעבורת ברחבי העולם</h1>
   <p class="lede">כותבים לאן ומתי, ומקבלים כרטיס. הכל בוואטסאפ.</p>
   <a class="cta" href="https://wa.me/972559171333" target="_blank" rel="noopener">
