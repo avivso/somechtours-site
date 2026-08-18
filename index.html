@@ -47,17 +47,18 @@ body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;
   opacity:0;pointer-events:none;padding:0 24px}
 .beat h2{font-size:clamp(30px,6.5vw,58px);font-weight:900;margin:0;line-height:1.25;
   text-shadow:0 2px 24px rgba(0,0,0,.75), 0 0 4px rgba(0,0,0,.6);text-wrap:balance}
-/* finale: logo, one line, the button. A soft dark pool behind the card keeps white type readable
-   over the pale sky and sea of the last frames without a visible box. */
+/* finale: logo, one line, the button. Legibility is carried by a small dark halo on the type
+   itself, NOT by a pool behind the card: a soft ellipse wide enough to cover the card visibly
+   washes out the closing frame, which is the one image the whole film has been travelling toward. */
 #finale > div{position:relative;padding:28px 34px 26px}
-#finale > div::before{content:"";position:absolute;inset:-24px -50px;border-radius:50%;
-  background:radial-gradient(ellipse at center,rgba(0,0,0,.42) 0%,rgba(0,0,0,.24) 45%,transparent 72%);z-index:-1}
 .beat .logo{width:min(300px,68vw);display:block;margin:0 auto;
-  /* true-alpha white artwork. A thin halo hugging the hiker and the letters, plus a soft dark
-     shadow just behind them, so they read over any background without a big white bloom. */
-  filter:drop-shadow(0 0 1.5px rgba(255,255,255,.85)) drop-shadow(0 1px 2px rgba(0,0,0,.6)) drop-shadow(0 3px 10px rgba(0,0,0,.45))}
+  /* The artwork is WHITE, so a white halo behind it separates it from nothing -- it only fringes
+     the edges and goes milky against the pale sky of the closing frames. The glow has to be DARK
+     and has to hug the glyphs: an unoffset 4px shadow rides the outline of the hiker and the
+     letters, and 1px of contact shadow keeps the mark on the image rather than above it. */
+  filter:drop-shadow(0 0 4px rgba(0,0,0,.75)) drop-shadow(0 1px 2px rgba(0,0,0,.55))}
 .pitch{font-size:clamp(16px,2.4vw,20px);line-height:1.55;margin:14px auto 0;max-width:24em;
-  text-shadow:0 1px 3px rgba(0,0,0,.7), 0 1px 14px rgba(0,0,0,.6);text-wrap:balance}
+  text-shadow:0 0 4px rgba(0,0,0,.85), 0 0 12px rgba(0,0,0,.6);text-wrap:balance}
 .cta{display:inline-flex;align-items:center;gap:10px;margin-top:22px;padding:16px 34px;border-radius:999px;
   background:var(--wa);color:#fff;text-decoration:none;font-size:18px;font-weight:700;
   box-shadow:0 4px 24px rgba(37,211,102,.45)}
@@ -188,12 +189,24 @@ const POOL = 16;                    // concurrent fetches: the CDN is ~100ms awa
 // Memory: the encoded frames are small (15-31MB for the whole film) and are all kept; DECODED
 // frames are big, so only a window around the playhead plus a coarse permanent set is kept decoded.
 // The window is sized from a BYTE budget, not a frame count, because a landscape frame is 2.2x the
-// pixels of a portrait one -- counting frames put landscape 40% over budget. A phone rotated to
-// landscape gets this set too, so the budget is a phone's, not a desktop's.
+// pixels of a portrait one -- counting frames put landscape 40% over budget. The budget itself is
+// picked per device just below, because a phone rotated to landscape gets this heavier set too.
 const FRAME_BYTES = (PORTRAIT ? 608 * 1080 : 1600 * 900) * 4;
-const PIXEL_BUDGET = 290e6;
+// A phone has to stay inside a phone's memory. A desktop has no reason to, and paying the phone's
+// price there is what made the film step on a PC: a landscape frame is 2.2x the pixels of a portrait
+// one, so one 290MB budget left only ~17 frames decoded either side of the playhead -- less than a
+// single wheel notch travels (~100px = 11 frames), so a normal scroll outran the window and fell
+// back on the coarse set, which is 48 frames apart. A mouse means a real computer; a phone reports
+// pointer:coarse even rotated to landscape, so it keeps the conservative budget.
+const DESKTOP = matchMedia("(hover: hover) and (pointer: fine)").matches;
+const MEM = navigator.deviceMemory || 0;   // Chromium-only; 0 elsewhere
+const PIXEL_BUDGET = DESKTOP ? (MEM && MEM < 8 ? 420e6 : 660e6) : 290e6;
 const COARSE = PORTRAIT ? 32 : 48;
 const WINDOW = Math.max(12, Math.round((PIXEL_BUDGET / FRAME_BYTES - FRAME_COUNT / COARSE) / 2));
+// Scrolling has a direction, so a window centred on the playhead spends half its memory on frames
+// already behind the viewer. Same total, biased the way they are travelling.
+const AHEAD = Math.round(WINDOW * 1.35), BEHIND = Math.round(WINDOW * 0.65);
+const TAU = 90;                     // ms; the playhead's easing time constant, see tick()
 const DECODERS = 3;                 // concurrent decodes; WebKit decodes on the main thread, so keep this small
 /* ========================================== */
 
@@ -217,18 +230,30 @@ const decoded = new Set();
 const decoding = new Uint8Array(FRAME_COUNT);
 const decodeFails = new Uint8Array(FRAME_COUNT);
 let fetched = 0, started = false, current = -1, dirty = true;
+let target = 0, shown = -1, prevTs = 0, dir = 1;   // eased playhead, see tick()
 
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function sizeCanvas() {
-  const dpr = Math.min(devicePixelRatio || 1, 2);
   const r = canvas.getBoundingClientRect();
-  canvas.width = Math.round((r.width || innerWidth) * dpr);
-  canvas.height = Math.round((r.height || innerHeight) * dpr);
+  const cw = r.width || innerWidth, ch = r.height || innerHeight;
+  // The frames are 1600x900 (landscape) / 608x1080 (portrait). A retina backing store is 4x the
+  // pixels of a 1x one and carries no more detail than the source has -- it just costs fill rate on
+  // every single frame, which is exactly the budget a scrubbing film cannot spare. Cap the backing
+  // store where the source stops adding detail, never below 1x.
+  const srcW = PORTRAIT ? 608 : 1600, srcH = PORTRAIT ? 1080 : 900;
+  const cap = Math.max(1, Math.min(srcW / cw, srcH / ch));
+  const dpr = Math.min(devicePixelRatio || 1, 2, cap);
+  canvas.width = Math.round(cw * dpr);
+  canvas.height = Math.round(ch * dpr);
   current = -1; // force redraw
 }
+let maxScroll = 1;
 function sizeTrack() {
   track.style.height = reduced ? "100vh" : `${FRAME_COUNT * PX_PER_FRAME + innerHeight}px`;
+  // Cached because tick() reads it every animation frame: offsetHeight forces a layout, and doing
+  // that 60 times a second is its own source of stutter.
+  maxScroll = Math.max(1, track.offsetHeight - innerHeight);
 }
 
 // nearest decoded frame to i (i itself first, then outward); the coarse set guarantees one nearby
@@ -251,18 +276,36 @@ function draw(i) {
 }
 
 function fraction() {
-  const max = track.offsetHeight - innerHeight;
-  return max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 1;
+  return Math.min(1, Math.max(0, scrollY / maxScroll));
 }
 
 addEventListener("scroll", () => { dirty = true; }, { passive: true });
 addEventListener("resize", () => { sizeCanvas(); sizeTrack(); dirty = true; });
 
-function tick() {
+// The playhead does NOT sit on the scroll position, it chases it. Scroll input is chunky -- one
+// wheel notch is ~100px (11 frames) and a phone flick is far more -- so binding the frame straight
+// to scrollY made the film jump in steps rather than play. Easing toward the target instead gives
+// continuous motion at 60fps out of coarse input, and it also caps how fast the playhead can travel,
+// which is what lets the decode window stay ahead of it. TAU is the time constant, so the response
+// is identical on a 60Hz and a 120Hz screen.
+function tick(ts) {
+  const dt = prevTs ? Math.min(64, ts - prevTs) : 16;   // clamped so a backgrounded tab cannot jump
+  prevTs = ts;
+  const t = (reduced ? 1 : fraction()) * (FRAME_COUNT - 1);
+  if (t !== target) {
+    if (Math.abs(t - target) > 0.5) dir = t > target ? 1 : -1;  // deadband: jitter must not flip the window
+    target = t;
+  }
+  if (shown < 0) shown = target;                        // first paint lands exactly, with no slide-in
+  if (shown !== target) {
+    const gap = target - shown;
+    shown = Math.abs(gap) < 0.02 ? target : shown + gap * (1 - Math.exp(-dt / TAU));
+    dirty = true;
+  }
   if (dirty) {
     dirty = false;
-    const f = reduced ? 1 : fraction();
-    const idx = Math.min(FRAME_COUNT - 1, Math.round(f * (FRAME_COUNT - 1)));
+    const f = shown / (FRAME_COUNT - 1);
+    const idx = Math.min(FRAME_COUNT - 1, Math.max(0, Math.round(shown)));
     // redraw on every dirty tick, not only on a move: a frame that finishes decoding while the
     // playhead sits still must replace the stand-in that draw() picked earlier
     const moved = idx !== current;
@@ -301,7 +344,10 @@ function start() {
 
 // ---- decode window ---------------------------------------------------------------------------
 function wanted(i) {
-  return i % COARSE === 0 || (current >= 0 && Math.abs(i - current) <= WINDOW) || (current < 0 && i <= WINDOW);
+  if (i % COARSE === 0) return true;
+  if (current < 0) return i <= AHEAD;
+  const d = (i - current) * dir;   // > 0 means ahead of the playhead in the direction of travel
+  return d <= AHEAD && d >= -BEHIND;
 }
 function decodeBlob(b) {
   return ("createImageBitmap" in window) ? createImageBitmap(b) : new Promise((res, rej) => {
@@ -313,10 +359,11 @@ function decodeBlob(b) {
 let decodersBusy = 0;
 function pickDecode() {
   const c = Math.max(0, current);
-  for (let d = 0; d <= WINDOW; d++) {              // nearest first, ahead before behind
-    const a = c + d, b = c - d;
-    if (a < FRAME_COUNT && blobs[a] && !bitmaps[a] && !decoding[a]) return a;
-    if (b >= 0 && blobs[b] && !bitmaps[b] && !decoding[b]) return b;
+  const free = (i) => i >= 0 && i < FRAME_COUNT && blobs[i] && !bitmaps[i] && !decoding[i];
+  for (let d = 0; d <= AHEAD; d++) {               // nearest first, and ahead means ahead of TRAVEL
+    const a = c + d * dir, b = c - d * dir;
+    if (free(a)) return a;
+    if (d <= BEHIND && free(b)) return b;
   }
   for (let i = 0; i < FRAME_COUNT; i += COARSE) if (blobs[i] && !bitmaps[i] && !decoding[i]) return i;
   return -1;
