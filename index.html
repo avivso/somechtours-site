@@ -88,7 +88,11 @@ body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;
   font-size:13px;color:#eee;opacity:0;transition:opacity .6s ease;pointer-events:none;
   text-shadow:0 1px 8px rgba(0,0,0,.9)}
 #nudge.show{opacity:.9}
-#nudge .chev{display:block;margin:6px auto 0;width:16px;height:16px;border-inline-start:2px solid #eee;border-block-end:2px solid #eee;transform:rotate(-45deg);animation:dip 1.6s ease-in-out infinite}
+/* PHYSICAL borders, not logical ones. border-inline-start resolves to border-RIGHT under dir="rtl",
+   so the chevron was drawn from its right and bottom edges and rotating it -45deg pointed it
+   sideways instead of down. This arrow means "the page scrolls this way", which is the block axis
+   and has nothing to do with the writing direction, so it must never flip with the text. */
+#nudge .chev{display:block;margin:6px auto 0;width:16px;height:16px;border-left:2px solid #eee;border-bottom:2px solid #eee;transform:rotate(-45deg);animation:dip 1.6s ease-in-out infinite}
 @keyframes dip{0%,100%{translate:0 0;opacity:.9}50%{translate:0 7px;opacity:.4}}
 @media(prefers-reduced-motion:reduce){
   #nudge .chev{animation:none}
