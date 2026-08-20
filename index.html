@@ -11,8 +11,15 @@
 <meta property="og:url" content="https://somechtours.com/">
 <meta property="og:image" content="https://somechtours.com/brand/logo.png">
 <meta property="og:locale" content="he_IL">
-<link rel="icon" href="/brand/logo.png">
-<link rel="apple-touch-icon" href="/brand/logo.png">
+<!-- Google indexes the favicon SEPARATELY from the page, and wants a square icon whose size is a
+     multiple of 48px at a stable, crawlable URL. It checks the declared icon AND falls back to
+     /favicon.ico, which used to 404 here — so the search result showed a blank globe next to a
+     first-place ranking. Root .ico first (the fallback Google is likeliest to have cached a miss on),
+     then explicit 48px and 192px PNGs so nothing has to be guessed or rescaled. -->
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" href="/brand/icon-48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/brand/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="/brand/icon-192.png">
 <link rel="preload" href="/brand/fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/brand/fonts/heebo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/brand/logo-white.png" as="image">
