@@ -75,13 +75,20 @@ body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;
 /* The finale is the last thing anyone reads before deciding, so it is set to be read at arm's length
    on a phone rather than squinted at. Kept under the logo in the hierarchy, and the 24em measure still
    holds the line count sane on desktop. */
-.pitch{font-size:clamp(19px,3vw,26px);font-weight:600;line-height:1.5;margin:16px auto 0;max-width:22em;
+/* BASE 500, NOT 600. The bold below was invisible (Aviv, 2026-08-23: "cant see the bold because i
+   think all of it is bold") — Heebo is variable 100-900 so 800 was really being applied, but two
+   steps of weight under a heavy text-shadow, on moving video, is not a visible difference. The gap is
+   now 400 steps. Dropping the base does NOT make this thin again (his earlier note): the line is also
+   26px here against the old 20px, and stroke weight scales with size, so 500 at 26px sits heavier on
+   the page than 600 at 20px did. */
+.pitch{font-size:clamp(19px,3vw,26px);font-weight:500;line-height:1.5;margin:16px auto 0;max-width:22em;
   text-shadow:0 0 4px rgba(0,0,0,.85), 0 0 12px rgba(0,0,0,.6);text-wrap:balance}
 /* THE FOOTPRINT IS STATED INSIDE THE PITCH, in bold (Aviv's wording, 2026-08-23). The film is a single
    tropical journey, so without a word here the whole site reads as Thailand: the imagery IS the claim,
    and "worldwide" in the page title cannot outvote it. Saying it in the sentence people actually read,
    rather than in a line beneath it, is stronger and avoids claiming the same thing twice. */
-.pitch strong{font-weight:800}
+/* 900 with a slightly tighter shadow: the glow is what was smearing the weight difference away. */
+.pitch strong{font-weight:900;text-shadow:0 0 3px rgba(0,0,0,.9), 0 0 8px rgba(0,0,0,.55)}
 .cta{display:inline-flex;align-items:center;gap:10px;margin-top:22px;padding:16px 34px;border-radius:999px;
   background:var(--wa);color:#fff;text-decoration:none;font-size:18px;font-weight:700;
   box-shadow:0 4px 24px rgba(37,211,102,.45)}
