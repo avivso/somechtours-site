@@ -1,4 +1,8 @@
 <!doctype html><html lang="he" dir="rtl"><head>
+<!-- PDF CACHE BUSTING: the ?v= is the first 8 hex of the PDF's sha256. Without it a returning
+     visitor keeps the file their browser cached forever — a corrected CONTRACT would never reach
+     them, which is how the statutory-typography fix looked "not deployed" on 2026-08-25 when it had
+     in fact been live for an hour. Bump it whenever the PDF changes. -->
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>תנאי שירות, ביטול ופרטיות | סוכן הטיול הגדול</title>
 <meta name="description" content="תנאי השירות, מדיניות הביטול וההחזרים ומדיניות הפרטיות של סומך טורס.">
@@ -37,12 +41,12 @@ body{margin:0;background:var(--paper);color:var(--ink);direction:rtl;
 <div class="bar">
   <a class="back" href="/">חזרה לעמוד הראשי</a>
   <strong>תנאי שירות, ביטול ופרטיות</strong>
-  <a href="/terms/somech-tours-terms.pdf" download>הורדה</a>
+  <a href="/terms/somech-tours-terms.pdf?v=9b67f214" download>הורדה</a>
 </div>
-<iframe class="doc" data-src="/terms/somech-tours-terms.pdf#view=FitH" title="תנאי שירות, ביטול ופרטיות"></iframe>
+<iframe class="doc" data-src="/terms/somech-tours-terms.pdf?v=9b67f214#view=FitH" title="תנאי שירות, ביטול ופרטיות"></iframe>
 <div class="fallback">
   <p>המסמך המלא של תנאי השירות, מדיניות הביטול וההחזרים ומדיניות הפרטיות.</p>
-  <a class="btn" href="/terms/somech-tours-terms.pdf">פתיחת המסמך</a>
+  <a class="btn" href="/terms/somech-tours-terms.pdf?v=9b67f214">פתיחת המסמך</a>
 </div>
 <script>
 // A phone hides the frame in CSS but would still download the 112KB PDF behind it, so the source is
