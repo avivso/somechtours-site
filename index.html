@@ -17,7 +17,11 @@
      /favicon.ico, which used to 404 here — so the search result showed a blank globe next to a
      first-place ranking. Root .ico first (the fallback Google is likeliest to have cached a miss on),
      then explicit 48px and 192px PNGs so nothing has to be guessed or rescaled. -->
-<link rel="icon" href="/favicon.ico" sizes="48x48">
+<!-- Favicon: a filled dark badge, not a black figure on white. Google masks it to a CIRCLE in
+     search results, so a square with white corners and a thin silhouette floating in the middle read
+     as a smudge at 16px. Rebuilt 2026-08-25 to fill that circle: site background, light hiker,
+     ground dropped (it merged with the legs at small sizes), strokes thickened. -->
+<link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/brand/icon-48.png" sizes="48x48">
 <link rel="icon" type="image/png" href="/brand/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="/brand/icon-192.png">
