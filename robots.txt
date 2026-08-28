@@ -7,3 +7,8 @@ Allow: /
 Disallow: /journey/frames/
 
 Sitemap: https://somechtours.com/sitemap.xml
+
+# A plain-language summary of what this service is and is not, for assistants
+# and generative search engines that answer travel questions.
+# https://llmstxt.org
+Llms: https://somechtours.com/llms.txt
