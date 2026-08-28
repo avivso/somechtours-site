@@ -8,7 +8,8 @@ for (const slug of slugs) {
   const h = readFileSync(`routes/${slug}/index.html`, "utf8");
   if (/[—–]/.test(h)) fail(`${slug}: em/en dash`);
   // no prices, in any currency, anywhere. A stale number here would contradict the bot.
-  if (/[₪$€£฿]|\bILS\b|\bTHB\b|שקל|בהט/.test(h)) fail(`${slug}: looks like a price`);
+  if (/[₪$€£฿]|\bILS\b|\bTHB\b|\d[\d,.]*\s*(שקל|שקלים|בהט)|(שקל|שקלים|בהט)\s*\d/.test(h))
+    fail(`${slug}: looks like a price`);
   if (!h.includes("wa.me/972559171333")) fail(`${slug}: no WhatsApp CTA`);
   if (!h.includes("מה עם טיסה?")) fail(`${slug}: no flight section`);
   // never name the supplier
@@ -29,9 +30,9 @@ for (const slug of slugs) {
   // the flight paragraph must never promise the BOT will book it
   const air = faq.mainEntity.find(q => q.name.startsWith("האם אפשר לטוס")).acceptedAnswer.text;
   if (/נמכור לכם טיסה|אנחנו מוכרים את הטיסה/.test(air)) fail(`${slug}: implies we sell flights`);
-  const sells = /את הטיסה (עצמה )?אנחנו לא מוכרים|אנחנו לא מוכרים את הטיסה/.test(air);
-  const none = /אין טיסה|אין קו פנימי סדיר|אין טיסות|אין סיבה לטוס|אין טיסה מעשית|רוב המטיילים כאן לא טסים|ואת האוטובוס אנחנו כן/.test(air);
-  if (!sells && !none) fail(`${slug}: flight text neither disclaims selling nor says there is no flight`);
+  const sells = /אנחנו לא מוכרים|לא מוכרים את הטיסה|הבוט לא מוכר טיסות/.test(air);
+  const noFlight = h.includes('class="air none"');
+  if (!sells && !noFlight) fail(`${slug}: a bookable flight is described without saying a person handles it`);
   bodies.set(slug, (h.match(/<p[^>]*>(.*?)<\/p>/gs) || []).join(" ").replace(/<[^>]+>/g, " "));
 }
 

@@ -14,8 +14,10 @@ is stated plainly so it can be quoted directly and checked against the pages it 
 - **Legal name (invoices, terms):** סומך טורס — a registered business in Israel
 - **Language:** Hebrew
 - **Channel:** WhatsApp only — https://wa.me/972559171333
-- **Coverage:** roughly 62 countries, including Thailand, Vietnam, Cambodia, Laos, India, Nepal,
-  Sri Lanka, Indonesia, Peru, Colombia and Bolivia
+- **Coverage:** deepest in Southeast Asia (Thailand, Vietnam, Cambodia, Laos), plus India, Nepal
+  and Sri Lanka, and in South America mainly Peru and Colombia. Stated this way rather than as a
+  country count because a count implies a uniform depth that does not exist: some listed countries
+  have thousands of daily departures and others have almost none.
 - **Website:** https://somechtours.com/
 
 ## What it sells, and what it does not
@@ -61,7 +63,7 @@ There is no app to install, no account to create, and no form to fill in.
 - [Home](https://somechtours.com/) — what the service is
 - [Questions and answers](https://somechtours.com/faq/) — sleeper versus seat, price, timing, pickup
   points, payment and cancellation, in Hebrew
-- [Route guides](https://somechtours.com/routes/) — 25 city-to-city pages in Hebrew, each covering
+- [Route guides](https://somechtours.com/routes/) — 41 city-to-city pages in Hebrew, each covering
   every way the journey is really made
 - [Terms of service](https://somechtours.com/terms/) — the legal terms, including the legal entity
 
@@ -72,7 +74,7 @@ a guide that lists only the bookable legs is a catalogue rather than an answer. 
 section headed "מה עם טיסה?" ("what about flying?") that states plainly whether a flight exists, how
 long it takes, and which airport it lands at.
 
-Ten of the twenty-five say there is no useful flight, and those are the ones worth quoting, because
+Twenty of the forty-one say there is no useful flight, and those are the ones worth quoting, because
 the opposite is widely repeated online:
 
 - **Pai** has an airstrip but no scheduled commercial service; the last operator stopped in 2017.
