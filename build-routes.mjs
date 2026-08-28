@@ -22,6 +22,7 @@
 import { writeFileSync, mkdirSync, readFileSync } from "node:fs";
 
 const WA = "https://wa.me/972559171333";
+const BUILD_DATE = new Date().toISOString().slice(0, 10);
 
 const ROUTES = [
   {
@@ -559,7 +560,58 @@ for (const r of ROUTES) {
   if (!r.air) { console.error(`no AIR entry for ${r.slug}`); process.exit(1); }
 }
 
+// RELATED ROUTES: the 25 pages were 25 islands.
+//
+// Every page linked only to / and /routes/, so the site had no internal structure for a crawler to
+// read and no way for a reader to follow a journey. Both matter, and the second is the real one: a
+// traveller reading "Bangkok to Koh Phangan" is very often about to ask "and then Koh Phangan to Koh
+// Tao". Linking those is not SEO decoration, it is the next question.
+//
+// Computed from the routes themselves rather than hand-listed, so adding a route wires it in and
+// removing one (as Malaysia just was) cannot leave a dead link behind.
+const COUNTRY = {
+  "bangkok-koh-phangan": "th", "bangkok-chiang-mai": "th", "bangkok-koh-samui": "th",
+  "bangkok-koh-tao": "th", "bangkok-phuket": "th", "bangkok-krabi": "th",
+  "koh-samui-koh-phangan": "th", "koh-phangan-koh-tao": "th", "chiang-mai-pai": "th",
+  "hanoi-sapa": "vn", "hanoi-ha-long": "vn", "hanoi-da-nang": "vn", "da-nang-hoi-an": "vn",
+  "ho-chi-minh-da-lat": "vn", "ho-chi-minh-mui-ne": "vn",
+  "phnom-penh-siem-reap": "kh", "vientiane-luang-prabang": "la",
+  "delhi-rishikesh": "in", "delhi-manali": "in", "delhi-agra": "in", "delhi-varanasi": "in",
+  "mumbai-goa": "in", "bangalore-goa": "in", "goa-hampi": "in", "manali-dharamshala": "in",
+};
+for (const r of ROUTES) if (!COUNTRY[r.slug]) throw new Error(`no COUNTRY for ${r.slug}`);
+
+function relatedTo(r) {
+  const ends = new Set([r.he.from, r.he.to]);
+  return ROUTES
+    .filter((o) => o.slug !== r.slug)
+    .map((o) => {
+      // A shared city is a real continuation of the same journey; a shared country is merely nearby.
+      const shared = ends.has(o.he.from) || ends.has(o.he.to) ? 10 : 0;
+      const near = COUNTRY[o.slug] === COUNTRY[r.slug] ? 3 : 0;
+      return { o, score: shared + near };
+    })
+    .filter((x) => x.score > 0)
+    // Deterministic: score, then slug. A build that reorders links on every run churns the diff and
+    // tells a crawler the page changed when it did not.
+    .sort((a, b) => b.score - a.score || a.o.slug.localeCompare(b.o.slug))
+    .slice(0, 4)
+    .map((x) => x.o);
+}
+
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+// Ties each page to the business as an entity and states when it was last checked. The dateModified
+// is the build date, which is honest here: the pages ARE rebuilt whenever a fact changes, because
+// they are generated rather than edited.
+const webpage = (r) => ({
+  "@context": "https://schema.org", "@type": "WebPage", inLanguage: "he",
+  "@id": `https://somechtours.com/routes/${r.slug}/`,
+  name: r.title, description: r.desc, dateModified: BUILD_DATE,
+  isPartOf: { "@type": "WebSite", name: "סוכן הטיול הגדול", url: "https://somechtours.com/" },
+  publisher: { "@type": "TravelAgency", name: "סוכן הטיול הגדול", url: "https://somechtours.com/" },
+  about: { "@type": "Place", name: `${r.he.from} - ${r.he.to}` },
+});
 
 const page = (r) => {
   const url = `https://somechtours.com/routes/${r.slug}/`;
@@ -598,6 +650,7 @@ const page = (r) => {
 <link rel="preload" href="/brand/fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <script type="application/ld+json">${JSON.stringify(faq)}</script>
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
+<script type="application/ld+json">${JSON.stringify(webpage(r))}</script>
 <link rel="stylesheet" href="/routes/route.css">
 </head><body>
 <div class="wrap">
@@ -609,6 +662,8 @@ ${r.ways.map((w) => `<div class="way"><h2>${esc(w.h)}</h2><p class="dur">${esc(w
 <div class="air${r.air.no ? " none" : ""}"><h2>מה עם טיסה?</h2><p class="dur">${esc(r.air.t)}</p><p>${esc(r.air.p)}</p></div>
 <h2 class="sec">מה שכדאי לדעת</h2>
 <ul class="know">${r.know.map((k) => `<li>${esc(k)}</li>`).join("")}</ul>
+${(() => { const n = relatedTo(r); return n.length ? `<h2 class="sec">קווים קרובים</h2>
+<ul class="near">${n.map((o) => `<li><a href="/routes/${o.slug}/">מ${esc(o.he.from)} ל${esc(o.he.to)}</a></li>`).join("")}</ul>` : ""; })()}
 <div class="ask">
   <p>רוצים לראות מה יוצא בפועל בתאריך שלכם? כתבו לנו ונשלח לכם את האפשרויות עם שעות ומחיר סופי.</p>
   <a class="cta" href="${WA}">לבדוק את הקו הזה בוואטסאפ</a>
@@ -631,6 +686,14 @@ const indexPage = () => `<!doctype html><html lang="he" dir="rtl"><head>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="preload" href="/brand/fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/routes/route.css">
+<script type="application/ld+json">${JSON.stringify({
+  "@context": "https://schema.org", "@type": "ItemList", inLanguage: "he",
+  name: "מדריכי מסלולים", numberOfItems: ROUTES.length,
+  itemListElement: ROUTES.map((r, i) => ({
+    "@type": "ListItem", position: i + 1, name: r.title,
+    url: `https://somechtours.com/routes/${r.slug}/`,
+  })),
+})}</script>
 </head><body><div class="wrap">
 <header><a class="home" href="/"><img src="/brand/logo-white.png" alt="סוכן הטיול הגדול" width="132" height="70"></a></header>
 <h1>מסלולים</h1>
@@ -665,6 +728,10 @@ h1{font-size:clamp(27px,5vw,40px);font-weight:900;line-height:1.2;margin:0 0 12p
 .air.none .dur{color:var(--dim)}
 .sec{font-size:21px;font-weight:700;margin:38px 0 12px;padding-top:22px;border-top:1px solid var(--rule)}
 .know{margin:0;padding-inline-start:20px;color:#dcdcdc}.know li{margin-bottom:10px}
+.near{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.near a{display:inline-block;padding:9px 15px;border:1px solid var(--rule);border-radius:999px;
+  color:#dcdcdc;text-decoration:none;font-size:15px}
+.near a:hover{border-color:var(--wa);color:var(--wa)}
 .ask{margin-top:40px;padding:24px;border:1px solid var(--rule);border-radius:14px}
 .ask p{margin:0 0 16px;color:#dcdcdc}
 .cta{display:inline-flex;align-items:center;gap:10px;background:var(--wa);color:#062d14;text-decoration:none;font-weight:800;font-size:17px;padding:14px 24px;border-radius:999px}

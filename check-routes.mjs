@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 let bad = 0;
 const fail = (m) => { console.log("  FAIL " + m); bad++; };
 const slugs = readdirSync("routes", { withFileTypes: true }).filter(d => d.isDirectory()).map(d => d.name);
@@ -18,7 +18,11 @@ for (const slug of slugs) {
   for (const m of h.matchAll(/[\u0590-\u05FF][A-Za-z]|[A-Za-z][\u0590-\u05FF]/g))
     fail(`${slug}: Latin letter inside a Hebrew word near ${JSON.stringify(h.slice(Math.max(0, m.index - 25), m.index + 15))}`);
   const ld = [...h.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)];
-  if (ld.length !== 2) fail(`${slug}: expected 2 JSON-LD blocks, got ${ld.length}`);
+  if (ld.length !== 3) fail(`${slug}: expected 3 JSON-LD blocks, got ${ld.length}`);
+  // Every related link must resolve to a page that exists. Removing a route (Malaysia) must not be
+  // able to leave a link pointing at a 404 from four other pages.
+  for (const m of h.matchAll(/href="\/routes\/([a-z\-]+)\/"/g))
+    if (!existsSync(`routes/${m[1]}/index.html`)) fail(`${slug}: link to missing route ${m[1]}`);
   for (const m of ld) { try { JSON.parse(m[1]); } catch (e) { fail(`${slug}: bad JSON-LD (${e.message})`); } }
   const faq = JSON.parse(ld[0][1]);
   if (!faq.mainEntity.some(q => q.name.startsWith("האם אפשר לטוס"))) fail(`${slug}: flight Q missing from FAQPage`);
