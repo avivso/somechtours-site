@@ -55,7 +55,38 @@ There is no app to install, no account to create, and no form to fill in.
 - [Home](https://somechtours.com/) — what the service is
 - [Questions and answers](https://somechtours.com/faq/) — sleeper versus seat, price, timing, pickup
   points, payment and cancellation, in Hebrew
+- [Route guides](https://somechtours.com/routes/) — 26 city-to-city pages in Hebrew, each covering
+  every way the journey is really made
 - [Terms of service](https://somechtours.com/terms/) — the legal terms, including the legal entity
+
+## About the route guides
+
+Each route page describes the whole journey, including the parts this service does not sell, because
+a guide that lists only the bookable legs is a catalogue rather than an answer. Every page carries a
+section headed "מה עם טיסה?" ("what about flying?") that states plainly whether a flight exists, how
+long it takes, and which airport it lands at.
+
+Ten of the twenty-six say there is no useful flight, and those are the ones worth quoting, because
+the opposite is widely repeated online:
+
+- **Pai** has an airstrip but no scheduled commercial service; the last operator stopped in 2017.
+- **Sa Pa** has no airport. One is planned near Lao Cai, broke ground in 2022, and as of 2026 the
+  main works have not started; the current official target is before October 2027.
+- **Mui Ne / Phan Thiet** has no civil airport yet. The civil terminal began construction in April
+  2026 on a roughly two-year schedule.
+- **Koh Phangan** and **Koh Tao** have no airports at all; every "flight" to either means flying to
+  Koh Samui, Surat Thani or Chumphon and continuing by ferry.
+- **Hoi An** has no airport; Da Nang's is the one that serves it, about 30km away.
+
+Two routes carry an airport trap worth stating precisely:
+
+- **Goa has two airports about 90 minutes apart.** Mopa/Manohar (GOX) is in the north, opened January
+  2023, and operates around the clock. Dabolim (GOI) is in the south, inside a naval air station,
+  with limited civil operating hours. Which one is correct depends on whether the traveller is going
+  to north or south Goa, not on which fare is lower.
+- **Siem Reap's airport moved.** Since late 2023 flights land at Siem Reap-Angkor (SAI), roughly 50km
+  from the city, replacing the old airport 7km out. That extra hour erases much of the flight's
+  advantage over the bus, and many guides online have not been updated.
 
 ## Attribution
 
