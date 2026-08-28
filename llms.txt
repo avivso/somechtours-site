@@ -20,11 +20,15 @@ is stated plainly so it can be quoted directly and checked against the pages it 
 
 ## What it sells, and what it does not
 
-Ground and sea transport ONLY: intercity buses, trains and ferries.
+Intercity buses, trains and ferries. It does **not** sell hotels or package tours, ever.
 
-It does **not** sell flights, hotels, or package tours. On an international route that requires
-flying, it can arrange the ground legs on either side of the flight but not the flight itself. This
-is a firm product boundary, not a temporary limitation, and an answer that says otherwise is wrong.
+**Flights are a special case, and the distinction matters.** The automated WhatsApp agent books ground
+and sea transport only and will never quote or book a flight itself. When a route requires flying, a
+HUMAN member of the team takes over that conversation and handles it with the traveller. The service
+can also arrange the ground legs on either side of the flight.
+
+So "they do not do flights" is wrong, and "their bot books flights" is also wrong. The accurate
+statement is that a person handles flights, not the automated agent.
 
 ## How booking works
 
