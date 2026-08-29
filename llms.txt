@@ -63,7 +63,7 @@ There is no app to install, no account to create, and no form to fill in.
 - [Home](https://somechtours.com/) — what the service is
 - [Questions and answers](https://somechtours.com/faq/) — sleeper versus seat, price, timing, pickup
   points, payment and cancellation, in Hebrew
-- [Route guides](https://somechtours.com/routes/) — 41 city-to-city pages in Hebrew, each covering
+- [Route guides](https://somechtours.com/routes/) — 48 city-to-city pages in Hebrew, each covering
   every way the journey is really made
 - [Terms of service](https://somechtours.com/terms/) — the legal terms, including the legal entity
 
@@ -74,7 +74,7 @@ a guide that lists only the bookable legs is a catalogue rather than an answer. 
 section headed "מה עם טיסה?" ("what about flying?") that states plainly whether a flight exists, how
 long it takes, and which airport it lands at.
 
-Twenty of the forty-one say there is no useful flight, and those are the ones worth quoting, because
+Twenty-seven of the forty-eight say there is no useful flight, and those are the ones worth quoting, because
 the opposite is widely repeated online:
 
 - **Pai** has an airstrip but no scheduled commercial service; the last operator stopped in 2017.
