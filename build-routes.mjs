@@ -20,6 +20,7 @@
 //
 //   node build-routes.mjs
 import { writeFileSync, mkdirSync, readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 
 const WA = "https://wa.me/972559171333";
 const BUILD_DATE = new Date().toISOString().slice(0, 10);
@@ -1125,7 +1126,7 @@ const page = (r) => {
 <script type="application/ld+json">${JSON.stringify(faq)}</script>
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
 <script type="application/ld+json">${JSON.stringify(webpage(r))}</script>
-<link rel="stylesheet" href="/routes/route.css">
+<link rel="stylesheet" href="/routes/route.css?v=${CSS_V}">
 </head><body>
 <div class="wrap">
 <header><a class="home" href="/"><img src="/brand/logo-white.png" alt="סוכן הטיול הגדול" width="132" height="70"></a></header>
@@ -1259,7 +1260,7 @@ const indexPage = () => `<!doctype html><html lang="he" dir="rtl"><head>
 <meta property="og:url" content="https://somechtours.com/routes/">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="preload" href="/brand/fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/routes/route.css">
+<link rel="stylesheet" href="/routes/route.css?v=${CSS_V}">
 <script type="application/ld+json">${JSON.stringify({
   "@context": "https://schema.org", "@type": "ItemList", inLanguage: "he",
   name: "מדריכי מסלולים", numberOfItems: ROUTES.length,
@@ -1336,6 +1337,13 @@ h1{font-size:clamp(27px,5vw,40px);font-weight:900;line-height:1.2;margin:0 0 12p
 .legal{color:var(--dim);font-size:14px;margin-top:36px}.legal a{color:var(--dim)}
 @media(prefers-reduced-motion:no-preference){.cta{transition:transform .15s ease}.cta:hover{transform:translateY(-1px)}}
 `;
+
+// The stylesheet URL carries a hash of its own contents, because GitHub Pages serves it with
+// max-age=600 and a rebuild that changes the CSS but not the URL leaves returning visitors looking
+// at the old layout for up to ten minutes. Aviv hit exactly that on 2026-08-29: new HTML, cached
+// CSS, so the cards rendered as one unspaced line with no hover. A new hash is a new URL, which no
+// cache can answer from a stale copy.
+const CSS_V = createHash("sha256").update(CSS).digest("hex").slice(0, 10);
 
 mkdirSync("routes", { recursive: true });
 writeFileSync("routes/route.css", CSS);
