@@ -1,8 +1,13 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { createHash } from "node:crypto";
 let bad = 0;
 const fail = (m) => { console.log("  FAIL " + m); bad++; };
 const slugs = readdirSync("routes", { withFileTypes: true }).filter(d => d.isDirectory()).map(d => d.name);
 const bodies = new Map();
+// The stylesheet URL carries a hash of the CSS, so a cache cannot serve yesterday's layout with
+// today's markup. Every page must point at the CSS that is actually sitting next to it.
+const cssV = createHash("sha256").update(readFileSync("routes/route.css", "utf8")).digest("hex").slice(0, 10);
+const cssHref = `/routes/route.css?v=${cssV}`;
 
 for (const slug of slugs) {
   const h = readFileSync(`routes/${slug}/index.html`, "utf8");
@@ -10,6 +15,7 @@ for (const slug of slugs) {
   // no prices, in any currency, anywhere. A stale number here would contradict the bot.
   if (/[₪$€£฿]|\bILS\b|\bTHB\b|\d[\d,.]*\s*(שקל|שקלים|בהט)|(שקל|שקלים|בהט)\s*\d/.test(h))
     fail(`${slug}: looks like a price`);
+  if (!h.includes(cssHref)) fail(`${slug}: stylesheet link is not stamped with the current CSS hash`);
   if (!h.includes("wa.me/972559171333")) fail(`${slug}: no WhatsApp CTA`);
   if (!h.includes("מה עם טיסה?")) fail(`${slug}: no flight section`);
   // never name the supplier
@@ -62,6 +68,7 @@ if (worst > 0.30) fail(`pages too similar: ${pair}`);
     fail(`index: Latin letter inside a Hebrew word near ${JSON.stringify(h.slice(Math.max(0, m.index - 25), m.index + 15))}`);
   // The reader has to know the rows open a page. Aviv, 2026-08-29: "make it easier to understand
   // they need to be clicked in order to enter their specific page."
+  if (!h.includes(cssHref)) fail("index: stylesheet link is not stamped with the current CSS hash");
   if (!/לחצו על קו/.test(h)) fail("index: nothing tells the reader the rows are clickable");
 
   const cards = [...h.matchAll(/<li><a href="\/routes\/([a-z\-]+)\/">([\s\S]*?)<\/a><\/li>/g)];
