@@ -6,9 +6,12 @@
 //
 // WHY A PAGE AND NOT A RAW wa.me LINK. Three reasons, all practical:
 //
-//   1. It is typeable. Most of this traffic is Instagram Reels and YouTube, where a huge share of
-//      viewers never tap a bio link. "somechtours.com/go/opali" can be said out loud in a video and
-//      typed from memory; a wa.me number with a URL-encoded Hebrew query string cannot.
+//   1. A SHORT LINK AND A GOOD OPENING MESSAGE ARE MUTUALLY EXCLUSIVE ON A RAW wa.me LINK, and this
+//      is the argument that actually decides it. Hebrew costs six characters per letter once URL
+//      encoded, so the natural sentence below turns a wa.me link into 248 characters of noise, which
+//      is unusable in a bio. Dropping the sentence gets it to 37 but sends the customer's first
+//      message as a bare word. Through this page you get both: 21 characters on the outside, the full
+//      sentence on the inside, because the encoding happens after the redirect where nobody sees it.
 //   2. It is ours. The destination can change (a new number, a different opening line, a campaign
 //      landing page) without the influencer editing their bio or re-cutting a video.
 //   3. It is branded. A raw wa.me link with a phone number in it looks like a stranger's DM; this
@@ -19,11 +22,19 @@
 // hesitation that is the biggest drop-off on a cold WhatsApp link.
 //
 //   node build-go.mjs
-import { writeFileSync, mkdirSync } from "node:fs";
+import { writeFileSync, mkdirSync, readFileSync, existsSync, rmSync } from "node:fs";
 
 const WA_NUMBER = "972559171333";
 
+// How a generated page identifies itself. The overwrite check below trusts THIS and nothing else,
+// so it can never mistake a real page for one of ours.
+const MARKER = "<!--somechtours-referral-->";
+
 // slug: what goes in the URL. name: how the customer refers to them, in the opening line.
+//
+// These live at the ROOT (somechtours.com/opali), not under a /go/ prefix. Aviv wanted the shorter,
+// speakable form. The prefix was doing one real job, namespacing partner names away from real pages,
+// so that job is now done by the assertion below instead of by a folder.
 const PARTNERS = [
   { slug: "opali", name: "אופלי" },
 ];
@@ -35,7 +46,7 @@ const opener = (name) => `היי! הגעתי דרך ${name} 🙂 אשמח לבד
 
 const page = (p) => {
   const wa = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(opener(p.name))}`;
-  return `<!doctype html><html lang="he" dir="rtl"><head>
+  return `<!doctype html>${MARKER}<html lang="he" dir="rtl"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>פותחים וואטסאפ | סוכן הטיול הגדול</title>
 <meta name="robots" content="noindex,nofollow">
@@ -84,9 +95,37 @@ setTimeout(function () { window.location.href = document.getElementById("go").hr
 `;
 };
 
+// A PARTNER NAME MUST NEVER SHADOW A REAL PAGE.
+//
+// This is the whole reason the /go/ prefix existed. Removing it puts partner slugs in the same
+// namespace as /routes/, /faq/, /terms/ and everything else at the root, so an influencer called
+// "faq" or a future page called after a partner would silently take each other's URL. Read the root
+// rather than hardcoding a list, so this cannot go stale as the site grows.
+// THE FIRST VERSION OF THIS CHECK DEFEATED ITSELF, and it overwrote /faq/ on the very first test.
+// It excluded the partner slugs from the "already taken" set so a rebuild could overwrite its own
+// output — which excused precisely the collision it existed to catch, because a partner named "faq"
+// is in that exclusion list too. Only a page carrying OUR marker may be overwritten. Anything else
+// at that path stops the build.
 for (const p of PARTNERS) {
-  mkdirSync(`go/${p.slug}`, { recursive: true });
-  writeFileSync(`go/${p.slug}/index.html`, page(p));
-  console.log(`  /go/${p.slug}/  ->  ${p.name}`);
+  if (!/^[a-z0-9-]+$/.test(p.slug)) {
+    console.error(`REFUSING: "${p.slug}" must be lowercase letters, digits and hyphens only.`);
+    process.exit(1);
+  }
+  if (!existsSync(p.slug)) continue;
+  const index = `${p.slug}/index.html`;
+  const ours = existsSync(index) && readFileSync(index, "utf8").includes(MARKER);
+  if (!ours) {
+    console.error(`REFUSING: "/${p.slug}" already exists at the site root and is NOT a referral page — it would be overwritten. Pick another slug.`);
+    process.exit(1);
+  }
+}
+
+// The old /go/ pages are removed rather than left to rot as a second live copy of the same link.
+if (existsSync("go")) { rmSync("go", { recursive: true, force: true }); console.log("  removed the old /go/ pages"); }
+
+for (const p of PARTNERS) {
+  mkdirSync(p.slug, { recursive: true });
+  writeFileSync(`${p.slug}/index.html`, page(p));
+  console.log(`  /${p.slug}/  ->  ${p.name}`);
 }
 console.log(`built ${PARTNERS.length} referral link(s)`);
