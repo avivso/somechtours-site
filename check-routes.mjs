@@ -50,6 +50,45 @@ for (const [a, sa] of S2) for (const [b, sb] of S2) {
 console.log(`  max pairwise 7-word overlap: ${(worst * 100).toFixed(1)}%  (${pair})`);
 if (worst > 0.30) fail(`pages too similar: ${pair}`);
 
+// THE INDEX. Its cards used to be the first sentence of each page's meta description, so their shape
+// was whatever the prose opened with and it drifted between batches. They are generated from the
+// pages' own durations now, and this guards the shape so the drift cannot come back quietly.
+{
+  const h = readFileSync("routes/index.html", "utf8");
+  if (/[—–]/.test(h)) fail("index: em/en dash");
+  if (/[₪$€£฿]|\bILS\b|\bTHB\b|\d[\d,.]*\s*(שקל|שקלים|בהט)|(שקל|שקלים|בהט)\s*\d/.test(h))
+    fail("index: looks like a price");
+  for (const m of h.matchAll(/[\u0590-\u05FF][A-Za-z]|[A-Za-z][\u0590-\u05FF]/g))
+    fail(`index: Latin letter inside a Hebrew word near ${JSON.stringify(h.slice(Math.max(0, m.index - 25), m.index + 15))}`);
+  // The reader has to know the rows open a page. Aviv, 2026-08-29: "make it easier to understand
+  // they need to be clicked in order to enter their specific page."
+  if (!/לחצו על קו/.test(h)) fail("index: nothing tells the reader the rows are clickable");
+
+  const cards = [...h.matchAll(/<li><a href="\/routes\/([a-z\-]+)\/">([\s\S]*?)<\/a><\/li>/g)];
+  if (cards.length !== slugs.length) fail(`index: ${cards.length} cards for ${slugs.length} pages`);
+  const linked = new Set();
+  for (const [, slug, inner] of cards) {
+    if (linked.has(slug)) fail(`index: ${slug} listed twice`);
+    linked.add(slug);
+    if (!existsSync(`routes/${slug}/index.html`)) fail(`index: card for missing route ${slug}`);
+    for (const cls of ["rt-name", "rt-time", "rt-go"])
+      if (!inner.includes(`class="${cls}"`)) fail(`index: ${slug} card has no ${cls}`);
+    // One shape for every card, or the list stops being scannable: "10 עד 12 שעות", "כ-3 שעות",
+    // "45 עד 60 דקות". Halves are allowed; anything finer belongs on the page, not in the list.
+    const t = /<span class="rt-time">([^<]*)<\/span>/.exec(inner);
+    if (!t) fail(`index: ${slug} card has no journey time`);
+    else if (!/^(כ-\d+(\.5)? שעות|\d+(\.5)? עד \d+(\.5)? שעות|כ-\d+ דקות|\d+ עד \d+ דקות)$/.test(t[1]))
+      fail(`index: ${slug} journey time is off-format: ${JSON.stringify(t[1])}`);
+  }
+  for (const slug of slugs) if (!linked.has(slug)) fail(`index: ${slug} is not listed`);
+  // Every card sits inside a country heading, and every heading has cards.
+  const groups = [...h.matchAll(/<h2 class="grp">([^<]+)<span>/g)].map((m) => m[1]);
+  if (!groups.length) fail("index: routes are not grouped by country");
+  const ungrouped = h.split(/<h2 class="grp">/)[0];
+  if (/<li><a href="\/routes\//.test(ungrouped)) fail("index: a card sits above the first country heading");
+  console.log(`  index: ${cards.length} cards in ${groups.length} countries (${groups.join(", ")})`);
+}
+
 const noFlight = slugs.filter(s => readFileSync(`routes/${s}/index.html`, "utf8").includes('class="air none"'));
 console.log(`  ${slugs.length} pages, ${noFlight.length} say there is no useful flight:`);
 console.log("    " + noFlight.join("\n    "));
