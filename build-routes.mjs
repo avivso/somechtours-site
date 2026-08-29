@@ -703,7 +703,9 @@ const ROUTES = [
     ways: [
       { h: "אוטובוס ישיר לאיקה", t: "בערך 4 וחצי עד 5 שעות",
         p: "יציאות תכופות לאורך כל היום, כולל אוטובוסים נוחים עם מושבים רחבים. הכביש מישורי ומהיר, וזו אחת הנסיעות הקלות בפרו." },
-      { h: "עצירה בפרקאס בדרך", t: "בערך 3 וחצי שעות עד פרקאס",
+      // leg:true — the duration below is to Paracas, not to Ica, so it must not widen the
+      // journey time shown on the index. See spanOf().
+      { h: "עצירה בפרקאס בדרך", t: "בערך 3 וחצי שעות עד פרקאס", leg: true,
         p: "הרבה מטיילים עוצרים בפרקאס לשייט לאיי בייסטס וממשיכים משם לאיקה. זה מפצל את היום ומוסיף אתר, בלי להאריך את הדרך משמעותית." },
     ],
     know: [
@@ -1146,6 +1148,106 @@ ${(() => { const n = relatedTo(r); return n.length ? `<h2 class="sec">קווים
 `;
 };
 
+// THE INDEX CARD: derived from the pages, never written twice.
+//
+// Aviv, 2026-08-29: "the format of each description of route in the routes page has changed
+// middleway i think, they dont all have the same format." He was right, and the cause was
+// structural rather than sloppy: the index printed the first sentence of each page's meta
+// description, so its shape was whatever that prose happened to open with. The first batch opened
+// with the modes ("רכבת לילה או אוטובוס VIP") and the batch added later opened with a fact hook
+// ("200 קילומטר בכביש פריתווי"). Rewriting 48 sentences would fix today and drift again on the
+// next batch, so the card stopped quoting prose at all.
+//
+// It states the journey time instead, computed from the very durations printed on the page, which
+// means the index and the page cannot disagree, and a new route gets a correctly shaped card for
+// free.
+const HOUR_WORD = {
+  "שעה": 1, "שעתיים": 2, "שלוש": 3, "ארבע": 4, "חמש": 5,
+  "שש": 6, "שבע": 7, "שמונה": 8, "תשע": 9, "עשר": 10,
+};
+
+// One duration phrase to minutes. null means it is not a duration at all, which is a real answer on
+// some routes ("משתנה", "כמה ימים") and must never be guessed at.
+function minutesOf(x) {
+  x = x.replace(/\s+/g, " ").trim().replace(/^כ-?/, "").replace(/ ב(רכבת|כביש|אוטובוס|מעבורת)$/, "");
+  let m;
+  if ((m = /^(\d+) שעות ו-(\d+) דקות$/.exec(x))) return +m[1] * 60 + +m[2];
+  if ((m = /^(\d+) דקות$/.exec(x))) return +m[1];
+  if (x === "חצי שעה") return 30;
+  if ((m = /^(\d+)( וחצי)?( שעות| שעה)?$/.exec(x))) return (+m[1] + (m[2] ? 0.5 : 0)) * 60;
+  if ((m = /^(שעה|שעתיים|שלוש|ארבע|חמש|שש|שבע|שמונה|תשע|עשר)( שעות)?( וחצי)?$/.exec(x)))
+    return (HOUR_WORD[m[1]] + (m[3] ? 0.5 : 0)) * 60;
+  return null;
+}
+
+// A whole way: "בערך 4 וחצי עד 6 שעות ברכבת, ועוד כשעה" is two legs that add up, each of which may
+// itself be a range, so 330..420 minutes.
+function spanOf(t) {
+  let lo = 0, hi = 0;
+  for (const leg of t.replace(/^בערך /, "").replace(/ בסך הכל$/, "").trim().split(/,?\s*ועוד\s*/)) {
+    const parts = leg.split(/ עד /);
+    if (parts.length > 2) return null;
+    const a = minutesOf(parts[0]);
+    const b = parts.length === 2 ? minutesOf(parts[1]) : a;
+    if (a === null || b === null) return null;
+    lo += Math.min(a, b);
+    hi += Math.max(a, b);
+  }
+  return [lo, hi];
+}
+
+// Rounded OUTWARDS to the half hour, so every exact figure on the page falls inside the range the
+// index shows. A card that says "3 עד 4 שעות" for a page saying 3:20 and 3:45 is a summary; one
+// rounded to the nearest half hour would have said 3.5 and quietly contradicted the page.
+const half = (m, up) => (up ? Math.ceil(m / 30) : Math.floor(m / 30)) * 30;
+const hoursOf = (m) => String(m / 60);
+
+function journeyTime(r) {
+  const spans = [];
+  for (const w of r.ways) {
+    if (w.leg) continue;                       // describes part of the journey, not the whole of it
+    const sp = spanOf(w.t);
+    if (sp) { spans.push(sp); continue; }
+    // Anything unreadable that is not one of the honest non-answers is a typo, and a typo here would
+    // silently narrow the range rather than break anything. Fail loudly instead.
+    if (!/^(משתנה|כמה ימים)/.test(w.t)) {
+      console.error(`unreadable duration on ${r.slug}: ${JSON.stringify(w.t)}`);
+      process.exit(1);
+    }
+  }
+  if (!spans.length) { console.error(`no readable duration on ${r.slug}`); process.exit(1); }
+  const lo = Math.min(...spans.map((s) => s[0]));
+  const hi = Math.max(...spans.map((s) => s[1]));
+  if (hi < 90) return lo === hi ? `כ-${lo} דקות` : `${lo} עד ${hi} דקות`;
+  const a = half(lo, false), b = half(hi, true);
+  return a === b ? `כ-${hoursOf(a)} שעות` : `${hoursOf(a)} עד ${hoursOf(b)} שעות`;
+}
+
+// Grouped by country, because 48 routes in one column is a wall, and because the ordering had drifted
+// too: the seven routes added last sat below Colombia regardless of where they are. Grouping makes
+// that impossible rather than tidy, since a new route lands in its country by its COUNTRY entry.
+const COUNTRY_HE = {
+  th: "תאילנד", vn: "וייטנאם", kh: "קמבודיה", la: "לאוס", in: "הודו",
+  np: "נפאל", lk: "סרי לנקה", pe: "פרו", co: "קולומביה",
+};
+const COUNTRY_ORDER = ["th", "vn", "kh", "la", "in", "np", "lk", "pe", "co"];
+for (const c of new Set(Object.values(COUNTRY))) {
+  if (!COUNTRY_HE[c]) throw new Error(`no Hebrew name for country ${c}`);
+  if (!COUNTRY_ORDER.includes(c)) throw new Error(`country ${c} is not placed in COUNTRY_ORDER`);
+}
+const GROUPS = COUNTRY_ORDER
+  .map((c) => ({ name: COUNTRY_HE[c], routes: ROUTES.filter((r) => COUNTRY[r.slug] === c) }))
+  .filter((g) => g.routes.length);
+const ORDERED = GROUPS.flatMap((g) => g.routes);
+if (ORDERED.length !== ROUTES.length) throw new Error("a route fell out of the country grouping");
+
+const card = (r) => `<li><a href="/routes/${r.slug}/">
+<span class="rt-name">מ${esc(r.he.from)} ל${esc(r.he.to)}</span>
+<span class="rt-facts"><span class="rt-time">${journeyTime(r)}</span>${
+  r.air.no ? "" : `<span class="rt-air">יש גם טיסה</span>`}</span>
+<span class="rt-go">למדריך המלא <span aria-hidden="true">←</span></span>
+</a></li>`;
+
 const indexPage = () => `<!doctype html><html lang="he" dir="rtl"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>מסלולים: איך מגיעים מעיר לעיר | סוכן הטיול הגדול</title>
@@ -1161,7 +1263,7 @@ const indexPage = () => `<!doctype html><html lang="he" dir="rtl"><head>
 <script type="application/ld+json">${JSON.stringify({
   "@context": "https://schema.org", "@type": "ItemList", inLanguage: "he",
   name: "מדריכי מסלולים", numberOfItems: ROUTES.length,
-  itemListElement: ROUTES.map((r, i) => ({
+  itemListElement: ORDERED.map((r, i) => ({
     "@type": "ListItem", position: i + 1, name: r.title,
     url: `https://somechtours.com/routes/${r.slug}/`,
   })),
@@ -1169,10 +1271,12 @@ const indexPage = () => `<!doctype html><html lang="he" dir="rtl"><head>
 </head><body><div class="wrap">
 <header><a class="home" href="/"><img src="/brand/logo-white.png" alt="סוכן הטיול הגדול" width="132" height="70"></a></header>
 <h1>מסלולים</h1>
-<p class="lede">איך מגיעים בפועל מעיר לעיר: כל האפשרויות, כמה זמן כל אחת לוקחת, ומה שכדאי לדעת לפני שקונים כרטיס. בלי מחירים, כי הם משתנים.</p>
+<p class="lede tight">איך מגיעים בפועל מעיר לעיר: כל האפשרויות, כמה זמן כל אחת לוקחת, ומה שכדאי לדעת לפני שקונים כרטיס.</p>
+<p class="hint">לחצו על קו כדי לפתוח את המדריך המלא שלו. הזמנים שליד כל קו הם של הנסיעה עצמה, באוטובוס, ברכבת או במעבורת, ולא של טיסה.</p>
+${GROUPS.map((g) => `<h2 class="grp">${g.name}<span>${g.routes.length === 1 ? "קו אחד" : `${g.routes.length} קווים`}</span></h2>
 <ul class="routes">
-${ROUTES.map((r) => `<li><a href="/routes/${r.slug}/"><strong>מ${r.he.from} ל${r.he.to}</strong><span>${esc(r.desc.split(".")[0])}</span></a></li>`).join("\n")}
-</ul>
+${g.routes.map(card).join("\n")}
+</ul>`).join("\n")}
 <p class="legal"><a href="/faq/">שאלות ותשובות</a> · <a href="/">לעמוד הבית</a></p>
 </div></body></html>
 `;
@@ -1207,12 +1311,28 @@ h1{font-size:clamp(27px,5vw,40px);font-weight:900;line-height:1.2;margin:0 0 12p
 .ask{margin-top:40px;padding:24px;border:1px solid var(--rule);border-radius:14px}
 .ask p{margin:0 0 16px;color:#dcdcdc}
 .cta{display:inline-flex;align-items:center;gap:10px;background:var(--wa);color:#062d14;text-decoration:none;font-weight:800;font-size:17px;padding:14px 24px;border-radius:999px}
-.routes{list-style:none;margin:0;padding:0}
-.routes li{border-top:1px solid var(--rule)}
-.routes a{display:block;padding:18px 0;text-decoration:none;color:var(--ink)}
-.routes strong{display:block;font-size:20px;font-weight:700;margin-bottom:4px}
-.routes span{color:var(--dim);font-size:15px}
-.routes a:hover strong{color:var(--wa)}
+.lede.tight{margin-bottom:10px}
+.hint{color:var(--dim);font-size:15px;margin:0 0 30px;max-width:36em}
+.grp{display:flex;align-items:baseline;gap:10px;font-size:16px;font-weight:700;color:var(--dim);
+  margin:34px 0 12px;padding-top:22px;border-top:1px solid var(--rule)}
+.grp:first-of-type{margin-top:0;padding-top:0;border-top:0}
+.grp span{font-weight:400;font-size:13px;color:#6d6d6d}
+.routes{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.routes a{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:6px 12px;
+  padding:15px 18px;border:1px solid var(--rule);border-radius:12px;background:#101010;
+  text-decoration:none;color:var(--ink)}
+.rt-name{grid-column:1/-1;font-size:19px;font-weight:700;line-height:1.3}
+.rt-facts{color:#dcdcdc;font-size:15px}
+.rt-air{color:#e0b25a}
+.rt-air::before{content:"·";margin:0 8px;color:var(--dim)}
+.rt-go{justify-self:end;font-size:14px;color:var(--dim);white-space:nowrap}
+.routes a:hover{border-color:var(--wa)}
+.routes a:hover .rt-name,.routes a:hover .rt-go{color:var(--wa)}
+.routes a:focus-visible{outline:2px solid var(--wa);outline-offset:2px}
+/* Narrow screens: the journey time and "למדריך המלא" stop fitting on one line together, and ten of
+   the 48 cards grew a second line while the rest did not. Stacking keeps every card the same height. */
+@media(max-width:460px){.routes a{grid-template-columns:1fr}
+.rt-facts,.rt-go{grid-column:1}.rt-go{justify-self:end}}
 .legal{color:var(--dim);font-size:14px;margin-top:36px}.legal a{color:var(--dim)}
 @media(prefers-reduced-motion:no-preference){.cta{transition:transform .15s ease}.cta:hover{transform:translateY(-1px)}}
 `;
