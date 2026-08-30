@@ -19,7 +19,7 @@
 // is bookable, not what people actually do.
 //
 //   node build-routes.mjs
-import { writeFileSync, mkdirSync, readFileSync } from "node:fs";
+import { writeFileSync, mkdirSync, readFileSync, readdirSync, existsSync, rmSync } from "node:fs";
 import { createHash } from "node:crypto";
 
 const WA_NUMBER = "972559171333";
@@ -619,24 +619,6 @@ const ROUTES = [
     ],
   },
   {
-    slug: "ella-mirissa",
-    he: { from: "אלה", to: "מיריסה" },
-    title: "איך מגיעים מאלה למיריסה",
-    desc: "מההרים אל החוף הדרומי, כ-180 קילומטר. למה זה לוקח יותר ממה שנראה על המפה.",
-    lede: "מאלה למיריסה יש כ-180 קילומטר, וזו הירידה הקלאסית מההרים אל חופי הדרום. בהעברה פרטית זה בערך שלוש עד ארבע שעות, ובתחבורה ציבורית עם החלפות זה יכול להגיע לחמש עד שבע. אין רכבת ישירה בין השתיים.",
-    ways: [
-      { h: "ואן משותף או העברה פרטית", t: "בערך 3 עד 4 שעות",
-        p: "הדרך הנפוצה. יוצאים מהלינה באלה ומגיעים ישירות לחוף. חלק מהחברות משלבות עצירה בדרך, למשל בשמורת אודוואלאווה, מה שהופך את היום לטיול ולא רק להעברה." },
-      { h: "אוטובוס מקומי עם החלפה", t: "בערך 5 עד 7 שעות",
-        p: "זול משמעותית ודורש לפחות החלפה אחת, לרוב במטארה. מתאים למי שלא ממהר, אבל זה יום שלם ולא חצי." },
-    ],
-    know: [
-      "המרחק על המפה מטעה. הקטע הראשון הוא ירידה הררית מפותלת, והמהירות הממוצעת בו נמוכה.",
-      "אין רכבת ישירה מאלה למיריסה. מי שרוצה רכבת יורד לאזור מטארה ומחליף, וזה כמעט תמיד ארוך יותר מהוואן.",
-      "עונת צפייה בלווייתנים במיריסה היא בערך נובמבר עד אפריל. אם זו המטרה, התאריך חשוב לא פחות מהדרך.",
-    ],
-  },
-  {
     slug: "lima-cusco",
     he: { from: "לימה", to: "קוסקו" },
     title: "איך מגיעים מלימה לקוסקו",
@@ -1001,8 +983,6 @@ const AIR = {
     p: "אין שדות תעופה מסחריים באלה או בקאנדי, ואין שום גרסה אווירית של המסלול הזה. זה אחד המקומות שבהם הקרקע היא לא רק הדרך הזולה אלא הדרך היחידה, וזו גם הסיבה שהפגיעה במסילה בסוף 2025 שינתה כל כך את האזור." },
   "colombo-galle": { t: "אין טיסה מעשית בקו הזה", no: true,
     p: "המרחק הוא כ-120 קילומטר, וכביש מהיר עושה אותו בשעה וחצי. אין קו טיסה סדיר בין השתיים, ולא היה טעם שיהיה. אם ראיתם אזכור של טיסה לגאלה, מדובר במטוסי ים פרטיים ולא בקו מסחרי." },
-  "ella-mirissa": { t: "אין טיסה בקו הזה", no: true,
-    p: "אין שדה תעופה מסחרי באף אחד משני הקצוות. סרי לנקה קטנה, ורשת התעופה הפנימית בה מצומצמת מאוד ומבוססת בעיקר על צ'רטרים. הדרך מההרים אל החוף היא כביש, וזה מה שאנחנו מסדרים." },
   "lima-cusco": { t: "בערך שעה ורבע, אבל יש שיקול נוסף",
     p: "יש עשרות טיסות ביום והן חוסכות כמעט יממה. אבל זה הקו היחיד ברשימה הזו שבו כדאי לעצור ולחשוב לפני שבוחרים במהיר: טיסה לוקחת אתכם מגובה פני הים לכ-3,400 מטר בתוך שעה ורבע, בלי שום הסתגלות. הנחיות בריאות מקובלות ממליצות בדיוק נגד עלייה כזו. מי שטס בכל זאת, וזה בסדר גמור, כדאי שיתכנן יומיים רגועים בקוסקו לפני כל טרק או גובה נוסף. את הטיסה אנחנו לא מוכרים, אבל נציג אנושי מהצוות יסדר אותה, ואת האוטובוסים בפרו נסדר אנחנו." },
   "cusco-puno": { t: "כמעט תמיד לא שווה את זה", no: true,
@@ -1059,7 +1039,7 @@ const COUNTRY = {
   "mumbai-goa": "in", "bangalore-goa": "in", "goa-hampi": "in", "manali-dharamshala": "in",
   "kathmandu-pokhara": "np", "kathmandu-chitwan": "np", "pokhara-chitwan": "np",
   "kathmandu-lumbini": "np",
-  "colombo-kandy": "lk", "kandy-ella": "lk", "colombo-galle": "lk", "ella-mirissa": "lk",
+  "colombo-kandy": "lk", "kandy-ella": "lk", "colombo-galle": "lk",
   "lima-cusco": "pe", "cusco-puno": "pe", "cusco-arequipa": "pe", "arequipa-puno": "pe",
   "lima-ica": "pe",
   "bogota-medellin": "co", "medellin-guatape": "co", "medellin-salento": "co",
@@ -1385,6 +1365,27 @@ ${urls.map((u) => `  <url>
   </url>`).join("\n")}
 </urlset>
 `);
+
+// A ROUTE WE CANNOT SELL MUST NOT HAVE A PAGE.
+//
+// Aviv, 2026-08-30: "delete any route page for a route that isnt available in 12g0." ella-mirissa was
+// the one the sweep found — zero bookable options on every date tried, while Ella and Mirissa both
+// resolve on their own, so the pair simply is not sold. The page ranked, read well, and sent people
+// to WhatsApp for a journey the bot answers with "we do not cover this route".
+//
+// Taking the entry out of ROUTES stopped it being BUILT and took it out of the sitemap, but the
+// directory would have kept serving forever: nothing here ever deleted anything. Same rot that hit
+// the referral links when /opali was renamed to /opli, and the same fix.
+//
+// Scoped to routes/ and gated on a generated page: only a directory holding an index.html that links
+// our own route.css is removed, so a hand-written page dropped in here would survive.
+for (const dir of readdirSync("routes", { withFileTypes: true })) {
+  if (!dir.isDirectory() || ROUTES.some((r) => r.slug === dir.name)) continue;
+  const index = `routes/${dir.name}/index.html`;
+  if (!existsSync(index) || !readFileSync(index, "utf8").includes("route.css?v=")) continue;
+  rmSync(`routes/${dir.name}`, { recursive: true, force: true });
+  console.log(`  removed /routes/${dir.name}/, no longer in ROUTES`);
+}
 
 console.log(`built ${ROUTES.length} route pages + index + sitemap (${urls.length} urls)`);
 for (const r of ROUTES) console.log(`  /routes/${r.slug}/  ${r.he.from} → ${r.he.to}`);
