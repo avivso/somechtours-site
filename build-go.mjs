@@ -35,21 +35,33 @@ const MARKER = "<!--somechtours-referral-->";
 // These live at the ROOT (somechtours.com/opali), not under a /go/ prefix. Aviv wanted the shorter,
 // speakable form. The prefix was doing one real job, namespacing partner names away from real pages,
 // so that job is now done by the assertion below instead of by a folder.
+//
+// `via` is how the name attaches to "הגעתי", and it is spelled out per partner rather than inferred.
+// Hebrew will not let one rule cover both: "דרך" is a word and takes a space, while the one-letter
+// prefixes (מ, ל, ב) fuse to the word itself — "מבר ושני", never "מ בר ושני". Getting that wrong in a
+// sentence the customer sends AS THEIR OWN is exactly the kind of thing that makes them retype it,
+// and the attribution dies with the retype. No default: a new partner has to say which one they take.
 const PARTNERS = [
-  { slug: "opli", name: "אופלי" }, // Aviv shortened the URL, 2026-08-30; the NAME she is credited by is unchanged
+  { slug: "opli", name: "אופלי", via: "דרך " }, // Aviv shortened the URL, 2026-08-30; the NAME she is credited by is unchanged
+  { slug: "barandshany", name: "בר ושני", via: "מ" }, // a pair, so "מבר ושני" reads better than "דרך בר ושני" (Aviv, 2026-08-30)
 ];
 
 // The opening line. Kept SHORT and natural, because the customer sees it in their own chat and can
 // edit it: a paragraph of marketing copy in their mouth reads as spam and gets deleted, taking the
-// attribution with it. "הגעתי דרך X" is the marker the bot matches on.
+// attribution with it.
+//
+// NOTHING IN THE BOT PARSES THIS. Checked, 2026-08-30: there is no referral matcher in src, so the
+// attribution is Aviv reading "הגעתי מבר ושני" in the chat and knowing where they came from. That is
+// why the wording is free to vary per partner — and also why it must stay recognisable to a human
+// skimming an inbox, which is the only reader it has.
 //
 // No emoji, and one flowing sentence rather than two clauses (Aviv, 2026-08-29). Words the customer
 // is about to send AS THEIR OWN have to sound like them, and a smiley someone else put in their
 // mouth is the tell that they did not write it.
-const opener = (name) => `היי! הגעתי דרך ${name} ואשמח לבדוק כרטיס`;
+const opener = (p) => `היי! הגעתי ${p.via}${p.name} ואשמח לבדוק כרטיס`;
 
 const page = (p) => {
-  const wa = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(opener(p.name))}`;
+  const wa = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(opener(p))}`;
   return `<!doctype html>${MARKER}<html lang="he" dir="rtl"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>פותחים וואטסאפ | סוכן הטיול הגדול</title>
