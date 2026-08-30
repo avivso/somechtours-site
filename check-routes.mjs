@@ -17,6 +17,26 @@ for (const slug of slugs) {
     fail(`${slug}: looks like a price`);
   if (!h.includes(cssHref)) fail(`${slug}: stylesheet link is not stamped with the current CSS hash`);
   if (!h.includes("wa.me/972559171333")) fail(`${slug}: no WhatsApp CTA`);
+  // ...AND IT ARRIVES WITH THE MESSAGE ALREADY WRITTEN, naming THIS route.
+  //
+  // Aviv, 2026-08-29: "all the links leading to my whatsapp on the site need to have a prewritten
+  // message." On a route page the prefill has to be the route: landing in the chat with "מבנגקוק
+  // לקופנגן" already typed is a whole turn of the bot asking where from and where to that never has
+  // to happen. A generic prefill here would pass a laxer check and quietly throw that away.
+  {
+    const link = /href="https:\/\/wa\.me\/\d+\?text=([^"]+)"/.exec(h);
+    if (!link) fail(`${slug}: the WhatsApp link has no prefilled message`);
+    else {
+      const msg = decodeURIComponent(link[1]);
+      // Compared against the BREADCRUMB, which is exactly `${r.he.from} ל${r.he.to}` and nothing else.
+      // The h1 was the obvious thing to use and it is wrong: Lima-Ica's reads "מלימה לאיקה
+      // ולהואקצ'ינה", an editorial headline naming a third place the prefill has no business
+      // carrying. The crumb is the data, the h1 is the copy.
+      const route = /"position":3,"name":"([^"]+)"/.exec(h)?.[1];
+      if (!route) fail(`${slug}: could not read the route off the breadcrumb`);
+      else if (!msg.includes(route)) fail(`${slug}: prefill does not name the route "${route}" (${msg})`);
+    }
+  }
   if (!h.includes("מה עם טיסה?")) fail(`${slug}: no flight section`);
   // never name the supplier
   if (/12Go|12go/i.test(h)) fail(`${slug}: supplier leak`);
@@ -70,6 +90,18 @@ if (worst > 0.30) fail(`pages too similar: ${pair}`);
   // they need to be clicked in order to enter their specific page."
   if (!h.includes(cssHref)) fail("index: stylesheet link is not stamped with the current CSS hash");
   if (!/לחצו על קו/.test(h)) fail("index: nothing tells the reader the rows are clickable");
+
+  // EVERY WHATSAPP LINK ON THE SITE, not only the generated ones. index.html and faq/index.html are
+  // hand-written, so nothing else would catch a bare link added to them later. The JSON-LD
+  // contactPoint is deliberately NOT covered: that field is a machine-readable contact URL, not a
+  // composed message, and this only looks at real hrefs.
+  for (const f of ["index.html", "faq/index.html", "terms/index.html", "routes/index.html"]) {
+    if (!existsSync(f)) continue;
+    const page = readFileSync(f, "utf8");
+    for (const m of page.matchAll(/href="(https:\/\/wa\.me\/[^"]*)"/g)) {
+      if (!m[1].includes("?text=")) fail(`${f}: WhatsApp link with no prefilled message (${m[1]})`);
+    }
+  }
 
   const cards = [...h.matchAll(/<li><a href="\/routes\/([a-z\-]+)\/">([\s\S]*?)<\/a><\/li>/g)];
   if (cards.length !== slugs.length) fail(`index: ${cards.length} cards for ${slugs.length} pages`);

@@ -22,7 +22,20 @@
 import { writeFileSync, mkdirSync, readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 
-const WA = "https://wa.me/972559171333";
+const WA_NUMBER = "972559171333";
+
+// EVERY LINK INTO WHATSAPP ARRIVES WITH THE MESSAGE ALREADY WRITTEN.
+//
+// Aviv, 2026-08-29: "all the links leading to my whatsapp on the site need to have a prewritten
+// message." On a route page that is worth more than a nicety: the customer lands in the chat with
+// their own route already typed, which is a whole turn of the bot asking where from and where to
+// that never has to happen. The date and the party size are still theirs to give.
+//
+// Written the way THEY would write it, because it lands in their outbox and they can edit it. A
+// paragraph of marketing copy in someone's mouth reads as spam and gets deleted, and the referral
+// link learned the same lesson: no emoji, one plain sentence.
+const waLink = (text) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+const WA = waLink("היי! אשמח לבדוק כרטיס");
 const BUILD_DATE = new Date().toISOString().slice(0, 10);
 
 const ROUTES = [
@@ -1141,7 +1154,7 @@ ${(() => { const n = relatedTo(r); return n.length ? `<h2 class="sec">קווים
 <ul class="near">${n.map((o) => `<li><a href="/routes/${o.slug}/">מ${esc(o.he.from)} ל${esc(o.he.to)}</a></li>`).join("")}</ul>` : ""; })()}
 <div class="ask">
   <p>רוצים לראות מה יוצא בפועל בתאריך שלכם? כתבו לנו ונשלח לכם את האפשרויות עם שעות ומחיר סופי.</p>
-  <a class="cta" href="${WA}">לבדוק את הקו הזה בוואטסאפ</a>
+  <a class="cta" href="${waLink(`היי! אשמח לבדוק כרטיס מ${r.he.from} ל${r.he.to}`)}">לבדוק את הקו הזה בוואטסאפ</a>
 </div>
 <p class="legal"><a href="/faq/">שאלות ותשובות</a> · <a href="/routes/">כל המסלולים</a> · <a href="/terms/">תנאי שימוש</a></p>
 </div>
