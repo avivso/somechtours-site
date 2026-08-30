@@ -40,9 +40,13 @@ const PARTNERS = [
 ];
 
 // The opening line. Kept SHORT and natural, because the customer sees it in their own chat and can
-// edit it — a paragraph of marketing copy in their mouth reads as spam and gets deleted, taking the
+// edit it: a paragraph of marketing copy in their mouth reads as spam and gets deleted, taking the
 // attribution with it. "הגעתי דרך X" is the marker the bot matches on.
-const opener = (name) => `היי! הגעתי דרך ${name} 🙂 אשמח לבדוק כרטיס`;
+//
+// No emoji, and one flowing sentence rather than two clauses (Aviv, 2026-08-29). Words the customer
+// is about to send AS THEIR OWN have to sound like them, and a smiley someone else put in their
+// mouth is the tell that they did not write it.
+const opener = (name) => `היי! הגעתי דרך ${name} ואשמח לבדוק כרטיס`;
 
 const page = (p) => {
   const wa = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(opener(p.name))}`;
