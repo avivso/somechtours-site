@@ -1,0 +1,321 @@
+{
+  "cookies": [
+    {
+      "name": "aws-waf-token",
+      "value": "bdc39957-f6f8-4657-8bce-a774123ed171:CQoAY3aM3FEEAAAA:u/Pwwk49AQ6cDzTX2kt46G5z2dg2YTXqlTSAl+1eLoIfVSG4oeNBatAfEK7TCH7VXWnXtPF/tfNLK6bFS+CBk23WeNYNo/xZ+QIHKb8DWGUBC/qW31LMXT5yE/OBTacVb0hH4oBuuSz4gyYJHJwSTnONc8uiRcTpI9bC6xeY+3j6UkLK0QL6b5TQywAh9Hk2jV55UJ6PH+pK4w8kx8UPt94xjGeOZngXBtcVo/+UmYFf62Va7IOpSEhwLHvL474=",
+      "domain": ".12go.asia",
+      "path": "/",
+      "expires": 1788465727,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "lang",
+      "value": "en",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "tuid",
+      "value": "eac9120d-1624-41d5-8c68-ff9d8c8e05d7",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1822680127.82071,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "tsid",
+      "value": "65521b51-b3e1-47af-b229-2dff725e5ec5",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1788121939.261498,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "lowLevelExperimentValue",
+      "value": "0",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1790712135.087349,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "fi",
+      "value": "581p",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656127.820958,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "from_slug",
+      "value": "colombo",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656127.821001,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "from_name",
+      "value": "Colombo",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656127.82103,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ti",
+      "value": "88070p",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656127.821061,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "to_slug",
+      "value": "mirissa",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656127.821091,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "to_name",
+      "value": "Mirissa",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656127.821125,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "godate",
+      "value": "2026-09-11",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656127.821158,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "children",
+      "value": "0",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656128.396793,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "infants",
+      "value": "0",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656128.396847,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "landing",
+      "value": "https%3A%2F%2F12go.asia%2Fen%2Ftravel%2Fcolombo%2Fmirissa%3Fpeople%3D1%26date%3D2026-09-11",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1788206528.506647,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "adults",
+      "value": "1",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656128.537119,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "people",
+      "value": "1",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656128.537361,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "userIp",
+      "value": "79.177.139.132",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656129.016749,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "userBalanceFxcode",
+      "value": "THB",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656129.016875,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "userCountryId",
+      "value": "IL",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656129.016901,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "userDataIsFetched",
+      "value": "true",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656129.021144,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "currency",
+      "value": "ILS",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656129.021185,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "session_id",
+      "value": "c5a038ce-7956-4f5a-b684-69abebf42962",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "g_state",
+      "value": "{\"i_l\":0,\"i_ll\":1788120135688,\"i_b\":\"AoZOJj9dGRQwJn+njAMiYLYJ1C/UYmoHUKQu61PldnA\",\"i_e\":{\"enable_itp_optimization\":24},\"i_et\":1788120135688}",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1803672135,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "PHPSESSID4",
+      "value": "a628da0e987696a8fab4233a0cd557d9",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656139.261713,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "autht4",
+      "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3ODgxMjAxMzgsImV4cCI6MTc5MDcxMjEzOCwiZW1haWwiOiJldmVyeWdvYWwyQGdtYWlsLmNvbSJ9.UzSqzT_LxolD-qvZ7bb6De03B4fALh8v-Lvd2bYthKA",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656139.261766,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "userId",
+      "value": "16332221",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656139.269868,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "userRole",
+      "value": "reseller",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656139.270321,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "userBalanceValue",
+      "value": "2205.22",
+      "domain": "12go.asia",
+      "path": "/",
+      "expires": 1819656139.270557,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://12go.asia",
+      "localStorage": [
+        {
+          "name": "awswaf_token_refresh_timestamp",
+          "value": "1788120127503"
+        },
+        {
+          "name": "aws_waf_token_challenge_attempts",
+          "value": "{\"attempts\":1,\"lastAttemptTimestamp\":1788120126988}"
+        },
+        {
+          "name": "LAST_SEARCHED_NEW",
+          "value": "[{\"id\":\"colombo-mirissa-2026-09-11\",\"date\":\"2026-09-11\",\"date2\":null,\"from\":\"Colombo\",\"from_slug\":\"colombo\",\"to\":\"Mirissa\",\"to_slug\":\"mirissa\",\"people\":1,\"file_name\":\"images/upload-media/3941.jpeg\",\"vehclass\":\"travel\"}]"
+        },
+        {
+          "name": "aws_waf_referrer",
+          "value": "{\"referrer\":\"\"}"
+        },
+        {
+          "name": "partner_id",
+          "value": "XEBU6AP"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,394 @@
+{
+ "bangkok": {
+  "id": "1p",
+  "country": "thailand"
+ },
+ "chiang-mai": {
+  "id": "44p",
+  "country": "thailand"
+ },
+ "phuket": {
+  "id": "73p",
+  "country": "thailand"
+ },
+ "surat-thani": {
+  "id": "63p",
+  "country": "thailand"
+ },
+ "krabi": {
+  "id": "64p",
+  "country": "thailand"
+ },
+ "koh-samui": {
+  "id": "79p",
+  "country": "thailand"
+ },
+ "koh-phangan": {
+  "id": "76p",
+  "country": "thailand"
+ },
+ "koh-tao": {
+  "id": "77p",
+  "country": "thailand"
+ },
+ "pattaya": {
+  "id": "88p",
+  "country": "thailand"
+ },
+ "hanoi": {
+  "id": "238p",
+  "country": "vietnam"
+ },
+ "hat-yai": {
+  "id": "74p",
+  "country": "thailand"
+ },
+ "kuala-lumpur": {
+  "id": "402p",
+  "country": "malaysia"
+ },
+ "ayutthaya": {
+  "id": "10p",
+  "country": "thailand"
+ },
+ "hua-hin": {
+  "id": "82p",
+  "country": "thailand"
+ },
+ "ho-chi-minh-city": {
+  "id": "376p",
+  "country": "vietnam"
+ },
+ "chumphon": {
+  "id": "60p",
+  "country": "thailand"
+ },
+ "siem-reap": {
+  "id": "370p",
+  "country": "cambodia"
+ },
+ "koh-phi-phi": {
+  "id": "78p",
+  "country": "thailand"
+ },
+ "chiang-rai": {
+  "id": "42p",
+  "country": "thailand"
+ },
+ "da-nang": {
+  "id": "188p",
+  "country": "vietnam"
+ },
+ "koh-lanta": {
+  "id": "75p",
+  "country": "thailand"
+ },
+ "phnom-penh": {
+  "id": "361p",
+  "country": "cambodia"
+ },
+ "singapore": {
+  "id": "381p",
+  "country": "singapore"
+ },
+ "suvarnabhumi-airport": {
+  "id": "510p",
+  "country": "thailand"
+ },
+ "phitsanulok": {
+  "id": "37p",
+  "country": "thailand"
+ },
+ "penang": {
+  "id": "100p",
+  "country": "malaysia"
+ },
+ "don-mueang-airport": {
+  "id": "514p",
+  "country": "thailand"
+ },
+ "yangon": {
+  "id": "371p",
+  "country": "myanmar"
+ },
+ "ubon-ratchathani": {
+  "id": "24p",
+  "country": "thailand"
+ },
+ "khon-kaen": {
+  "id": "28p",
+  "country": "thailand"
+ },
+ "sukhothai": {
+  "id": "48p",
+  "country": "thailand"
+ },
+ "hue": {
+  "id": "252p",
+  "country": "vietnam"
+ },
+ "nha-trang": {
+  "id": "185p",
+  "country": "vietnam"
+ },
+ "vientiane": {
+  "id": "103p",
+  "country": "laos"
+ },
+ "kanchanaburi": {
+  "id": "55p",
+  "country": "thailand"
+ },
+ "udon-thani": {
+  "id": "35p",
+  "country": "thailand"
+ },
+ "koh-lipe": {
+  "id": "511p",
+  "country": "thailand"
+ },
+ "nakhon-ratchasima": {
+  "id": "20p",
+  "country": "thailand"
+ },
+ "nong-khai": {
+  "id": "34p",
+  "country": "thailand"
+ },
+ "trang": {
+  "id": "66p",
+  "country": "thailand"
+ },
+ "ninh-binh": {
+  "id": "467p",
+  "country": "vietnam"
+ },
+ "sihanoukville": {
+  "id": "434p",
+  "country": "cambodia"
+ },
+ "ranong": {
+  "id": "61p",
+  "country": "thailand"
+ },
+ "rayong": {
+  "id": "15p",
+  "country": "thailand"
+ },
+ "luang-prabang": {
+  "id": "315p",
+  "country": "laos"
+ },
+ "koh-chang": {
+  "id": "87p",
+  "country": "thailand"
+ },
+ "johor": {
+  "id": "272p",
+  "country": "malaysia"
+ },
+ "mandalay": {
+  "id": "321p",
+  "country": "myanmar"
+ },
+ "sapa": {
+  "id": "516p",
+  "country": "vietnam"
+ },
+ "trat": {
+  "id": "17p",
+  "country": "thailand"
+ },
+ "hua-lamphong": {
+  "id": "77s",
+  "country": "thailand"
+ },
+ "mochit-terminal": {
+  "id": "8902s",
+  "country": "thailand"
+ },
+ "southern-terminal-bangkok": {
+  "id": "4057s",
+  "country": "thailand"
+ },
+ "bangkok-giant-ibis": {
+  "id": "10609s",
+  "country": "thailand"
+ },
+ "bangkok-town-transfer": {
+  "id": "8971s",
+  "country": "thailand"
+ },
+ "don-mueang": {
+  "id": "3s",
+  "country": "thailand"
+ },
+ "ekkamai": {
+  "id": "4058s",
+  "country": "thailand"
+ },
+ "khao-san": {
+  "id": "8987s",
+  "country": "thailand"
+ },
+ "khao-san-boonsiri": {
+  "id": "8893s",
+  "country": "thailand"
+ },
+ "khao-san-kong-slark": {
+  "id": "10621s",
+  "country": "thailand"
+ },
+ "khao-san-mama-travel": {
+  "id": "9415s",
+  "country": "thailand"
+ },
+ "khao-san-rd": {
+  "id": "9482s",
+  "country": "thailand"
+ },
+ "mochit": {
+  "id": "4055s",
+  "country": "thailand"
+ },
+ "ratchadamnoen-avenue": {
+  "id": "13229s",
+  "country": "thailand"
+ },
+ "sombat-tour-viphavadee-13": {
+  "id": "8938s",
+  "country": "thailand"
+ },
+ "southern-bus-terminal-pinklao": {
+  "id": "8850s",
+  "country": "thailand"
+ },
+ "suvarnabhumi-airport-bangkok": {
+  "id": "8949s",
+  "country": "thailand"
+ },
+ "travel-mart-bangkok-office": {
+  "id": "9166s",
+  "country": "thailand"
+ },
+ "travel-mart-watergate-office": {
+  "id": "38244s",
+  "country": "thailand"
+ },
+ "veronica-residence": {
+  "id": "38693s",
+  "country": "thailand"
+ },
+ "victory-monument": {
+  "id": "9014s",
+  "country": "thailand"
+ },
+ "victory-monument-rayong-tour": {
+  "id": "9470s",
+  "country": "thailand"
+ },
+ "victory-monument-st-vin": {
+  "id": "9462s",
+  "country": "thailand"
+ },
+ "bang-sue-junction": {
+  "id": "2s",
+  "country": "thailand"
+ },
+ "bangkok-chan-tour": {
+  "id": "12895s",
+  "country": "thailand"
+ },
+ "khao-san-rd-night-market": {
+  "id": "34845s",
+  "country": "thailand"
+ },
+ "khao-san-swensens": {
+  "id": "8846s",
+  "country": "thailand"
+ },
+ "khao-san-tara-travel": {
+  "id": "34784s",
+  "country": "thailand"
+ },
+ "khao-san-tara-travel-office": {
+  "id": "36429s",
+  "country": "thailand"
+ },
+ "mochit-bus-terminal": {
+  "id": "35707s",
+  "country": "thailand"
+ },
+ "office-407-pattana-rangsit": {
+  "id": "8940s",
+  "country": "thailand"
+ },
+ "rangsit-bus-terminal": {
+  "id": "12901s",
+  "country": "thailand"
+ },
+ "ban-chimphli": {
+  "id": "386s",
+  "country": "thailand"
+ },
+ "bang-khen": {
+  "id": "83s",
+  "country": "thailand"
+ },
+ "huamark": {
+  "id": "61s",
+  "country": "thailand"
+ },
+ "khlong-rangsit": {
+  "id": "13s",
+  "country": "thailand"
+ },
+ "khlong-tan": {
+  "id": "63s",
+  "country": "thailand"
+ },
+ "lak-si": {
+  "id": "79s",
+  "country": "thailand"
+ },
+ "lat-krabang": {
+  "id": "60s",
+  "country": "thailand"
+ },
+ "makkasan": {
+  "id": "62s",
+  "country": "thailand"
+ },
+ "sam-sen": {
+  "id": "1s",
+  "country": "thailand"
+ },
+ "taling-chan": {
+  "id": "340s",
+  "country": "thailand"
+ },
+ "thon-buri": {
+  "id": "55s",
+  "country": "thailand"
+ },
+ "colombo": {
+  "id": "581p",
+  "country": "sri-lanka"
+ },
+ "mirissa": {
+  "id": "88070p",
+  "country": "sri-lanka"
+ },
+ "ella": {
+  "id": "48545p",
+  "country": "sri-lanka"
+ },
+ "galle": {
+  "id": "587p",
+  "country": "sri-lanka"
+ },
+ "nuwara-eliya": {
+  "id": "363p",
+  "country": "sri-lanka"
+ }
+}
