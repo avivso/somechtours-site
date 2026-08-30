@@ -41,6 +41,11 @@ const MARKER = "<!--somechtours-referral-->";
 // prefixes (מ, ל, ב) fuse to the word itself — "מבר ושני", never "מ בר ושני". Getting that wrong in a
 // sentence the customer sends AS THEIR OWN is exactly the kind of thing that makes them retype it,
 // and the attribution dies with the retype. No default: a new partner has to say which one they take.
+//
+// MIRRORED IN bot/src/referrals.ts. That file reads what these pages produce and is what a commission
+// is computed from, so a partner added here and not there is a link whose sales are never attributed.
+// Separate repos with separate deploys, so the coupling is a hardcoded list on each side plus
+// referral-smoke, which rebuilds this exact sentence from its own copy and asserts it still resolves.
 const PARTNERS = [
   { slug: "opli", name: "אופלי", via: "דרך " }, // Aviv shortened the URL, 2026-08-30; the NAME she is credited by is unchanged
   { slug: "barandshany", name: "בר ושני", via: "מ" }, // a pair, so "מבר ושני" reads better than "דרך בר ושני" (Aviv, 2026-08-30)
