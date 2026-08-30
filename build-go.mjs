@@ -22,7 +22,7 @@
 // hesitation that is the biggest drop-off on a cold WhatsApp link.
 //
 //   node build-go.mjs
-import { writeFileSync, mkdirSync, readFileSync, existsSync, rmSync } from "node:fs";
+import { writeFileSync, mkdirSync, readFileSync, readdirSync, existsSync, rmSync } from "node:fs";
 
 const WA_NUMBER = "972559171333";
 
@@ -36,7 +36,7 @@ const MARKER = "<!--somechtours-referral-->";
 // speakable form. The prefix was doing one real job, namespacing partner names away from real pages,
 // so that job is now done by the assertion below instead of by a folder.
 const PARTNERS = [
-  { slug: "opali", name: "אופלי" },
+  { slug: "opli", name: "אופלי" }, // Aviv shortened the URL, 2026-08-30; the NAME she is credited by is unchanged
 ];
 
 // The opening line. Kept SHORT and natural, because the customer sees it in their own chat and can
@@ -126,6 +126,22 @@ for (const p of PARTNERS) {
 
 // The old /go/ pages are removed rather than left to rot as a second live copy of the same link.
 if (existsSync("go")) { rmSync("go", { recursive: true, force: true }); console.log("  removed the old /go/ pages"); }
+
+// A PARTNER REMOVED FROM THE LIST ABOVE HAS THEIR PAGE REMOVED TOO.
+//
+// Renaming a slug used to leave the old directory serving forever, so /opali and /opli would both be
+// live and only one of them would be in this file. The list is meant to BE the truth about which
+// links exist; a page nothing here knows about is a link nobody can audit.
+//
+// Marker-gated, exactly like the collision check below: this only ever deletes a directory that
+// carries our own generated marker, so it can never eat /faq or /routes however the list changes.
+for (const dir of readdirSync(".", { withFileTypes: true })) {
+  if (!dir.isDirectory() || PARTNERS.some((p) => p.slug === dir.name)) continue;
+  const index = `${dir.name}/index.html`;
+  if (!existsSync(index) || !readFileSync(index, "utf8").includes(MARKER)) continue;
+  rmSync(dir.name, { recursive: true, force: true });
+  console.log(`  removed /${dir.name}/, no longer in PARTNERS`);
+}
 
 for (const p of PARTNERS) {
   mkdirSync(p.slug, { recursive: true });
