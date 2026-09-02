@@ -35,7 +35,20 @@ const WA_NUMBER = "972559171333";
 // paragraph of marketing copy in someone's mouth reads as spam and gets deleted, and the referral
 // link learned the same lesson: no emoji, one plain sentence.
 const waLink = (text) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
-const WA = waLink("היי! אשמח לבדוק כרטיס");
+
+// ...AND IT SAYS WHERE THEY CAME FROM. Aviv, 2026-09-02: "add the source tags to the site links."
+// Of the bot's first 36 conversations, 30 arrived untagged, because these links opened with a bare
+// "היי! אשמח לבדוק כרטיס" — indistinguishable from word of mouth. Forty-nine route pages, and no way
+// to tell whether any of them had ever produced a customer.
+//
+// "הגעתי מהאתר" is the same arrival shape the partner links already use, and referrals.CHANNELS reads
+// it as one of OURS: a first-class row in the report, never a commissionable partner. The route rides
+// in the same sentence, so which PAGE sent someone is readable without a tag per page.
+//
+// Still written the way THEY would write it — it lands in their outbox and they can edit it before
+// sending, so it stays one plain sentence with no emoji and no marketing.
+const FROM_SITE = "היי! הגעתי מהאתר ואשמח לבדוק כרטיס";
+const WA = waLink(FROM_SITE);
 const BUILD_DATE = new Date().toISOString().slice(0, 10);
 
 const ROUTES = [
@@ -1134,7 +1147,7 @@ ${(() => { const n = relatedTo(r); return n.length ? `<h2 class="sec">קווים
 <ul class="near">${n.map((o) => `<li><a href="/routes/${o.slug}/">מ${esc(o.he.from)} ל${esc(o.he.to)}</a></li>`).join("")}</ul>` : ""; })()}
 <div class="ask">
   <p>רוצים לראות מה יוצא בפועל בתאריך שלכם? כתבו לנו ונשלח לכם את האפשרויות עם שעות ומחיר סופי.</p>
-  <a class="cta" href="${waLink(`היי! אשמח לבדוק כרטיס מ${r.he.from} ל${r.he.to}`)}">לבדוק את הקו הזה בוואטסאפ</a>
+  <a class="cta" href="${waLink(`${FROM_SITE} מ${r.he.from} ל${r.he.to}`)}">לבדוק את הקו הזה בוואטסאפ</a>
 </div>
 <p class="legal"><a href="/faq/">שאלות ותשובות</a> · <a href="/routes/">כל המסלולים</a> · <a href="/terms/">תנאי שימוש</a></p>
 </div>
