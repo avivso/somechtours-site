@@ -10,7 +10,15 @@
 <meta property="og:title" content="סוכן הטיול הגדול">
 <meta property="og:description" content="הזמנת כרטיסי אוטובוס, רכבת ומעבורת ברחבי העולם, בוואטסאפ.">
 <meta property="og:url" content="https://somechtours.com/">
-<meta property="og:image" content="https://somechtours.com/brand/logo.png">
+<meta property="og:image" content="https://somechtours.com/brand/logo-square-white.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="1200">
+<meta property="og:image:alt" content="סוכן הטיול הגדול">
+<meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://somechtours.com/brand/logo-square-white.png">
+<!-- The image a search result should show beside this page (Aviv, 2026-09-15: the black crop Google picked
+     from the dark hero "is so bad, use a white square logo"). Google chooses the thumbnail itself; these
+     are the hints it reads: og:image, the thumbnail meta, primaryImageOfPage, and a real <img> of the same
+     file in the page's own about section. -->
+<meta name="thumbnail" content="https://somechtours.com/brand/logo-square-white.png">
 <meta property="og:locale" content="he_IL">
 <!-- Google indexes the favicon SEPARATELY from the page, and wants a square icon whose size is a
      multiple of 48px at a stable, crawlable URL. It checks the declared icon AND falls back to
@@ -36,13 +44,21 @@
 "url":"https://somechtours.com/","inLanguage":"he"}
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"TravelAgency","name":"סוכן הטיול הגדול",
-"alternateName":["סומך טורס","סוכן הטיול הגדול"],
-"url":"https://somechtours.com/","logo":"https://somechtours.com/brand/logo.png",
-"image":"https://somechtours.com/brand/logo.png",
-"description":"הזמנת כרטיסי אוטובוס, רכבת ומעבורת ברחבי העולם, בוואטסאפ.",
+{"@context":"https://schema.org","@type":"TravelAgency","@id":"https://somechtours.com/#org","name":"סוכן הטיול הגדול",
+"alternateName":["סומך טורס","Somech Tours"],"legalName":"סומך טורס",
+"url":"https://somechtours.com/",
+"logo":{"@type":"ImageObject","url":"https://somechtours.com/brand/logo-square-white.png","width":1200,"height":1200},
+"image":"https://somechtours.com/brand/logo-square-white.png",
+"description":"סוכן הטיול הגדול הוא שירות ישראלי שמזמין כרטיסי אוטובוס, רכבת ומעבורת ברחבי העולם, כולו בשיחת וואטסאפ: כותבים לאן ומתי, מקבלים אפשרויות ומחיר סופי בשקלים, והכרטיס נשלח לוואטסאפ.",
+"slogan":"כותבים לאן ומתי, והכרטיס מגיע ישר לווטסאפ",
 "areaServed":"Worldwide","availableLanguage":"he",
-"contactPoint":{"@type":"ContactPoint","contactType":"customer service","url":"https://wa.me/972559171333","availableLanguage":"he"}}
+"sameAs":["https://www.facebook.com/1232471029959432","https://wa.me/972559171333"],
+"contactPoint":{"@type":"ContactPoint","contactType":"customer service","url":"https://wa.me/972559171333","telephone":"+972-55-917-1333","availableLanguage":"he"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","@id":"https://somechtours.com/#home","url":"https://somechtours.com/",
+"name":"סוכן הטיול הגדול","inLanguage":"he","about":{"@id":"https://somechtours.com/#org"},
+"primaryImageOfPage":{"@type":"ImageObject","url":"https://somechtours.com/brand/logo-square-white.png","width":1200,"height":1200}}
 </script>
 <style><style>
 /* Heebo (OFL) self-hosted: one variable file per script, no third-party round trips before first paint */
@@ -148,6 +164,14 @@ body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;
   text-shadow:0 1px 6px rgba(0,0,0,.9)}
 .legal:hover{color:#fff;text-decoration:underline}
 .corner .sep{font-size:12px;color:rgba(255,255,255,.4);text-shadow:0 1px 6px rgba(0,0,0,.9)}
+/* WHO WE ARE, in plain text under the film: the sentence a search engine or an AI answer should quote
+   when someone looks up the brand name, next to the square logo it should show. */
+#about{background:#0a0a0a;padding:64px 22px 72px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px}
+#about img{width:132px;height:132px;border-radius:26px;display:block;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+#about h2{margin:6px 0 0;font-size:clamp(20px,4.4vw,24px);font-weight:700;text-wrap:balance}
+#about p{margin:0 auto;max-width:34em;color:#c4c4c4;font-size:16px;line-height:1.7;text-wrap:pretty}
+#about .small{font-size:13.5px;color:#8a8a8a}
+#about a{color:#e8e8e8}
 /* without JavaScript the canvas stays blank, so the whole offer is stated in plain HTML instead */
 .nojs{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:40px 22px;text-align:center;gap:0}
@@ -205,6 +229,13 @@ body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;
     </section>
   </div>
 </div>
+<section id="about" aria-labelledby="about-h">
+  <img src="/brand/logo-square-white.png" alt="סוכן הטיול הגדול" width="1200" height="1200" loading="lazy">
+  <h2 id="about-h">מה זה סוכן הטיול הגדול?</h2>
+  <p>סוכן הטיול הגדול הוא שירות ישראלי להזמנת כרטיסי אוטובוס, רכבת ומעבורת ברחבי העולם, כולו בשיחת וואטסאפ. כותבים לאן ומתי, מקבלים אפשרויות אמיתיות עם מחיר סופי בשקלים, משלמים בקישור מאובטח, והכרטיס נשלח ישר לוואטסאפ. בלי אפליקציה ובלי הרשמה.</p>
+  <p>השירות פועל בעיקר במסלולי התרמילאים: תאילנד, וייטנאם, קמבודיה, לאוס, הודו, נפאל, סרי לנקה, פרו וקולומביה. הוא לא מוכר מלונות או חבילות, ויש שירות לקוחות אנושי זמין 24/7.</p>
+  <p class="small">מופעל על ידי סומך טורס · וואטסאפ <a href="https://wa.me/972559171333" rel="noopener">055-917-1333</a> · <a href="/faq/">שאלות ותשובות</a> · <a href="/terms/">תנאי שירות</a></p>
+</section>
 <div id="nudge">גללו למטה<span class="chev"></span></div>
 
 <script>
