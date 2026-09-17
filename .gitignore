@@ -1,0 +1,9 @@
+# THIS REPOSITORY IS PUBLIC, AND SO IS EVERY FILE IN IT.
+#
+# GitHub Pages serves this whole repo as somechtours.com, so anything committed here can be downloaded by
+# anyone at somechtours.com/<path> — not only the pages. On 2026-08-30 a routine route-page commit swept in
+# the bot's data/ folder, which held a saved 12Go login session, and it was downloadable for 18 days before
+# it was found. The bot's data lives on the bot's server and never belongs in the website.
+data/
+.env
+.env.*
