@@ -1128,7 +1128,7 @@ const page = (r) => {
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/brand/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="/brand/icon-192.png">
-<link rel="preload" href="/brand/fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/brand/fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <script type="application/ld+json">${JSON.stringify(faq)}</script>
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
 <script type="application/ld+json">${JSON.stringify(webpage(r))}</script>
@@ -1265,7 +1265,7 @@ const indexPage = () => `<!doctype html><html lang="he" dir="rtl"><head>
 <meta property="og:title" content="מסלולים: איך מגיעים מעיר לעיר">
 <meta property="og:url" content="https://somechtours.com/routes/">
 <link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="preload" href="/brand/fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/brand/fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/routes/route.css?v=${CSS_V}">
 <script type="application/ld+json">${JSON.stringify({
   "@context": "https://schema.org", "@type": "ItemList", inLanguage: "he",
@@ -1288,11 +1288,11 @@ ${g.routes.map(card).join("\n")}
 </div></body></html>
 `;
 
-const CSS = `@font-face{font-family:'Heebo';font-style:normal;font-weight:100 900;font-display:swap;src:url(/brand/fonts/heebo-hebrew.woff2) format('woff2');unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
-@font-face{font-family:'Heebo';font-style:normal;font-weight:100 900;font-display:swap;src:url(/brand/fonts/heebo-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+const CSS = `@font-face{font-family:'Rubik';font-style:normal;font-weight:300 900;font-display:swap;src:url(/brand/fonts/rubik-hebrew.woff2) format('woff2');unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
+@font-face{font-family:'Rubik';font-style:normal;font-weight:300 900;font-display:swap;src:url(/brand/fonts/rubik-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 :root{--ink:#f2f2f2;--dim:#a9a9a9;--bg:#0a0a0a;--rule:#242424;--wa:#25D366}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;font-family:"Heebo",system-ui,Arial,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.65}
+body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;font-family:"Rubik",system-ui,Arial,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.65}
 .wrap{max-width:44rem;margin:0 auto;padding:28px 22px 72px}
 header{padding:10px 0 22px;border-bottom:1px solid var(--rule);margin-bottom:18px}
 header img{width:132px;height:auto;display:block}
