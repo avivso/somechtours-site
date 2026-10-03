@@ -75,7 +75,7 @@ const page = (p) => {
 <link rel="preload" href="/brand/fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 @font-face{font-family:'Rubik';font-style:normal;font-weight:300 900;font-display:swap;src:url(/brand/fonts/rubik-hebrew.woff2) format('woff2');unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
-:root{--ink:#f2f2f2;--dim:#a9a9a9;--bg:#0a0a0a;--rule:#242424;--wa:#25D366}
+:root{--ink:#f2f2f2;--dim:#a9a9a9;--bg:#0B0B0B;--rule:#242424;--wa:#25D366}
 *{box-sizing:border-box}
 body{margin:0;min-height:100dvh;display:grid;place-items:center;background:var(--bg);color:var(--ink);
   direction:rtl;font-family:"Rubik",system-ui,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding:24px}
@@ -83,7 +83,7 @@ body{margin:0;min-height:100dvh;display:grid;place-items:center;background:var(-
 .logo{width:150px;height:auto;margin:0 auto 26px;display:block}
 h1{font-size:24px;font-weight:800;margin:0 0 10px;line-height:1.3}
 p{color:#dcdcdc;margin:0 0 26px;font-size:16px;line-height:1.6}
-.cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--wa);color:#062d14;
+.cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--wa);color:#111111;
   text-decoration:none;font-weight:800;font-size:17px;padding:15px 28px;border-radius:999px;width:100%}
 .cta svg{width:22px;height:22px}
 .dots{display:flex;gap:6px;justify-content:center;margin:0 0 26px}
