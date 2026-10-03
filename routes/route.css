@@ -27,7 +27,7 @@ h1{font-size:clamp(27px,5vw,40px);font-weight:900;line-height:1.2;margin:0 0 12p
 .near a:hover{border-color:var(--wa);color:var(--wa)}
 .ask{margin-top:40px;padding:24px;border:1px solid var(--rule);border-radius:14px}
 .ask p{margin:0 0 16px;color:#dcdcdc}
-.cta{display:inline-flex;align-items:center;gap:10px;background:var(--wa);color:#111111;text-decoration:none;font-weight:800;font-size:17px;padding:14px 24px;border-radius:999px}
+.cta{display:inline-flex;align-items:center;gap:10px;background:var(--wa);color:#fff;text-decoration:none;font-weight:800;font-size:17px;padding:14px 24px;border-radius:999px}
 .lede.tight{margin-bottom:10px}
 .hint{color:var(--dim);font-size:15px;margin:0 0 30px;max-width:36em}
 .grp{display:flex;align-items:baseline;gap:10px;font-size:16px;font-weight:700;color:var(--dim);
@@ -52,3 +52,4 @@ h1{font-size:clamp(27px,5vw,40px);font-weight:900;line-height:1.2;margin:0 0 12p
 .rt-facts,.rt-go{grid-column:1}.rt-go{justify-self:end}}
 .legal{color:var(--dim);font-size:14px;margin-top:36px}.legal a{color:var(--dim)}
 @media(prefers-reduced-motion:no-preference){.cta{transition:transform .15s ease}.cta:hover{transform:translateY(-1px)}}
+.cta svg{width:20px;height:20px;flex:none}

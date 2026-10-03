@@ -1147,7 +1147,7 @@ ${(() => { const n = relatedTo(r); return n.length ? `<h2 class="sec">קווים
 <ul class="near">${n.map((o) => `<li><a href="/routes/${o.slug}/">מ${esc(o.he.from)} ל${esc(o.he.to)}</a></li>`).join("")}</ul>` : ""; })()}
 <div class="ask">
   <p>רוצים לראות מה יוצא בפועל בתאריך שלכם? כתבו לנו ונשלח לכם את האפשרויות עם שעות ומחיר סופי.</p>
-  <a class="cta" href="${waLink(`${FROM_SITE} מ${r.he.from} ל${r.he.to}`)}">לבדוק את הקו הזה בוואטסאפ</a>
+  <a class="cta" href="${waLink(`${FROM_SITE} מ${r.he.from} ל${r.he.to}`)}"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.86 9.86 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.13c-.24.68-1.2 1.25-1.96 1.41-.52.11-1.2.2-3.5-.75-2.94-1.22-4.83-4.2-4.98-4.4-.14-.19-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.27-.29.58-.36.78-.36.19 0 .39 0 .56.01.18.01.42-.7.8.61.39.7 1.33 2.44 1.45 2.61.12.18.2.39.04.62-.15.24-.23.38-.45.59-.22.2-.36.36-.52.58-.15.2-.31.42-.13.73.18.31.8 1.32 1.72 2.14 1.18 1.05 2.17 1.38 2.48 1.53.31.15.49.13.67-.08.18-.2.77-.9.98-1.21.2-.31.41-.26.68-.15.28.1 1.76.83 2.06.98.31.15.51.22.58.35.08.12.08.7-.16 1.38Z"/></svg>לבדוק את הקו הזה בוואטסאפ</a>
 </div>
 <p class="legal"><a href="/faq/">שאלות ותשובות</a> · <a href="/routes/">כל המסלולים</a> · <a href="/terms/">תנאי שימוש</a></p>
 </div>
@@ -1317,7 +1317,7 @@ h1{font-size:clamp(27px,5vw,40px);font-weight:900;line-height:1.2;margin:0 0 12p
 .near a:hover{border-color:var(--wa);color:var(--wa)}
 .ask{margin-top:40px;padding:24px;border:1px solid var(--rule);border-radius:14px}
 .ask p{margin:0 0 16px;color:#dcdcdc}
-.cta{display:inline-flex;align-items:center;gap:10px;background:var(--wa);color:#111111;text-decoration:none;font-weight:800;font-size:17px;padding:14px 24px;border-radius:999px}
+.cta{display:inline-flex;align-items:center;gap:10px;background:var(--wa);color:#fff;text-decoration:none;font-weight:800;font-size:17px;padding:14px 24px;border-radius:999px}
 .lede.tight{margin-bottom:10px}
 .hint{color:var(--dim);font-size:15px;margin:0 0 30px;max-width:36em}
 .grp{display:flex;align-items:baseline;gap:10px;font-size:16px;font-weight:700;color:var(--dim);
@@ -1342,6 +1342,7 @@ h1{font-size:clamp(27px,5vw,40px);font-weight:900;line-height:1.2;margin:0 0 12p
 .rt-facts,.rt-go{grid-column:1}.rt-go{justify-self:end}}
 .legal{color:var(--dim);font-size:14px;margin-top:36px}.legal a{color:var(--dim)}
 @media(prefers-reduced-motion:no-preference){.cta{transition:transform .15s ease}.cta:hover{transform:translateY(-1px)}}
+.cta svg{width:20px;height:20px;flex:none}
 `;
 
 // The stylesheet URL carries a hash of its own contents, because GitHub Pages serves it with
