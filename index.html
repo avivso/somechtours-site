@@ -78,7 +78,8 @@ a{color:inherit}
 .hero{position:relative;overflow:hidden;isolation:isolate;padding:40px 0 80px;min-height:100vh;min-height:100svh;display:flex;align-items:center}
 .hero::before{content:"";position:absolute;z-index:-1;width:900px;height:900px;left:-260px;top:-180px;border-radius:50%;
   background:radial-gradient(circle,rgba(37,211,102,.09),rgba(37,211,102,0) 60%)}
-.hero .wrap{width:100%;display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center}
+.hero .wrap{width:100%;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:64px;align-items:center}
+.hero .wrap>*{min-width:0}
 h1{font-size:clamp(40px,5.6vw,80px);font-weight:900;line-height:1.02;letter-spacing:-.025em;text-wrap:balance}
 h1 .g{color:var(--deep);display:block}h1 span{white-space:nowrap}
 .lead{font-size:clamp(17px,1.6vw,20px);color:#2b2f2d;line-height:1.6;max-width:29em;margin-top:28px}
@@ -108,9 +109,11 @@ h1 .g{color:var(--deep);display:block}h1 span{white-space:nowrap}
 .js .row{opacity:0;transform:translateY(10px);transition:opacity .35s ease,transform .35s cubic-bezier(.2,.8,.2,1)}
 .js .row.on{opacity:1;transform:none}
 .input{display:flex;align-items:center;gap:10px;padding:10px 12px;border-top:1px solid rgba(17,17,17,.06)}
-.field{flex:1;height:40px;border-radius:20px;background:var(--wall);display:flex;align-items:center;padding:0 16px;
+.field{flex:1;min-width:0;height:40px;border-radius:20px;background:var(--wall);display:flex;align-items:center;padding:0 16px;
   font-size:14.5px;white-space:nowrap;overflow:hidden;color:#8A918D}
-.field.typing{color:var(--ink)}
+.field.typing{color:var(--ink);justify-content:flex-end}
+/* the typed text never widens the box: it overflows on the start side, so the newest letters stay in view */
+.field span{flex:none;white-space:nowrap}
 .field.typing::after{content:"";width:2px;height:20px;background:var(--deep);margin-inline-start:2px;animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 .send{width:40px;height:40px;border-radius:50%;background:var(--green);display:grid;place-items:center;flex:none}
@@ -148,7 +151,7 @@ footer a:hover{color:var(--ink)}
 @media (max-width:900px){
   .hero{min-height:0;padding:56px 0 72px}
   .hero::before{width:600px;height:600px;left:-280px;top:-120px}
-  .hero .wrap{grid-template-columns:1fr;gap:44px;text-align:center}
+  .hero .wrap{grid-template-columns:minmax(0,1fr);gap:44px;text-align:center}
   .lead{margin-inline:auto}
   .actions .wa{width:100%;max-width:420px}
   .view{height:400px}
@@ -229,7 +232,7 @@ footer a:hover{color:var(--ink)}
   function at(ms,fn){timers.push(setTimeout(fn,ms));}
   function type(text,start,dur){
     var chars=[].slice.call(text);
-    for(var i=1;i<=chars.length;i++)(function(n){at(start+dur*n/chars.length,function(){field.textContent=chars.slice(0,n).join("");field.className="field typing";});})(i);
+    for(var i=1;i<=chars.length;i++)(function(n){at(start+dur*n/chars.length,function(){var sp=document.createElement("span");sp.textContent=chars.slice(0,n).join("");field.replaceChildren(sp);field.className="field typing";});})(i);
   }
   function show(r){r.style.display="";void r.offsetHeight;r.classList.add("on");}
   function play(){
