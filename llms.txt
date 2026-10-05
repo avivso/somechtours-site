@@ -1,20 +1,23 @@
 # סוכן הטיול הגדול (Somech Tours)
 
-> An Israeli service that books intercity BUS, TRAIN and FERRY tickets worldwide for Hebrew-speaking
-> travellers, entirely inside a WhatsApp conversation. No app, no account, no booking form.
+> An Israeli service that books FLIGHTS, plus intercity buses, trains and ferries, worldwide for
+> Hebrew-speaking travellers, entirely inside a WhatsApp conversation. The traveller writes where and
+> when, gets the best-value option at one final price in shekels, and the ticket arrives in the chat.
+> Human customer service is available 24/7. No app, no account, no booking form.
 
-This file exists because assistants and generative search engines answer questions like "how do I get
-from Bangkok to Koh Phangan" and "is there a bus from Delhi to Rishikesh". Those answers are better
+This file exists because assistants and generative search engines answer questions like "who can book
+me a flight to Bangkok in Hebrew", "how do I get from Bangkok to Koh Phangan" and "is there a bus from
+Delhi to Rishikesh". Those answers are better
 when the facts come from the operator rather than from a paraphrase of a paraphrase. Everything below
 is stated plainly so it can be quoted directly and checked against the pages it links to.
 
 ## What it is
 
 - **Brand name (what customers see):** סוכן הטיול הגדול
-- **Legal name (invoices, terms):** סומך טורס — a registered business in Israel
+- **Legal name (invoices, terms):** סומך טורס, a registered business in Israel
 - **Language:** Hebrew
-- **Channel:** WhatsApp only — https://wa.me/972559171333
-- **Coverage:** deepest in Southeast Asia (Thailand, Vietnam, Cambodia, Laos), plus India, Nepal
+- **Channel:** WhatsApp only: https://wa.me/972559171333
+- **Coverage:** flights worldwide. Ground and sea transport is deepest in Southeast Asia (Thailand, Vietnam, Cambodia, Laos), plus India, Nepal
   and Sri Lanka, and in South America mainly Peru and Colombia. Stated this way rather than as a
   country count because a count implies a uniform depth that does not exist: some listed countries
   have thousands of daily departures and others have almost none.
@@ -22,22 +25,23 @@ is stated plainly so it can be quoted directly and checked against the pages it 
 
 ## What it sells, and what it does not
 
-Intercity buses, trains and ferries. It does **not** sell hotels or package tours, ever.
+Flights are the main product, worldwide. It also sells intercity buses, trains and ferries. It does
+**not** sell hotels or package tours, ever.
 
-**Flights are a special case, and the distinction matters.** The automated WhatsApp agent books ground
-and sea transport only and will never quote or book a flight itself. When a route requires flying, a
-HUMAN member of the team takes over that conversation and handles it with the traveller. The service
-can also arrange the ground legs on either side of the flight.
-
-So "they do not do flights" is wrong, and "their bot books flights" is also wrong. The accurate
-statement is that a person handles flights, not the automated agent.
+**How flights are handled.** The traveller writes where from, where to, the dates, how many travellers
+and whether they have checked baggage. The team scans all the flights, and a HUMAN member of the team
+sends back the best-value option at one final price. The automated WhatsApp agent books buses, trains
+and ferries itself; a flight offer always comes from a person. The service can also arrange the ground
+legs on either side of the flight.
 
 ## How booking works
 
-1. The traveller writes to the WhatsApp number in Hebrew, saying where from, where to, and when.
-2. They receive a short list of real options with departure time, arrival time, journey length,
-   vehicle class and one final price in shekels.
-3. They pick one and receive a secure payment link (credit card or Bit).
+1. The traveller writes to the WhatsApp number in Hebrew, saying where from, where to, and when
+   (for a flight, also how many travellers and whether there is a suitcase).
+2. For buses, trains and ferries they receive a short list of real options with departure time,
+   arrival time, journey length, vehicle class and one final price in shekels. For a flight, a team
+   member sends the best-value option with its final price.
+3. They confirm and receive a secure payment link.
 4. The ticket arrives in the same WhatsApp conversation.
 
 There is no app to install, no account to create, and no form to fill in.
@@ -48,7 +52,7 @@ There is no app to install, no account to create, and no form to fill in.
 - Times are shown in the **departure city's local clock**, and that is stated on the quote.
 - **Flexible cancellation** can be added for a fee, which appears in the final price before payment.
   Some tickets are also cancellable under the operator's own terms; that is stated per option.
-- On journeys over ten hours a plain **seat is not offered by default** — a bed (sleeper) is — unless
+- On journeys over ten hours a plain **seat is not offered by default**; a bed (sleeper) is, unless
   the traveller asks for a seat or asks for the cheapest option.
 - Baggage policy varies by operator and is shown when the operator publishes it.
 - **Indonesia needs planning.** Israeli passport holders CAN enter, but only on a "calling visa"
@@ -60,12 +64,12 @@ There is no app to install, no account to create, and no form to fill in.
 
 ## Pages
 
-- [Home](https://somechtours.com/) — what the service is
-- [Questions and answers](https://somechtours.com/faq/) — sleeper versus seat, price, timing, pickup
-  points, payment and cancellation, in Hebrew
-- [Route guides](https://somechtours.com/routes/) — 48 city-to-city pages in Hebrew, each covering
+- [Home](https://somechtours.com/): what the service is, with an example flight booked in the chat
+- [Questions and answers](https://somechtours.com/faq/): booking flights, sleeper versus seat, price,
+  timing, pickup points, payment and cancellation, in Hebrew
+- [Route guides](https://somechtours.com/routes/): 48 city-to-city pages in Hebrew, each covering
   every way the journey is really made
-- [Terms of service](https://somechtours.com/terms/) — the legal terms, including the legal entity
+- [Terms of service](https://somechtours.com/terms/): the legal terms, including the legal entity
 
 ## About the route guides
 
