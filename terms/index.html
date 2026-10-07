@@ -14,8 +14,7 @@
 /* Rubik (OFL) self-hosted: one variable file per script, no third-party round trips before first paint */
 @font-face{font-family:'Rubik';font-style:normal;font-weight:300 900;font-display:swap;src:url(/brand/fonts/rubik-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:'Rubik';font-style:normal;font-weight:300 900;font-display:swap;src:url(/brand/fonts/rubik-hebrew.woff2) format('woff2');unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
-:root{--paper:#fff;--ink:#111111;--soft:#5a5a5a;--faint:#8a8a8a;--line:#e6e6e6}
-@media(prefers-color-scheme:dark){:root{--paper:#0B0B0B;--ink:#f2f2f2;--soft:#b0b0b0;--faint:#7d7d7d;--line:#242424}}
+:root{--paper:#FFFFFF;--ink:#111111;--soft:#59615D;--faint:#8A918D;--line:#E3E6E4;--green:#25D366;--deep:#0E7A41}
 *{box-sizing:border-box}
 html,body{height:100%}
 body{margin:0;background:var(--paper);color:var(--ink);direction:rtl;
@@ -29,17 +28,19 @@ body{margin:0;background:var(--paper);color:var(--ink);direction:rtl;
   border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;transform:rotate(45deg)}
 .bar a{color:var(--soft);text-decoration:none;font-size:13.5px;text-underline-offset:3px}
 .bar a:hover{color:var(--ink);text-decoration:underline}
+.bar .home{display:inline-flex;align-items:center;gap:8px;color:var(--ink);font-weight:700;font-size:15px}.bar .home img{display:block}
 .bar strong{font-size:14.5px;font-weight:700}
 .doc{flex:1 1 auto;border:0;width:100%;min-height:0}
 /* A phone cannot reliably render an embedded PDF, so it gets a real link instead of a blank frame. */
 .fallback{display:none;padding:34px 22px;text-align:center;line-height:1.8}
+.fallback footer{margin-top:34px;padding-top:24px;border-top:1px solid var(--line);font-size:13px;color:var(--faint)}.fallback footer nav{display:flex;gap:8px 20px;flex-wrap:wrap;justify-content:center;margin:10px 0}.fallback footer a{color:var(--soft);text-decoration:none}.fallback footer .flogo{display:inline-block}.fallback footer img{height:36px;width:auto;display:block}
 .fallback p{color:var(--soft);margin:0 0 20px;font-size:16px}
-.btn{display:inline-block;padding:14px 28px;border-radius:999px;background:var(--ink);color:var(--paper);
+.btn{display:inline-block;padding:14px 28px;border-radius:999px;background:var(--deep);color:#fff;
   text-decoration:none;font-weight:700;font-size:16.5px}
 @media(max-width:820px),(hover:none){.doc{display:none}.fallback{display:block}}
 </style></head><body>
 <div class="bar">
-  <a class="back" href="/">חזרה לעמוד הראשי</a>
+  <a class="home" href="/"><img src="/brand/hiker.png" alt="" width="30" height="30">סוכן הטיול הגדול</a>
   <strong>תנאי שירות, ביטול ופרטיות</strong>
   <a href="/terms/somech-tours-terms.pdf?v=d25fe582" download>הורדה</a>
 </div>
@@ -47,7 +48,11 @@ body{margin:0;background:var(--paper);color:var(--ink);direction:rtl;
 <div class="fallback">
   <p>המסמך המלא של תנאי השירות, מדיניות הביטול וההחזרים ומדיניות הפרטיות.</p>
   <a class="btn" href="/terms/somech-tours-terms.pdf?v=d25fe582">פתיחת המסמך</a>
-</div>
+<footer><div class="wrap">
+  <a class="flogo" href="/" aria-label="סוכן הטיול הגדול"><img src="/brand/hiker.png" alt="סוכן הטיול הגדול" width="512" height="512"></a>
+  <nav><a href="/faq/">שאלות ותשובות</a><a href="/routes/">מדריכי מסלולים</a><a href="/terms/">תנאי שירות, ביטול ופרטיות</a><a href="/passenger-rights/">זכויות נוסעים בטיסה</a><a href="/cancel/"><b>ביטול עסקה</b></a></nav>
+  <span>סוכן הטיול הגדול · שירות של סומך טורס</span>
+</div></footer></div>
 <script>
 // A phone hides the frame in CSS but would still download the 58KB PDF behind it, so the source is
 // only attached where the frame is actually shown; the button below is the phone's path to the
