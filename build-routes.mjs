@@ -1134,8 +1134,8 @@ const page = (r) => {
 <script type="application/ld+json">${JSON.stringify(webpage(r))}</script>
 <link rel="stylesheet" href="/routes/route.css?v=${CSS_V}">
 </head><body>
+<div class="top"><a class="brand" href="/"><img src="/brand/hiker.png" alt="" width="38" height="38">סוכן הטיול הגדול</a><a class="wa" href="${waLink(`${FROM_SITE} מ${r.he.from} ל${r.he.to}`)}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>וואטסאפ</a></div>
 <div class="wrap">
-<header><a class="home" href="/"><img src="/brand/logo-white.png" alt="סוכן הטיול הגדול" width="132" height="70"></a></header>
 <nav class="crumb"><a href="/">בית</a> · <a href="/routes/">מסלולים</a></nav>
 <h1>${esc(r.title)}</h1>
 <p class="lede">${esc(r.lede)}</p>
@@ -1151,6 +1151,12 @@ ${(() => { const n = relatedTo(r); return n.length ? `<h2 class="sec">קווים
 </div>
 <p class="legal"><a href="/faq/">שאלות ותשובות</a> · <a href="/routes/">כל המסלולים</a> · <a href="/terms/">תנאי שימוש</a></p>
 </div>
+<footer><div class="wrap">
+  <a class="flogo" href="/" aria-label="סוכן הטיול הגדול"><img src="/brand/hiker.png" alt="סוכן הטיול הגדול" width="512" height="512"></a>
+  <nav><a href="/faq/">שאלות ותשובות</a><a href="/routes/">מדריכי מסלולים</a><a href="/terms/">תנאי שירות, ביטול ופרטיות</a><a href="/passenger-rights/">זכויות נוסעים בטיסה</a><a href="/cancel/"><b>ביטול עסקה</b></a></nav>
+  <span>סוכן הטיול הגדול · שירות של סומך טורס</span>
+</div></footer>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="wa-ic" viewBox="0 0 24 24"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.98L2 22l5.16-1.5A9.9 9.9 0 1 0 12.04 2zm5.8 13.97c-.25.7-1.44 1.33-1.99 1.38-.5.05-1.13.07-1.83-.12a16.6 16.6 0 0 1-1.66-.61c-2.92-1.26-4.83-4.2-4.98-4.4-.14-.19-1.19-1.58-1.19-3.02s.75-2.14 1.02-2.44c.27-.29.58-.36.78-.36h.56c.18 0 .42-.07.66.5.25.6.84 2.07.91 2.22.07.14.12.32.02.51-.1.2-.14.32-.29.49l-.43.5c-.14.14-.29.3-.12.59.17.29.74 1.22 1.59 1.98 1.09.97 2.01 1.27 2.3 1.41.29.15.46.12.63-.07.17-.2.73-.85.92-1.14.19-.29.39-.24.66-.14.27.1 1.7.8 1.99.95.29.14.49.22.56.34.07.12.07.7-.18 1.41z"/></symbol></svg>
 </body></html>
 `;
 };
@@ -1275,8 +1281,9 @@ const indexPage = () => `<!doctype html><html lang="he" dir="rtl"><head>
     url: `https://somechtours.com/routes/${r.slug}/`,
   })),
 })}</script>
-</head><body><div class="wrap">
-<header><a class="home" href="/"><img src="/brand/logo-white.png" alt="סוכן הטיול הגדול" width="132" height="70"></a></header>
+</head><body>
+<div class="top"><a class="brand" href="/"><img src="/brand/hiker.png" alt="" width="38" height="38">סוכן הטיול הגדול</a><a class="wa" href="${WA}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>וואטסאפ</a></div>
+<div class="wrap">
 <h1>מסלולים</h1>
 <p class="lede tight">איך מגיעים בפועל מעיר לעיר: כל האפשרויות, כמה זמן כל אחת לוקחת, ומה שכדאי לדעת לפני שקונים כרטיס.</p>
 <p class="hint">לחצו על קו כדי לפתוח את המדריך המלא שלו. הזמנים שליד כל קו הם של הנסיעה עצמה, באוטובוס, ברכבת או במעבורת, ולא של טיסה.</p>
@@ -1285,65 +1292,17 @@ ${GROUPS.map((g) => `<h2 class="grp">${g.name}<span>${g.routes.length === 1 ? "�
 ${g.routes.map(card).join("\n")}
 </ul>`).join("\n")}
 <p class="legal"><a href="/faq/">שאלות ותשובות</a> · <a href="/">לעמוד הבית</a></p>
-</div></body></html>
+</div><footer><div class="wrap">
+  <a class="flogo" href="/" aria-label="סוכן הטיול הגדול"><img src="/brand/hiker.png" alt="סוכן הטיול הגדול" width="512" height="512"></a>
+  <nav><a href="/faq/">שאלות ותשובות</a><a href="/routes/">מדריכי מסלולים</a><a href="/terms/">תנאי שירות, ביטול ופרטיות</a><a href="/passenger-rights/">זכויות נוסעים בטיסה</a><a href="/cancel/"><b>ביטול עסקה</b></a></nav>
+  <span>סוכן הטיול הגדול · שירות של סומך טורס</span>
+</div></footer>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="wa-ic" viewBox="0 0 24 24"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.98L2 22l5.16-1.5A9.9 9.9 0 1 0 12.04 2zm5.8 13.97c-.25.7-1.44 1.33-1.99 1.38-.5.05-1.13.07-1.83-.12a16.6 16.6 0 0 1-1.66-.61c-2.92-1.26-4.83-4.2-4.98-4.4-.14-.19-1.19-1.58-1.19-3.02s.75-2.14 1.02-2.44c.27-.29.58-.36.78-.36h.56c.18 0 .42-.07.66.5.25.6.84 2.07.91 2.22.07.14.12.32.02.51-.1.2-.14.32-.29.49l-.43.5c-.14.14-.29.3-.12.59.17.29.74 1.22 1.59 1.98 1.09.97 2.01 1.27 2.3 1.41.29.15.46.12.63-.07.17-.2.73-.85.92-1.14.19-.29.39-.24.66-.14.27.1 1.7.8 1.99.95.29.14.49.22.56.34.07.12.07.7-.18 1.41z"/></symbol></svg>
+</body></html>
 `;
 
-const CSS = `@font-face{font-family:'Rubik';font-style:normal;font-weight:300 900;font-display:swap;src:url(/brand/fonts/rubik-hebrew.woff2) format('woff2');unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
-@font-face{font-family:'Rubik';font-style:normal;font-weight:300 900;font-display:swap;src:url(/brand/fonts/rubik-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-:root{--ink:#f2f2f2;--dim:#a9a9a9;--bg:#0B0B0B;--rule:#242424;--wa:#25D366}
-*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);direction:rtl;font-family:"Rubik",system-ui,Arial,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.65}
-.wrap{max-width:44rem;margin:0 auto;padding:28px 22px 72px}
-header{padding:10px 0 22px;border-bottom:1px solid var(--rule);margin-bottom:18px}
-header img{width:132px;height:auto;display:block}
-.crumb{font-size:13px;color:var(--dim);margin:0 0 22px}
-.crumb a{color:var(--dim);text-decoration:none}.crumb a:hover{color:#fff;text-decoration:underline}
-h1{font-size:clamp(27px,5vw,40px);font-weight:900;line-height:1.2;margin:0 0 12px;text-wrap:balance}
-.lede{color:#dcdcdc;font-size:18px;margin:0 0 34px;max-width:36em}
-.way{padding:22px 0;border-top:1px solid var(--rule)}
-.way h2{font-size:21px;font-weight:700;margin:0 0 4px;line-height:1.35;text-wrap:balance}
-.way .dur{margin:0 0 10px;color:var(--wa);font-size:15px;font-weight:700}
-.way p{margin:0;color:#dcdcdc}
-.air{margin:34px 0 0;padding:22px;border:1px solid var(--rule);border-radius:14px;background:#0B0B0B}
-.air h2{font-size:21px;font-weight:700;margin:0 0 4px;line-height:1.35;text-wrap:balance}
-.air .dur{margin:0 0 10px;color:#e0b25a;font-size:15px;font-weight:700}
-.air p:last-child{margin:0;color:#dcdcdc}
-.air.none .dur{color:var(--dim)}
-.sec{font-size:21px;font-weight:700;margin:38px 0 12px;padding-top:22px;border-top:1px solid var(--rule)}
-.know{margin:0;padding-inline-start:20px;color:#dcdcdc}.know li{margin-bottom:10px}
-.near{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
-.near a{display:inline-block;padding:9px 15px;border:1px solid var(--rule);border-radius:999px;
-  color:#dcdcdc;text-decoration:none;font-size:15px}
-.near a:hover{border-color:var(--wa);color:var(--wa)}
-.ask{margin-top:40px;padding:24px;border:1px solid var(--rule);border-radius:14px}
-.ask p{margin:0 0 16px;color:#dcdcdc}
-.cta{display:inline-flex;align-items:center;gap:10px;background:var(--wa);color:#fff;text-decoration:none;font-weight:800;font-size:17px;padding:14px 24px;border-radius:999px}
-.lede.tight{margin-bottom:10px}
-.hint{color:var(--dim);font-size:15px;margin:0 0 30px;max-width:36em}
-.grp{display:flex;align-items:baseline;gap:10px;font-size:16px;font-weight:700;color:var(--dim);
-  margin:34px 0 12px;padding-top:22px;border-top:1px solid var(--rule)}
-.grp:first-of-type{margin-top:0;padding-top:0;border-top:0}
-.grp span{font-weight:400;font-size:13px;color:#6d6d6d}
-.routes{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.routes a{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:6px 12px;
-  padding:15px 18px;border:1px solid var(--rule);border-radius:12px;background:#0B0B0B;
-  text-decoration:none;color:var(--ink)}
-.rt-name{grid-column:1/-1;font-size:19px;font-weight:700;line-height:1.3}
-.rt-facts{color:#dcdcdc;font-size:15px}
-.rt-air{color:#e0b25a}
-.rt-air::before{content:"·";margin:0 8px;color:var(--dim)}
-.rt-go{justify-self:end;font-size:14px;color:var(--dim);white-space:nowrap}
-.routes a:hover{border-color:var(--wa)}
-.routes a:hover .rt-name,.routes a:hover .rt-go{color:var(--wa)}
-.routes a:focus-visible{outline:2px solid var(--wa);outline-offset:2px}
-/* Narrow screens: the journey time and "למדריך המלא" stop fitting on one line together, and ten of
-   the 48 cards grew a second line while the rest did not. Stacking keeps every card the same height. */
-@media(max-width:460px){.routes a{grid-template-columns:1fr}
-.rt-facts,.rt-go{grid-column:1}.rt-go{justify-self:end}}
-.legal{color:var(--dim);font-size:14px;margin-top:36px}.legal a{color:var(--dim)}
-@media(prefers-reduced-motion:no-preference){.cta{transition:transform .15s ease}.cta:hover{transform:translateY(-1px)}}
-.cta svg{width:20px;height:20px;flex:none}
-`;
+// The home page's brand (brand/page.css, 2026-10-07): the guides were black before, unlike the home page.
+const CSS = readFileSync("brand/page.css", "utf8");
 
 // The stylesheet URL carries a hash of its own contents, because GitHub Pages serves it with
 // max-age=600 and a rebuild that changes the CSS but not the URL leaves returning visitors looking
