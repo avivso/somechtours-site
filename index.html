@@ -204,11 +204,11 @@ footer a:hover{color:var(--ink)}
         <div class="col" id="col">
         <!-- An example chat. Without JavaScript the whole chat simply shows. -->
         <div class="row out"><div class="bubble">מעבורת מקופנגן לקוסמוי מחר בבוקר, שני אנשים<div class="meta">10:41</div></div></div>
-        <div class="row in"><div class="bubble"><b class="ln">⛴️ קופנגן ← קוסמוי</b><span class="ln">מחר 10/10 · יציאה 9:30, הגעה 10:20</span><span class="ln">מעבורת מהאד רין</span><b class="ln">מחיר סופי: ₪26 לנוסע</b><span class="ln">מתאים לכם?</span><div class="meta">10:41</div></div></div>
+        <div class="row in"><div class="bubble"><b class="ln">⛴️ קופנגן ← קוסמוי</b><span class="ln">מחר <span class="tmr-he">10/10</span> · יציאה 9:30, הגעה 10:20</span><span class="ln">מעבורת מהאד רין</span><b class="ln">מחיר סופי: ₪26 לנוסע</b><span class="ln">מתאים לכם?</span><div class="meta">10:41</div></div></div>
         <div class="row out"><div class="bubble">מעולה, סוגרים 🙌<div class="meta">10:42</div></div></div>
         <div class="row in"><div class="bubble"><span class="ln">הנה קישור מאובטח לתשלום:</span><span class="link">live.payme.io/sale/•••••</span><div class="meta">10:42</div></div></div>
         <div class="row chip"><span class="chipx">אחרי התשלום</span></div>
-        <div class="row in"><div class="bubble"><b class="ln">🎫 הכרטיסים שלכם מוכנים!</b><span class="ln">⛴️ קופנגן ← קוסמוי · 10 Oct</span><span class="ln">🎟️ מספר הזמנה: •••••••</span><div class="meta">10:44</div></div></div>
+        <div class="row in"><div class="bubble"><b class="ln">🎫 הכרטיסים שלכם מוכנים!</b><span class="ln">⛴️ קופנגן ← קוסמוי · <span class="tmr-en">10 Oct</span></span><span class="ln">🎟️ מספר הזמנה: •••••••</span><div class="meta">10:44</div></div></div>
         </div>
       </div>
       <div class="input"><div class="field" id="field">הודעה</div><div class="send"><svg viewBox="0 0 24 24"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></svg></div></div>
@@ -289,6 +289,14 @@ footer a:hover{color:var(--ink)}
     requestAnimationFrame(tick);}
   document.addEventListener("visibilitychange",function(){last=performance.now();});
   requestAnimationFrame(tick);
+})();
+</script>
+<script>
+// The example chat always speaks of TOMORROW (Aviv, 2026-10-09): the dates fill in from the visitor's own clock.
+(function(){var d=new Date();d.setDate(d.getDate()+1);
+  var M=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  [].forEach.call(document.querySelectorAll(".tmr-he"),function(e){e.textContent=d.getDate()+"/"+(d.getMonth()+1);});
+  [].forEach.call(document.querySelectorAll(".tmr-en"),function(e){e.textContent=d.getDate()+" "+M[d.getMonth()];});
 })();
 </script>
 </body></html>
