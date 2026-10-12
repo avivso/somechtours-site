@@ -244,7 +244,7 @@ footer a:hover{color:var(--ink)}
   // The chat demo: plays once when the card comes into view; customer messages are typed in the field first.
   var rows=[].slice.call(document.querySelectorAll("#col .row")), field=document.getElementById("field"),
       replay=document.getElementById("replay"), timers=[], reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var DELAY=[1600,900,2200,1700,900,1300,700];
+  var DELAY=[2100,1200,2900,2200,1200,1700,900];
   function clear(){timers.forEach(clearTimeout);timers=[];}
   function at(ms,fn){timers.push(setTimeout(fn,ms));}
   function type(text,start,dur){
@@ -261,7 +261,7 @@ footer a:hover{color:var(--ink)}
     rows.forEach(function(r,i){
       t+=DELAY[i];
       if(r.classList.contains("out")){
-        var txt=r.querySelector(".bubble").firstChild.textContent.trim(), d=Math.min(1100,txt.length*28);
+        var txt=r.querySelector(".bubble").firstChild.textContent.trim(), d=Math.min(1400,txt.length*36);
         type(txt,t-d-150,d);
       }
       at(t,function(){if(r.classList.contains("out")){field.textContent="הודעה";field.className="field";}show(r);});
