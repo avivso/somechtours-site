@@ -90,3 +90,6 @@ footer .wrap{display:flex;flex-direction:column;align-items:center;gap:14px;text
 footer nav{display:flex;gap:8px 22px;flex-wrap:wrap;justify-content:center;font-size:14px;font-weight:500;color:var(--soft)}
 footer a{text-decoration:none;color:inherit}footer a:hover{color:var(--ink)}
 @media(prefers-reduced-motion:reduce){.wa,.cta,.routes a{transition:none}}
+/* Thumb-sized taps at phone width (measured at 375px, 2026-10-15): the document tabs, the WhatsApp button and the logo
+   grow to 44px; the footer and in-text links get inline padding, a bigger tap that moves no line. */
+@media(max-width:760px){html .toc a,html .wa,html .brand{min-height:44px;display:inline-flex;align-items:center}html footer a,html [role=main] :not(.toc)>a:not(.wa):not(.brand){padding-block:12px}}
