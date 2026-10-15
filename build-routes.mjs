@@ -1396,6 +1396,7 @@ const urls = [
   { loc: "https://somechtours.com/flights/", pri: "0.8", freq: "monthly" },
   { loc: "https://somechtours.com/thailand/", pri: "0.7", freq: "monthly" },
   { loc: "https://somechtours.com/vietnam/", pri: "0.7", freq: "monthly" },
+  { loc: "https://somechtours.com/sleeper/", pri: "0.6", freq: "monthly" },
   { loc: "https://somechtours.com/terms/", pri: "0.3", freq: "monthly" },
   { loc: "https://somechtours.com/privacy/", pri: "0.3", freq: "monthly" },
 ];
