@@ -90,10 +90,11 @@ h1.morph .ln.g{color:var(--deep)}
 h1.morph .ln>span{grid-area:1/1;white-space:nowrap;will-change:transform,opacity,filter}
 /* THE WOLT SLOGAN LIKE THE AD (Aviv, 2026-10-15): "ה" in the slogan's own ink and weight, then Wolt's wordmark letters
    only, cut from Aviv's licensed file as a mask (brand/partners/wolt-letters.png, #00C2E8, no circle), .86em tall like
-   the ad, a tight .12em gap, and the ה nudged up to sit on the centre of "olt". The letters fit the line, so the heading
+   the ad and a tight .12em gap. The bottom of "olt" (row 110 of the 112px file; the W's swash and the t's tail do
+   not drop below it) sits exactly on the ה's baseline (Aviv's pick A, 2026-10-15): -.081em, measured in the render. The letters fit the line, so the heading
    keeps its normal height in every slogan (no reserved line any more). */
-h1.morph .wolt{display:inline-flex;align-items:center;gap:.12em}h1.morph .wolt b{font-weight:inherit;position:relative;top:-.07em}
-h1.morph .wolt img{height:.86em;width:auto;display:block}
+h1.morph .wolt{display:inline-flex;align-items:center;gap:.12em}h1.morph .wolt b{font-weight:inherit}
+h1.morph .wolt img{height:.86em;width:auto;display:block;position:relative;top:-.081em}
 .lead{font-size:clamp(17px,1.6vw,20px);color:#2b2f2d;line-height:1.6;max-width:29em;margin-top:28px}
 .actions{margin-top:38px}
 .ask{margin-top:34px;max-width:34rem}
@@ -300,7 +301,7 @@ footer a:hover{color:var(--ink)}
   var h=document.getElementById("hook");
   if(!h||!h.animate||(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches))return;
   // A third item puts a partner's official logo file after the first line's word, moving with it (Wolt, Aviv 2026-10-15).
-  var P=[["כתבתם לאן?","הכרטיס כבר כאן."],["ה","של הטיסות.",{letters:"/brand/partners/wolt-letters.png",color:"var(--ink)",weight:"600",label:"הוולט של הטיסות."}],["נתקעתם","בלי כרטיס?"],["מבנגקוק","ועד האי הכי רחוק."]];
+  var P=[["כתבתם לאן?","הכרטיס כבר כאן."],["ה","של הטיסות.",{letters:"/brand/partners/wolt-letters.png",color:"var(--ink)",label:"הוולט של הטיסות."}],["נתקעתם","בלי כרטיס?"],["מבנגקוק","ועד האי הכי רחוק."]];
   // The letters are fetched up front, so the line never changes when they first appear.
   P.forEach(function(p){if(p[2]&&p[2].letters){var im=new Image();im.src=p[2].letters;}});
   // color: the second line in the partner's own colour, sampled from its logo file (Wolt #00C2E8; Aviv 2026-10-15).
