@@ -53,12 +53,13 @@ for (const slug of slugs) {
   for (const m of ld) { try { JSON.parse(m[1]); } catch (e) { fail(`${slug}: bad JSON-LD (${e.message})`); } }
   const faq = JSON.parse(ld[0][1]);
   if (!faq.mainEntity.some(q => q.name.startsWith("האם אפשר לטוס"))) fail(`${slug}: flight Q missing from FAQPage`);
-  // the flight paragraph must never promise the BOT will book it
+  // THE FLIGHT PARAGRAPH (Aviv, 2026-10-16): we sell flights now, in the chat, at a final price. A bookable flight says
+  // exactly that, and nothing says we do not sell it.
   const air = faq.mainEntity.find(q => q.name.startsWith("האם אפשר לטוס")).acceptedAnswer.text;
-  if (/נמכור לכם טיסה|אנחנו מוכרים את הטיסה/.test(air)) fail(`${slug}: implies we sell flights`);
-  const sells = /אנחנו לא מוכרים|לא מוכרים את הטיסה|הבוט לא מוכר טיסות/.test(air);
+  if (/אנחנו לא מוכרים|לא מוכרים את הטיסה|הבוט לא מוכר טיסות/.test(air)) fail(`${slug}: still says we do not sell the flight`);
+  const sells = air.includes("את הטיסה אפשר להזמין אצלנו בצ׳אט, במחיר סופי בשקלים");
   const noFlight = h.includes('class="air none"');
-  if (!sells && !noFlight) fail(`${slug}: a bookable flight is described without saying a person handles it`);
+  if (!sells && !noFlight) fail(`${slug}: a bookable flight without the approved line "את הטיסה אפשר להזמין אצלנו בצ׳אט"`);
   bodies.set(slug, (h.match(/<p[^>]*>(.*?)<\/p>/gs) || []).join(" ").replace(/<[^>]+>/g, " "));
 }
 
