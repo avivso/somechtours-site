@@ -1,7 +1,7 @@
-/* MEASUREMENT, ONLY WITH CONSENT (Aviv, 2026-10-15: the ad now sends people to the site, and the ad must learn which
-   visits became real WhatsApp leads). Nothing third-party loads until the visitor taps "אישור"; "דחייה" means nothing
-   ever loads, and the choice is kept on this device only (localStorage). "הגדרות עוגיות" in the footer asks again.
-   The IDs are Aviv's to supply; while one is empty, that tag never loads even with consent. */
+/* MEASUREMENT FOR THE ADS (Aviv, 2026-10-15: the ad sends people to the site and must learn which visits became real
+   WhatsApp leads). Aviv's decision the same day: no consent bar. The tags load for everyone, and /cookies/ (linked from
+   every footer) explains them and offers a working opt-out ("הפסקת מדידה"), kept on this device, after which no tag
+   loads. The IDs are Aviv's to supply; while one is empty, that tag never loads. */
 (function () {
   var CFG = {
     GA4: "",        /* "G-XXXXXXX"   Google Analytics 4 */
@@ -35,9 +35,9 @@
     }
   }
 
-  /* A tap on any WhatsApp link (or the hero box) is the lead the ad optimises for. Without consent, nothing is sent. */
+  /* A tap on any WhatsApp link (or the hero box) is the lead the ad optimises for. After the opt-out, nothing is sent. */
   window.stLead = function (where) {
-    if (get() !== "yes") return;
+    if (get() === "no") return;
     if (window.gtag) {
       gtag("event", "whatsapp_click", { link_location: where || "", transport_type: "beacon" });
       if (CFG.ADS_LEAD) gtag("event", "conversion", { send_to: CFG.ADS_LEAD });
@@ -49,25 +49,10 @@
     if (a) window.stLead(a.getAttribute("data-where") || location.pathname);
   }, true);
 
-  function bar() {
-    if (document.getElementById("st-consent")) return;
-    var css = "#st-consent{position:fixed;inset:auto 12px 12px 12px;z-index:50;max-width:560px;margin:0 auto;background:#fff;color:#111;border:1px solid #e3e6e4;border-radius:16px;box-shadow:0 10px 30px -10px rgba(17,17,17,.25);padding:14px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;font:400 14.5px/1.5 Rubik,system-ui,sans-serif;direction:rtl}" +
-      "#st-consent p{margin:0;flex:1 1 260px}#st-consent a{color:#0E7A41}#st-consent .b{display:flex;gap:8px;flex:0 0 auto}" +
-      "#st-consent button{font:600 14.5px Rubik,system-ui,sans-serif;border-radius:999px;padding:9px 18px;cursor:pointer;border:1.5px solid #111;background:#fff;color:#111}#st-consent button.y{background:#111;color:#fff}";
-    var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
-    var d = document.createElement("div"); d.id = "st-consent"; d.setAttribute("role", "dialog"); d.setAttribute("aria-label", "עוגיות");
-    d.innerHTML = '<p>נשמח להשתמש בעוגיות של Google ו-Meta כדי למדוד ביקורים ולשפר את הפרסום שלנו. <a href="/cookies/">פרטים</a></p><div class="b"><button type="button" class="y">אישור</button><button type="button" class="n">דחייה</button></div>';
-    document.body.appendChild(d);
-    d.querySelector(".y").onclick = function () { set("yes"); d.remove(); load(); };
-    d.querySelector(".n").onclick = function () { set("no"); d.remove(); };
-  }
-  window.stCookieSettings = function () {
-    var was = get(); try { localStorage.removeItem(KEY); } catch (e) {}
-    if (was === "yes") { location.reload(); return; } /* tags already running stop only with a fresh page */
-    bar();
-  };
+  /* THE OPT-OUT on /cookies/ ("הפסקת מדידה"): kept on this device; from the next page on, no tag loads. */
+  window.stOptOut = function () { set("no"); location.reload(); };
+  window.stOptIn = function () { try { localStorage.removeItem(KEY); } catch (e) {} location.reload(); };
+  window.stMeasuring = function () { return get() !== "no"; };
 
-  var c = get();
-  if (c === "yes") load();
-  else if (c !== "no") (document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", bar) : bar());
+  if (get() !== "no") load();
 })();
