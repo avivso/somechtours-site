@@ -7,7 +7,7 @@
     GA4: "",        /* "G-XXXXXXX"   Google Analytics 4 */
     ADS: "",        /* "AW-XXXXXXX"  Google Ads */
     ADS_LEAD: "",   /* "AW-XXXXXXX/abcDEF" the Google Ads conversion for a WhatsApp click */
-    PIXEL: ""       /* "1234567890"  Meta Pixel */
+    PIXEL: "1804905007487330" /* Meta: the dataset "סוכן הטיול הגדול · הזמנות מהבוט", where the bot's Conversions API Purchase already lands */
   };
   var KEY = "st-consent-v1";
   var get = function () { try { return localStorage.getItem(KEY); } catch (e) { return null; } };
@@ -42,7 +42,8 @@
       gtag("event", "whatsapp_click", { link_location: where || "", transport_type: "beacon" });
       if (CFG.ADS_LEAD) gtag("event", "conversion", { send_to: CFG.ADS_LEAD });
     }
-    if (window.fbq) fbq("track", "Lead", { content_name: where || "" });
+    /* An event ID on every Lead, so a server-side Lead (the bot's Conversions API) can be deduplicated against it later. */
+    if (window.fbq) fbq("track", "Lead", { content_name: where || "" }, { eventID: "lead-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8) });
   };
   document.addEventListener("click", function (e) {
     var a = e.target.closest && e.target.closest('a[href*="wa.me/"]');
