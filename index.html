@@ -300,11 +300,12 @@ footer a:hover{color:var(--ink)}
   var h=document.getElementById("hook");
   if(!h||!h.animate||(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches))return;
   // A third item puts a partner's official logo file after the first line's word, moving with it (Wolt, Aviv 2026-10-15).
-  var P=[["כתבתם לאן?","הכרטיס כבר כאן."],["ה","של הטיסות.",{letters:"/brand/partners/wolt-letters.png",color:"#00C2E8",label:"הוולט של הטיסות."}],["נתקעתם","בלי כרטיס?"],["מבנגקוק","ועד האי הכי רחוק."]];
+  var P=[["כתבתם לאן?","הכרטיס כבר כאן."],["ה","של הטיסות.",{letters:"/brand/partners/wolt-letters.png",color:"var(--ink)",weight:"600",label:"הוולט של הטיסות."}],["נתקעתם","בלי כרטיס?"],["מבנגקוק","ועד האי הכי רחוק."]];
   // The letters are fetched up front, so the line never changes when they first appear.
   P.forEach(function(p){if(p[2]&&p[2].letters){var im=new Image();im.src=p[2].letters;}});
   // color: the second line in the partner's own colour, sampled from its logo file (Wolt #00C2E8; Aviv 2026-10-15).
-  function fill(s,p,i){s.textContent=p[i];if(i===1&&p[2]&&p[2].color)s.style.color=p[2].color;if(i===0&&p[2]&&p[2].letters){s.textContent="";var w=document.createElement("span");w.className="wolt";var b=document.createElement("b");b.textContent=p[i];var im=document.createElement("img");im.src=p[2].letters;im.alt="Wolt";w.appendChild(b);w.appendChild(im);s.appendChild(w);}}
+  // weight: the Wolt slogan in the ad's own weight (Aviv, 2026-10-15: "that banner does not look like the ads").
+  function fill(s,p,i){s.textContent=p[i];if(i===1&&p[2]&&p[2].color)s.style.color=p[2].color;s.style.fontWeight=p[2]&&p[2].weight?p[2].weight:"";if(i===0&&p[2]&&p[2].letters){s.textContent="";var w=document.createElement("span");w.className="wolt";var b=document.createElement("b");b.textContent=p[i];var im=document.createElement("img");im.src=p[2].letters;im.alt="Wolt";w.appendChild(b);w.appendChild(im);s.appendChild(w);}}
   var idx=0;
   h.setAttribute("aria-label",P[0].slice(0,2).join(" "));h.innerHTML="";h.classList.add("morph");
   var lines=[0,1].map(function(i){var d=document.createElement("span");d.className="ln"+(i?" g":"");d.setAttribute("aria-hidden","true");
