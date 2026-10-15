@@ -1314,17 +1314,31 @@ const CSS_V = createHash("sha256").update(CSS).digest("hex").slice(0, 10);
 
 mkdirSync("routes", { recursive: true });
 writeFileSync("routes/route.css", CSS);
-writeFileSync("routes/index.html", indexPage());
+// A REBUILD CHANGES NOTHING THAT DID NOT CHANGE (Admin desk, 2026-10-15). The page carries its dateModified, and every
+// build used to stamp today on all 48, so a rebuild for one route "modified" every page and the sitemap said so. Now a
+// page whose only difference from the file on disk is that date is left as it is, with its old date; only a page whose
+// content really changed gets today. `changedUrls` feeds the sitemap's lastmod the same way.
+const changedUrls = new Set();
+const writePage = (file, html, loc) => {
+  const old = existsSync(file) ? readFileSync(file, "utf8") : "";
+  const bare = (x) => x.replace(/"dateModified":"\d{4}-\d{2}-\d{2}"/g, "");
+  if (old && bare(old) === bare(html)) return;
+  writeFileSync(file, html);
+  changedUrls.add(loc);
+};
+writePage("routes/index.html", indexPage(), "https://somechtours.com/routes/");
 for (const r of ROUTES) {
   mkdirSync(`routes/${r.slug}`, { recursive: true });
-  writeFileSync(`routes/${r.slug}/index.html`, page(r));
+  writePage(`routes/${r.slug}/index.html`, page(r), `https://somechtours.com/routes/${r.slug}/`);
 }
 
-// The sitemap is rebuilt rather than appended to, so a removed route cannot linger in it.
+// The sitemap is rebuilt rather than appended to, so a removed route cannot linger in it. A url keeps the lastmod it
+// already had unless its page changed in this build (above); a new url, or one with none, gets today.
+const today = new Date().toISOString().slice(0, 10);
 // Pages this builder does not make, listed as they were added by hand (no date: they are not generated, so a build
 // cannot know when they changed).
 const BARE_URLS = ["https://somechtours.com/passenger-rights/", "https://somechtours.com/cancel/"];
-const today = new Date().toISOString().slice(0, 10);
+const oldMod = new Map([...(existsSync("sitemap.xml") ? readFileSync("sitemap.xml", "utf8") : "").matchAll(/<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/g)].map((m) => [m[1], m[2]]));
 const urls = [
   { loc: "https://somechtours.com/", pri: "1.0", freq: "weekly" },
   { loc: "https://somechtours.com/faq/", pri: "0.8", freq: "monthly" },
@@ -1336,7 +1350,7 @@ writeFileSync("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map((u) => `  <url>
     <loc>${u.loc}</loc>
-    <lastmod>${today}</lastmod>
+    <lastmod>${changedUrls.has(u.loc) ? today : oldMod.get(u.loc) ?? today}</lastmod>
     <changefreq>${u.freq}</changefreq>
     <priority>${u.pri}</priority>
   </url>`).join("\n")}
