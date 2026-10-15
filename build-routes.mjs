@@ -1345,6 +1345,7 @@ const urls = [
   { loc: "https://somechtours.com/routes/", pri: "0.8", freq: "weekly" },
   ...ROUTES.map((r) => ({ loc: `https://somechtours.com/routes/${r.slug}/`, pri: "0.7", freq: "monthly" })),
   { loc: "https://somechtours.com/terms/", pri: "0.3", freq: "monthly" },
+  { loc: "https://somechtours.com/privacy/", pri: "0.3", freq: "monthly" },
 ];
 writeFileSync("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
