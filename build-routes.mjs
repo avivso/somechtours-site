@@ -1041,6 +1041,30 @@ for (const r of ROUTES) {
 //
 // Computed from the routes themselves rather than hand-listed, so adding a route wires it in and
 // removing one (as Malaysia just was) cannot leave a dead link behind.
+// THE SHORT ANSWER ON TOP (Aviv, 2026-10-16: "all the questions people actually ask; reach the top"). Search Console
+// shows these pages at position 6-20 for the exact question; the page now answers it in its first lines: every way,
+// how long, and from what price. Times and prices are the Ground desk's live search of the full result pool for ONE
+// date (route-facts.md, Thursday 29.10.2026, one adult, our selling price), so a price is always "from about", with the
+// date said. A figure the search could not stand behind (a polluted duration, a class not on sale) is not printed.
+const QUICK_DATE = "29.10.2026";
+const QUICK = {
+  "hanoi-sapa": [["אוטובוס שינה", "בערך 5 עד 7 שעות", "מכ-40 ₪, רוב הכרטיסים 60 עד 120 ₪"], ["ואן לימוזין", "בערך 5 עד 6 שעות", "מכ-70 ₪"], ["רכבת לילה ללאו קאי", "כ-8 שעות ברכבת, ועוד כשעה לסאפה", "מכ-130 ₪"]],
+  "bangkok-chiang-mai": [["אוטובוס, רוב הקווים בלילה", "בערך 9 עד 13 שעות", "מכ-85 ₪"], ["רכבת, כולל רכבת לילה", "בערך 10 עד 14 שעות", "מכ-60 ₪"], ["טיסה", "כשעה ורבע באוויר", "לפי התאריך"]],
+  "delhi-manali": [["אוטובוס, רוב הקווים בלילה", "בערך 10 עד 16 שעות", "מכ-30 ₪, רוב הכרטיסים סביב 70 ₪"]],
+  "chiang-mai-pai": [["ואן", "בערך 3 עד 4 שעות, בדרך הררית מפותלת", "מכ-35 ₪"]],
+  "bangkok-koh-phangan": [["אוטובוס ומעבורת, כרטיס אחד", "בערך 11 עד 17 שעות", "מכ-120 ₪"], ["רכבת לילה ומעבורת", "בערך 13.5 עד 17.5 שעות", "מכ-140 ₪"]],
+  "bangkok-koh-tao": [["אוטובוס וקטמרן מהיר, כרטיס אחד", "בערך 9 עד 11 שעות", "מכ-100 ₪"], ["רכבת לילה ומעבורת", "בערך 15.5 עד 19 שעות", "מכ-190 ₪"]],
+  "koh-samui-koh-phangan": [["מעבורת או ספידבוט", "בין 20 דקות לשעה וחצי", "מכ-25 ₪"]],
+  "delhi-agra": [["רכבת", "בערך שעתיים עד 4.5 שעות, לפי סוג הרכבת", "מכ-20 ₪"], ["אוטובוס", "בערך 3 עד 4 שעות בכביש", "מכ-20 ₪"]],
+};
+const quickHtml = (r) => {
+  const q = QUICK[r.slug];
+  if (!q) return "";
+  return `<section class="quick" aria-label="בקצרה"><h2>בקצרה</h2><dl>${q.map(([m, t, p]) => `<div><dt>${esc(m)}</dt><dd>${esc(t)}</dd><dd class="p">${esc(p)}</dd></div>`).join("")}</dl><p class="qn">מחירים לנוסע, לפי חיפוש לתאריך ${QUICK_DATE}. בתאריכים אחרים ובעונה המחיר משתנה.</p></section>`;
+};
+const QUICK_CSS = "<style>.quick{border:2px solid #cfe9d8;background:#f4fbf6;border-radius:18px;padding:16px 18px;margin:18px 0}.quick h2{margin:0 0 8px;font-size:18px}.quick dl{margin:0}.quick dl>div{padding:8px 0;border-top:1px solid #dcefe2}.quick dl>div:first-child{border-top:0}.quick dt{font-weight:700}.quick dd{margin:0;color:#2b2f2d}.quick dd.p{color:#0b7a45;font-weight:600}.quick .qn{margin:8px 0 0;font-size:13px;color:#5d6560}</style>";
+const quickAnswer = (r) => QUICK[r.slug] ? QUICK[r.slug].map(([m, t, p]) => `${m}: ${t}, ${p}`).join(". ") + `. המחיר לנוסע לפי חיפוש לתאריך ${QUICK_DATE}, ומשתנה לפי התאריך.` : "";
+
 const COUNTRY = {
   "bangkok-koh-phangan": "th", "bangkok-chiang-mai": "th", "bangkok-koh-samui": "th",
   "bangkok-koh-tao": "th", "bangkok-phuket": "th", "bangkok-krabi": "th",
@@ -1102,6 +1126,7 @@ const page = (r) => {
     "@context": "https://schema.org", "@type": "FAQPage", inLanguage: "he",
     mainEntity: [
       { "@type": "Question", name: r.title + "?", acceptedAnswer: { "@type": "Answer", text: r.lede } },
+      ...(QUICK[r.slug] ? [{ "@type": "Question", name: `כמה זמן ובכמה מ${r.he.from} ל${r.he.to}?`, acceptedAnswer: { "@type": "Answer", text: quickAnswer(r) } }] : []),
       ...r.ways.map((w) => ({ "@type": "Question", name: `${w.h} מ${r.he.from} ל${r.he.to} - כמה זמן וממה זה מורכב?`,
         acceptedAnswer: { "@type": "Answer", text: `${w.t}. ${w.p}` } })),
       { "@type": "Question", name: `האם אפשר לטוס מ${r.he.from} ל${r.he.to}?`,
@@ -1125,7 +1150,7 @@ const page = (r) => {
 <meta property="og:title" content="${esc(r.title)}"><meta property="og:description" content="${esc(r.desc)}">
 <meta property="og:url" content="${url}"><meta property="og:image" content="https://somechtours.com/brand/og-1200x630.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:locale" content="he_IL">
-<link rel="icon" href="/favicon.ico" sizes="any">
+${QUICK[r.slug] ? QUICK_CSS + "\n" : ""}<link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/brand/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="/brand/icon-180.png" sizes="180x180">
 <link rel="preload" href="/brand/fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
@@ -1138,7 +1163,7 @@ const page = (r) => {
 <div class="wrap" role="main">
 <nav class="crumb" aria-label="מיקום באתר"><a href="/">בית</a> · <a href="/routes/">מסלולים</a></nav>
 <h1>${esc(r.title)}</h1>
-<p class="lede">${esc(r.lede)}</p>
+${QUICK[r.slug] ? quickHtml(r) + "\n" : ""}<p class="lede">${esc(r.lede)}</p>
 ${r.ways.map((w) => `<div class="way"><h2>${esc(w.h)}</h2><p class="dur">${esc(w.t)}</p><p>${esc(w.p)}</p></div>`).join("\n")}
 <div class="air${r.air.no ? " none" : ""}"><h2>מה עם טיסה?</h2><p class="dur">${esc(r.air.t)}</p><p>${esc(r.air.p)}</p></div>
 <h2 class="sec">מה שכדאי לדעת</h2>
