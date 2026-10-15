@@ -88,14 +88,12 @@ h1 .g{color:var(--deep);display:block}h1 span{white-space:nowrap}
 h1.morph .ln{display:grid;justify-items:start}
 h1.morph .ln.g{color:var(--deep)}
 h1.morph .ln>span{grid-area:1/1;white-space:nowrap;will-change:transform,opacity,filter}
-/* A partner's mark beside its word (Wolt, licensed; Aviv 2026-10-15): the official file only, sized to the cap height so
-   the line keeps its height on every width. Until the file is in place the slot stays empty and the text alone shows. */
-/* Aviv's Wolt file is the circle on an opaque white square (650x626, circle 420px at 115,107). It is shown unaltered and
-   clipped to its circle, so no white box shows on the tinted hero: 2.236em tall makes the circle 1.5em, and the negative
-   margins take back the clipped white, leaving .2em to the word. The circle is taller than the text, so the first line
-   is 1.55em in EVERY frame (Aviv: reserve the height), centred, and the heading never jumps between slogans. */
-h1.morph .mark{display:inline-block;height:2.236em;width:auto;vertical-align:middle;margin-block:-.382em -.354em;margin-inline:-.211em -.411em;clip-path:inset(17.09% 17.69% 15.81% 17.69% round 50%)}
-h1.morph .ln:first-child{min-height:1.55em;align-items:center}
+/* THE WOLT SLOGAN LIKE THE AD (Aviv, 2026-10-15): "ה" in the slogan's own ink and weight, then Wolt's wordmark letters
+   only, cut from Aviv's licensed file as a mask (brand/partners/wolt-letters.png, #00C2E8, no circle), .86em tall like
+   the ad, a tight .12em gap, and the ה nudged up to sit on the centre of "olt". The letters fit the line, so the heading
+   keeps its normal height in every slogan (no reserved line any more). */
+h1.morph .wolt{display:inline-flex;align-items:center;gap:.12em}h1.morph .wolt b{font-weight:inherit;position:relative;top:-.07em}
+h1.morph .wolt img{height:.86em;width:auto;display:block}
 .lead{font-size:clamp(17px,1.6vw,20px);color:#2b2f2d;line-height:1.6;max-width:29em;margin-top:28px}
 .actions{margin-top:38px}
 .ask{margin-top:34px;max-width:34rem}
@@ -302,11 +300,11 @@ footer a:hover{color:var(--ink)}
   var h=document.getElementById("hook");
   if(!h||!h.animate||(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches))return;
   // A third item puts a partner's official logo file after the first line's word, moving with it (Wolt, Aviv 2026-10-15).
-  var P=[["כתבתם לאן?","הכרטיס כבר כאן."],["הוולט","של הטיסות.",{mark:"/brand/partners/wolt-logo.png",color:"#00C2E8"}],["נתקעתם","בלי כרטיס?"],["מבנגקוק","ועד האי הכי רחוק."]];
-  // The logo is fetched up front, so its line never jumps when it first appears; a missing file leaves the text alone.
-  var markOk={};P.forEach(function(p){if(p[2]&&p[2].mark){var im=new Image();im.onload=function(){markOk[p[2].mark]=1;};im.src=p[2].mark;}});
+  var P=[["כתבתם לאן?","הכרטיס כבר כאן."],["ה","של הטיסות.",{letters:"/brand/partners/wolt-letters.png",color:"#00C2E8",label:"הוולט של הטיסות."}],["נתקעתם","בלי כרטיס?"],["מבנגקוק","ועד האי הכי רחוק."]];
+  // The letters are fetched up front, so the line never changes when they first appear.
+  P.forEach(function(p){if(p[2]&&p[2].letters){var im=new Image();im.src=p[2].letters;}});
   // color: the second line in the partner's own colour, sampled from its logo file (Wolt #00C2E8; Aviv 2026-10-15).
-  function fill(s,p,i){s.textContent=p[i];if(i===1&&p[2]&&p[2].color)s.style.color=p[2].color;if(i===0&&p[2]&&p[2].mark&&markOk[p[2].mark]){var im=document.createElement("img");im.className="mark";im.src=p[2].mark;im.alt="";s.appendChild(im);}}
+  function fill(s,p,i){s.textContent=p[i];if(i===1&&p[2]&&p[2].color)s.style.color=p[2].color;if(i===0&&p[2]&&p[2].letters){s.textContent="";var w=document.createElement("span");w.className="wolt";var b=document.createElement("b");b.textContent=p[i];var im=document.createElement("img");im.src=p[2].letters;im.alt="Wolt";w.appendChild(b);w.appendChild(im);s.appendChild(w);}}
   var idx=0;
   h.setAttribute("aria-label",P[0].slice(0,2).join(" "));h.innerHTML="";h.classList.add("morph");
   var lines=[0,1].map(function(i){var d=document.createElement("span");d.className="ln"+(i?" g":"");d.setAttribute("aria-hidden","true");
