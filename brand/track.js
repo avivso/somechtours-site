@@ -4,7 +4,7 @@
    loads. The IDs are Aviv's to supply; while one is empty, that tag never loads. */
 (function () {
   var CFG = {
-    GA4: "",        /* "G-XXXXXXX"   Google Analytics 4 */
+    GA4: "G-VYY5XZ5JSP", /* Google Analytics 4: property somechtours.com, web stream "Site" */
     ADS: "",        /* "AW-XXXXXXX"  Google Ads */
     ADS_LEAD: "",   /* "AW-XXXXXXX/abcDEF" the Google Ads conversion for a WhatsApp click */
     PIXEL: "1804905007487330" /* Meta: the dataset "סוכן הטיול הגדול · הזמנות מהבוט", where the bot's Conversions API Purchase already lands */
