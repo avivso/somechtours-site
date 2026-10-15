@@ -1134,7 +1134,7 @@ const page = (r) => {
 <script type="application/ld+json">${JSON.stringify(webpage(r))}</script>
 <link rel="stylesheet" href="/routes/route.css?v=${CSS_V}">
 </head><body>
-<div class="top" role="banner"><a class="brand" href="/"><img src="/brand/hiker.png" alt="" width="38" height="38">סוכן הטיול הגדול</a><a class="wa" href="${waLink(`${FROM_SITE} מ${r.he.from} ל${r.he.to}`)}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>וואטסאפ</a></div>
+<div class="top" role="banner"><a class="brand" href="/"><img src="/brand/hiker-180.png" alt="" width="38" height="38">סוכן הטיול הגדול</a><a class="wa" href="${waLink(`${FROM_SITE} מ${r.he.from} ל${r.he.to}`)}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>וואטסאפ</a></div>
 <div class="wrap" role="main">
 <nav class="crumb" aria-label="מיקום באתר"><a href="/">בית</a> · <a href="/routes/">מסלולים</a></nav>
 <h1>${esc(r.title)}</h1>
@@ -1152,7 +1152,7 @@ ${(() => { const n = relatedTo(r); return n.length ? `<h2 class="sec">קווים
 <p class="legal"><a href="/faq/">שאלות ותשובות</a> · <a href="/routes/">כל המסלולים</a> · <a href="/terms/">תנאי שימוש</a></p>
 </div>
 <footer><div class="wrap">
-  <a class="flogo" href="/" aria-label="סוכן הטיול הגדול"><img src="/brand/hiker.png" alt="סוכן הטיול הגדול" width="512" height="512"></a>
+  <a class="flogo" href="/" aria-label="סוכן הטיול הגדול"><img src="/brand/hiker-180.png" alt="סוכן הטיול הגדול" width="512" height="512"></a>
   <nav><a href="/faq/">שאלות ותשובות</a><a href="/routes/">מדריכי מסלולים</a><a href="/terms/">תנאי השירות</a><a href="/privacy/">מדיניות הפרטיות</a><a href="/passenger-rights/">זכויות נוסעים בטיסה</a><a href="/cancel/">ביטול עסקה</a></nav>
   <span>סוכן הטיול הגדול · שירות של סומך טורס</span>
 </div></footer>
@@ -1283,7 +1283,7 @@ const indexPage = () => `<!doctype html><html lang="he" dir="rtl"><head>
 })}</script>
 <script defer src="/brand/track.js?v=4"></script>
 </head><body>
-<div class="top" role="banner"><a class="brand" href="/"><img src="/brand/hiker.png" alt="" width="38" height="38">סוכן הטיול הגדול</a><a class="wa" href="${WA}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>וואטסאפ</a></div>
+<div class="top" role="banner"><a class="brand" href="/"><img src="/brand/hiker-180.png" alt="" width="38" height="38">סוכן הטיול הגדול</a><a class="wa" href="${WA}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>וואטסאפ</a></div>
 <div class="wrap" role="main">
 <h1>מסלולים</h1>
 <p class="lede tight">איך מגיעים בפועל מעיר לעיר: כל האפשרויות, כמה זמן כל אחת לוקחת, ומה שכדאי לדעת לפני שקונים כרטיס.</p>
@@ -1294,7 +1294,7 @@ ${g.routes.map(card).join("\n")}
 </ul>`).join("\n")}
 <p class="legal"><a href="/faq/">שאלות ותשובות</a> · <a href="/">לעמוד הבית</a></p>
 </div><footer><div class="wrap">
-  <a class="flogo" href="/" aria-label="סוכן הטיול הגדול"><img src="/brand/hiker.png" alt="סוכן הטיול הגדול" width="512" height="512"></a>
+  <a class="flogo" href="/" aria-label="סוכן הטיול הגדול"><img src="/brand/hiker-180.png" alt="סוכן הטיול הגדול" width="512" height="512"></a>
   <nav><a href="/faq/">שאלות ותשובות</a><a href="/routes/">מדריכי מסלולים</a><a href="/terms/">תנאי השירות</a><a href="/privacy/">מדיניות הפרטיות</a><a href="/passenger-rights/">זכויות נוסעים בטיסה</a><a href="/cancel/">ביטול עסקה</a><a href="/cookies/">עוגיות</a></nav>
   <span>סוכן הטיול הגדול · שירות של סומך טורס</span>
 </div></footer>
