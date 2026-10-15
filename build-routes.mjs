@@ -1127,7 +1127,7 @@ const page = (r) => {
 <meta property="og:locale" content="he_IL">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/brand/icon-192.png" sizes="192x192">
-<link rel="apple-touch-icon" href="/brand/icon-192.png">
+<link rel="apple-touch-icon" href="/brand/icon-180.png" sizes="180x180">
 <link rel="preload" href="/brand/fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 <script type="application/ld+json">${JSON.stringify(faq)}</script>
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
