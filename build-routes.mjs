@@ -1153,7 +1153,7 @@ ${(() => { const n = relatedTo(r); return n.length ? `<h2 class="sec">קווים
 </div>
 <footer><div class="wrap">
   <a class="flogo" href="/" aria-label="סוכן הטיול הגדול"><img src="/brand/hiker.png" alt="סוכן הטיול הגדול" width="512" height="512"></a>
-  <nav><a href="/faq/">שאלות ותשובות</a><a href="/routes/">מדריכי מסלולים</a><a href="/terms/">תנאי השירות</a><a href="/privacy/">מדיניות הפרטיות</a><a href="/passenger-rights/">זכויות נוסעים בטיסה</a><a href="/cancel/"><b>ביטול עסקה</b></a></nav>
+  <nav><a href="/faq/">שאלות ותשובות</a><a href="/routes/">מדריכי מסלולים</a><a href="/terms/">תנאי השירות</a><a href="/privacy/">מדיניות הפרטיות</a><a href="/passenger-rights/">זכויות נוסעים בטיסה</a><a href="/cancel/">ביטול עסקה</a></nav>
   <span>סוכן הטיול הגדול · שירות של סומך טורס</span>
 </div></footer>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="wa-ic" viewBox="0 0 24 24"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.98L2 22l5.16-1.5A9.9 9.9 0 1 0 12.04 2zm5.8 13.97c-.25.7-1.44 1.33-1.99 1.38-.5.05-1.13.07-1.83-.12a16.6 16.6 0 0 1-1.66-.61c-2.92-1.26-4.83-4.2-4.98-4.4-.14-.19-1.19-1.58-1.19-3.02s.75-2.14 1.02-2.44c.27-.29.58-.36.78-.36h.56c.18 0 .42-.07.66.5.25.6.84 2.07.91 2.22.07.14.12.32.02.51-.1.2-.14.32-.29.49l-.43.5c-.14.14-.29.3-.12.59.17.29.74 1.22 1.59 1.98 1.09.97 2.01 1.27 2.3 1.41.29.15.46.12.63-.07.17-.2.73-.85.92-1.14.19-.29.39-.24.66-.14.27.1 1.7.8 1.99.95.29.14.49.22.56.34.07.12.07.7-.18 1.41z"/></symbol></svg>
@@ -1281,6 +1281,7 @@ const indexPage = () => `<!doctype html><html lang="he" dir="rtl"><head>
     url: `https://somechtours.com/routes/${r.slug}/`,
   })),
 })}</script>
+<script defer src="/brand/track.js?v=4"></script>
 </head><body>
 <div class="top"><a class="brand" href="/"><img src="/brand/hiker.png" alt="" width="38" height="38">סוכן הטיול הגדול</a><a class="wa" href="${WA}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>וואטסאפ</a></div>
 <div class="wrap">
@@ -1294,7 +1295,7 @@ ${g.routes.map(card).join("\n")}
 <p class="legal"><a href="/faq/">שאלות ותשובות</a> · <a href="/">לעמוד הבית</a></p>
 </div><footer><div class="wrap">
   <a class="flogo" href="/" aria-label="סוכן הטיול הגדול"><img src="/brand/hiker.png" alt="סוכן הטיול הגדול" width="512" height="512"></a>
-  <nav><a href="/faq/">שאלות ותשובות</a><a href="/routes/">מדריכי מסלולים</a><a href="/terms/">תנאי השירות</a><a href="/privacy/">מדיניות הפרטיות</a><a href="/passenger-rights/">זכויות נוסעים בטיסה</a><a href="/cancel/"><b>ביטול עסקה</b></a></nav>
+  <nav><a href="/faq/">שאלות ותשובות</a><a href="/routes/">מדריכי מסלולים</a><a href="/terms/">תנאי השירות</a><a href="/privacy/">מדיניות הפרטיות</a><a href="/passenger-rights/">זכויות נוסעים בטיסה</a><a href="/cancel/">ביטול עסקה</a><a href="/cookies/">עוגיות</a></nav>
   <span>סוכן הטיול הגדול · שירות של סומך טורס</span>
 </div></footer>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="wa-ic" viewBox="0 0 24 24"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.98L2 22l5.16-1.5A9.9 9.9 0 1 0 12.04 2zm5.8 13.97c-.25.7-1.44 1.33-1.99 1.38-.5.05-1.13.07-1.83-.12a16.6 16.6 0 0 1-1.66-.61c-2.92-1.26-4.83-4.2-4.98-4.4-.14-.19-1.19-1.58-1.19-3.02s.75-2.14 1.02-2.44c.27-.29.58-.36.78-.36h.56c.18 0 .42-.07.66.5.25.6.84 2.07.91 2.22.07.14.12.32.02.51-.1.2-.14.32-.29.49l-.43.5c-.14.14-.29.3-.12.59.17.29.74 1.22 1.59 1.98 1.09.97 2.01 1.27 2.3 1.41.29.15.46.12.63-.07.17-.2.73-.85.92-1.14.19-.29.39-.24.66-.14.27.1 1.7.8 1.99.95.29.14.49.22.56.34.07.12.07.7-.18 1.41z"/></symbol></svg>
@@ -1320,6 +1321,9 @@ for (const r of ROUTES) {
 }
 
 // The sitemap is rebuilt rather than appended to, so a removed route cannot linger in it.
+// Pages this builder does not make, listed as they were added by hand (no date: they are not generated, so a build
+// cannot know when they changed).
+const BARE_URLS = ["https://somechtours.com/passenger-rights/", "https://somechtours.com/cancel/"];
 const today = new Date().toISOString().slice(0, 10);
 const urls = [
   { loc: "https://somechtours.com/", pri: "1.0", freq: "weekly" },
@@ -1336,6 +1340,7 @@ ${urls.map((u) => `  <url>
     <changefreq>${u.freq}</changefreq>
     <priority>${u.pri}</priority>
   </url>`).join("\n")}
+${BARE_URLS.map((u) => `  <url><loc>${u}</loc></url>`).join("\n")}
 </urlset>
 `);
 
