@@ -59,7 +59,7 @@
   </url>
   <url>
     <loc>https://somechtours.com/routes/koh-samui-koh-phangan/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -71,13 +71,13 @@
   </url>
   <url>
     <loc>https://somechtours.com/routes/chiang-mai-pai/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://somechtours.com/routes/hanoi-sapa/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -137,7 +137,7 @@
   </url>
   <url>
     <loc>https://somechtours.com/routes/delhi-agra/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -166,8 +166,14 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://somechtours.com/routes/delhi-dharamshala/</loc>
+    <lastmod>2026-10-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://somechtours.com/routes/manali-dharamshala/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

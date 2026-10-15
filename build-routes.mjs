@@ -487,6 +487,23 @@ const ROUTES = [
     ],
   },
   {
+    slug: "delhi-dharamshala",
+    he: { from: "דלהי", to: "דרמסלה" },
+    title: "איך מגיעים מדלהי לדרמסלה",
+    desc: "אוטובוס לילה של עשר עד ארבע עשרה שעות, או טיסה לשדה גאגאל. מה ההבדל בין דרמסלה למקלאוד גאנג' ומה כדאי לדעת על הדרך.",
+    lede: "מדלהי לדרמסלה נוסעים בדרך כלל באוטובוס לילה, שלוקח בערך עשר עד ארבע עשרה שעות, ורובו בכביש הררי בחלק האחרון. אין רכבת עד דרמסלה עצמה. מי שממהר טס לשדה התעופה הקטן של גאגאל, כ-13 קילומטר מדרמסלה.",
+    ways: [
+      { h: "אוטובוס לילה", t: "בערך 10 עד 14 שעות",
+        p: "רוב האוטובוסים יוצאים מדלהי בערב ומגיעים בבוקר. רוב האוטובוסים הממוזגים בקו הם סמי סליפר, עם מושבים שנשענים לאחור, ולא מיטות. יש גם אוטובוסים פשוטים יותר בלי מיזוג." },
+    ],
+    know: [
+      "דרמסלה ומקלאוד גאנג' הן לא אותו מקום. מקלאוד גאנג', שבה נמצא רוב מה שמטיילים מחפשים, נמצאת כמה קילומטרים מעל דרמסלה התחתית, ויש עוד נסיעה קצרה ביניהן.",
+      "החלק האחרון של הדרך הררי ומפותל. מי שסובל מבחילה, עדיף לו מושב בחלק הקדמי של האוטובוס.",
+      "בחורף ובגשמים חזקים זמני הנסיעה בהרים משתנים יותר מהרגיל. אל תתכננו משהו צמוד ביום ההגעה.",
+    ],
+  },
+
+  {
     slug: "manali-dharamshala",
     he: { from: "מנאלי", to: "דרמסלה" },
     title: "איך מגיעים ממנאלי לדרמסלה",
@@ -979,6 +996,8 @@ const AIR = {
     p: "טיסה קצרה עם כמה יציאות ביום. גם כאן חשוב לדעת שלגואה יש שני שדות תעופה: מופה בצפון, כ-30 קילומטר מפנג'י, ודבולים בדרום, ליד מדגאון. ביניהם כשעה וחצי נסיעה, ולכן כרטיס שנראה זול יותר יכול לעלות לכם בנסיעה ארוכה ויקרה בצד השני. בחרו את השדה לפי החוף שאליו אתם נוסעים ולא לפי המחיר. את הטיסה אפשר להזמין אצלנו בצ׳אט, במחיר סופי בשקלים, ואת ההמשך בגואה נסדר אנחנו." },
   "goa-hampi": { t: "אין טיסה מעשית בקו הזה", no: true,
     p: "להמפי אין שדה תעופה. הקרוב ביותר הוא וידיאנגאר, כ-35 קילומטר משם, אבל יש בו מעט מאוד טיסות מסחריות, ורק מבנגלור ומהיידראבאד, לא מגואה. השדה המשמעותי הקרוב הוא הובלי, כ-145 קילומטר מהמפי, וגם אליו אין קו סדיר מגואה. בפועל כל מי שנוסע מגואה להמפי עושה את זה באוטובוס או ברכבת, וכל צירוף טיסות עם החלפה ייקח יותר זמן מהאוטובוס הישיר." },
+  "delhi-dharamshala": { t: "בערך שעה וחצי",
+    p: "לשדה התעופה של גאגאל, שנקרא גם קנגרה, כ-13 קילומטר מדרמסלה, יש טיסות מדלהי. זה שדה הררי קטן עם מעט טיסות, ומזג האוויר בהרים גורם לפעמים לעיכובים או לביטולים, אז כדאי להשאיר מרווח ביום הטיסה. את הטיסה אפשר להזמין אצלנו בצ׳אט, במחיר סופי בשקלים, ואת ההסעה מהשדה נסדר אנחנו." },
   "manali-dharamshala": { t: "אין טיסה בין שתי הערים", no: true,
     p: "לשתיהן יש שדות תעופה קטנים בקרבת מקום, בונטאר ליד מנאלי וגאגאל כ-13 קילומטר מדרמסלה, אבל אין ביניהם קו טיסה. שניהם שדות הרריים עם מעט טיסות, וכולן לדלהי או לצ'נדיגר. תיאורטית אפשר לטוס מבונטאר לדלהי ומדלהי לגאגאל, אבל זה יום שלם ושתי טיסות במקום נסיעה אחת, ובשני השדות ביטולים בגלל מזג אוויר הם דבר רגיל. בקו הזה הכביש הוא הדרך."  },
   "kathmandu-pokhara": { t: "בערך 25 דקות",
@@ -1041,6 +1060,32 @@ for (const r of ROUTES) {
 //
 // Computed from the routes themselves rather than hand-listed, so adding a route wires it in and
 // removing one (as Malaysia just was) cannot leave a dead link behind.
+// THE SHORT ANSWER ON TOP (Aviv, 2026-10-16: "all the questions people actually ask; reach the top"). Search Console
+// shows these pages at position 6-20 for the exact question; the page now answers it in its first lines: every way,
+// how long, and from what price. Times and prices are the Ground desk's live search of the full result pool for ONE
+// date (route-facts.md, Thursday 29.10.2026, one adult, our selling price), so a price is always "from about", with the
+// date said. A figure the search could not stand behind (a polluted duration, a class not on sale) is not printed.
+// REFRESH MONTHLY (Aviv, 2026-10-16: option A): rerun Ground's route-facts search, update QUICK and QUICK_DATE.
+const QUICK_DATE = "29.10.2026";
+const QUICK = {
+  "hanoi-sapa": [["אוטובוס שינה", "בערך 5 עד 7 שעות", "מכ-40 ₪, רוב הכרטיסים 60 עד 120 ₪"], ["ואן לימוזין", "בערך 5 עד 6 שעות", "מכ-70 ₪"], ["רכבת לילה ללאו קאי", "כ-8 שעות ברכבת, ועוד כשעה לסאפה", "מכ-130 ₪"]],
+  "bangkok-chiang-mai": [["אוטובוס, רוב הקווים בלילה", "בערך 9 עד 12 שעות", "מכ-85 ₪"], ["רכבת, כולל רכבת לילה", "בערך 11 עד 13 שעות", "מכ-60 ₪"], ["טיסה", "כשעה ורבע באוויר", "לפי התאריך"]],
+  "delhi-dharamshala": [["אוטובוס לילה, לרוב סמי סליפר", "בערך 10 עד 14 שעות", "מכ-40 ₪, רוב הכרטיסים סביב 85 ₪"], ["טיסה לגאגאל", "בערך שעה וחצי באוויר", "לפי התאריך"]],
+  "delhi-manali": [["אוטובוס, רוב הקווים בלילה", "בערך 10 עד 16 שעות", "מכ-30 ₪, רוב הכרטיסים סביב 70 ₪"]],
+  "chiang-mai-pai": [["ואן", "בערך 3 עד 4 שעות, בדרך הררית מפותלת", "מכ-35 ₪"]],
+  "bangkok-koh-phangan": [["אוטובוס ומעבורת, כרטיס אחד", "בערך 11 עד 14 שעות", "מכ-120 ₪"], ["רכבת לילה ומעבורת", "בערך 14 עד 17 שעות", "מכ-140 ₪"]],
+  "bangkok-koh-tao": [["אוטובוס וקטמרן מהיר, כרטיס אחד", "בערך 9 עד 12 שעות", "מכ-100 ₪"], ["רכבת לילה ומעבורת", "בערך 15 עד 19 שעות", "מכ-190 ₪"]],
+  "koh-samui-koh-phangan": [["מעבורת או ספידבוט", "בין 20 דקות לשעה וחצי", "מכ-25 ₪"]],
+  "delhi-agra": [["רכבת", "בערך שעתיים עד 4.5 שעות, לפי סוג הרכבת", "מכ-20 ₪"], ["אוטובוס", "בערך 3 עד 4 שעות בכביש", "מכ-20 ₪"]],
+};
+const quickHtml = (r) => {
+  const q = QUICK[r.slug];
+  if (!q) return "";
+  return `<section class="quick" aria-label="בקצרה"><h2>בקצרה</h2><dl>${q.map(([m, t, p]) => `<div><dt>${esc(m)}</dt><dd>${esc(t)}</dd><dd class="p">${esc(p)}</dd></div>`).join("")}</dl><p class="qn">המחירים להמחשה בלבד: מחיר לנוסע לפי חיפוש לתאריך ${QUICK_DATE}, ובתאריכים אחרים ובעונה הוא משתנה. למחיר העדכני ביותר, <a href="${waLink(`${FROM_SITE} מ${r.he.from} ל${r.he.to}`)}">כתבו לנו בוואטסאפ</a>.</p></section>`;
+};
+const QUICK_CSS = "<style>.quick{border:2px solid #cfe9d8;background:#f4fbf6;border-radius:18px;padding:16px 18px;margin:18px 0}.quick h2{margin:0 0 8px;font-size:18px}.quick dl{margin:0}.quick dl>div{padding:8px 0;border-top:1px solid #dcefe2}.quick dl>div:first-child{border-top:0}.quick dt{font-weight:700}.quick dd{margin:0;color:#2b2f2d}.quick dd.p{color:#0b7a45;font-weight:600}.quick .qn{margin:8px 0 0;font-size:13px;color:#5d6560}</style>";
+const quickAnswer = (r) => QUICK[r.slug] ? QUICK[r.slug].map(([m, t, p]) => `${m}: ${t}, ${p}`).join(". ") + `. המחירים להמחשה בלבד, לפי חיפוש לתאריך ${QUICK_DATE}. למחיר העדכני ביותר כתבו לנו בוואטסאפ.` : "";
+
 const COUNTRY = {
   "bangkok-koh-phangan": "th", "bangkok-chiang-mai": "th", "bangkok-koh-samui": "th",
   "bangkok-koh-tao": "th", "bangkok-phuket": "th", "bangkok-krabi": "th",
@@ -1049,7 +1094,7 @@ const COUNTRY = {
   "ho-chi-minh-da-lat": "vn", "ho-chi-minh-mui-ne": "vn",
   "phnom-penh-siem-reap": "kh", "vientiane-luang-prabang": "la",
   "delhi-rishikesh": "in", "delhi-manali": "in", "delhi-agra": "in", "delhi-varanasi": "in",
-  "mumbai-goa": "in", "bangalore-goa": "in", "goa-hampi": "in", "manali-dharamshala": "in",
+  "mumbai-goa": "in", "bangalore-goa": "in", "goa-hampi": "in", "manali-dharamshala": "in", "delhi-dharamshala": "in",
   "kathmandu-pokhara": "np", "kathmandu-chitwan": "np", "pokhara-chitwan": "np",
   "kathmandu-lumbini": "np",
   "colombo-kandy": "lk", "kandy-ella": "lk", "colombo-galle": "lk",
@@ -1102,6 +1147,7 @@ const page = (r) => {
     "@context": "https://schema.org", "@type": "FAQPage", inLanguage: "he",
     mainEntity: [
       { "@type": "Question", name: r.title + "?", acceptedAnswer: { "@type": "Answer", text: r.lede } },
+      ...(QUICK[r.slug] ? [{ "@type": "Question", name: `כמה זמן ובכמה מ${r.he.from} ל${r.he.to}?`, acceptedAnswer: { "@type": "Answer", text: quickAnswer(r) } }] : []),
       ...r.ways.map((w) => ({ "@type": "Question", name: `${w.h} מ${r.he.from} ל${r.he.to} - כמה זמן וממה זה מורכב?`,
         acceptedAnswer: { "@type": "Answer", text: `${w.t}. ${w.p}` } })),
       { "@type": "Question", name: `האם אפשר לטוס מ${r.he.from} ל${r.he.to}?`,
@@ -1125,7 +1171,7 @@ const page = (r) => {
 <meta property="og:title" content="${esc(r.title)}"><meta property="og:description" content="${esc(r.desc)}">
 <meta property="og:url" content="${url}"><meta property="og:image" content="https://somechtours.com/brand/og-1200x630.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:locale" content="he_IL">
-<link rel="icon" href="/favicon.ico" sizes="any">
+${QUICK[r.slug] ? QUICK_CSS + "\n" : ""}<link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/brand/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="/brand/icon-180.png" sizes="180x180">
 <link rel="preload" href="/brand/fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
@@ -1138,7 +1184,7 @@ const page = (r) => {
 <div class="wrap" role="main">
 <nav class="crumb" aria-label="מיקום באתר"><a href="/">בית</a> · <a href="/routes/">מסלולים</a></nav>
 <h1>${esc(r.title)}</h1>
-<p class="lede">${esc(r.lede)}</p>
+${QUICK[r.slug] ? quickHtml(r) + "\n" : ""}<p class="lede">${esc(r.lede)}</p>
 ${r.ways.map((w) => `<div class="way"><h2>${esc(w.h)}</h2><p class="dur">${esc(w.t)}</p><p>${esc(w.p)}</p></div>`).join("\n")}
 <div class="air${r.air.no ? " none" : ""}"><h2>מה עם טיסה?</h2><p class="dur">${esc(r.air.t)}</p><p>${esc(r.air.p)}</p></div>
 <h2 class="sec">מה שכדאי לדעת</h2>
