@@ -52,7 +52,7 @@
 </script>
 
 <link rel="stylesheet" href="/brand/page.css?v=1">
-<style>.faq-end{margin-top:40px;display:flex;flex-direction:column;align-items:stretch;gap:20px}.faq-end>.cta{align-self:center}.faq-end .ask{margin:0;text-align:center}.faq-end .ask p{margin:0 0 18px;line-height:1.6}.faq-end .ask .cta{margin:0 auto}</style>
+<style>.faq-find{margin:22px 0 4px}.faq-find input{width:100%;box-sizing:border-box;font:inherit;font-size:17px;padding:14px 18px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--ink)}.faq-find input:focus{outline:2px solid var(--green);outline-offset:1px}.faq-n{margin:8px 2px 0;font-size:14.5px;color:var(--soft);min-height:1.2em}.faq-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.faq-end{margin-top:40px;display:flex;flex-direction:column;align-items:stretch;gap:20px}.faq-end>.cta{align-self:center}.faq-end .ask{margin:0;text-align:center}.faq-end .ask p{margin:0 0 18px;line-height:1.6}.faq-end .ask .cta{margin:0 auto}</style>
 <script defer src="/brand/track.js?v=4"></script>
 </head><body>
 <div class="top" role="banner"><a class="brand" href="/"><img src="/brand/hiker-180.png" alt="" width="38" height="38">סוכן הטיול הגדול</a><a class="wa" href="https://wa.me/972559171333?text=%D7%94%D7%99%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%91%D7%93%D7%95%D7%A7%20%D7%9B%D7%A8%D7%98%D7%99%D7%A1"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>וואטסאפ</a></div>
@@ -60,6 +60,11 @@
 
 <h1>שאלות ותשובות לפני שקונים כרטיס</h1>
 <p class="lede">אלה השאלות שמטיילים שואלים אותנו בפועל, לפי הסדר שהם שואלים אותן. אם משהו חסר כאן, פשוט תשאלו בוואטסאפ.</p>
+<div class="faq-find" role="search" hidden>
+  <label for="faq-q" class="faq-vh">חיפוש בשאלות</label>
+  <input id="faq-q" type="search" placeholder="חיפוש בשאלות, למשל: ביטול, מזוודה, תשלום" autocomplete="off" enterkeyhint="search">
+  <p id="faq-n" class="faq-n" aria-live="polite"></p>
+</div>
 
 <div class="sec">מי אנחנו</div>
 
@@ -139,4 +144,22 @@
   <span>סוכן הטיול הגדול · שירות של סומך טורס</span>
 </div></footer>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="wa-ic" viewBox="0 0 24 24"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.98L2 22l5.16-1.5A9.9 9.9 0 1 0 12.04 2zm5.8 13.97c-.25.7-1.44 1.33-1.99 1.38-.5.05-1.13.07-1.83-.12a16.6 16.6 0 0 1-1.66-.61c-2.92-1.26-4.83-4.2-4.98-4.4-.14-.19-1.19-1.58-1.19-3.02s.75-2.14 1.02-2.44c.27-.29.58-.36.78-.36h.56c.18 0 .42-.07.66.5.25.6.84 2.07.91 2.22.07.14.12.32.02.51-.1.2-.14.32-.29.49l-.43.5c-.14.14-.29.3-.12.59.17.29.74 1.22 1.59 1.98 1.09.97 2.01 1.27 2.3 1.41.29.15.46.12.63-.07.17-.2.73-.85.92-1.14.19-.29.39-.24.66-.14.27.1 1.7.8 1.99.95.29.14.49.22.56.34.07.12.07.7-.18 1.41z"/></symbol></svg>
+<script>
+/* FAQ SEARCH (Aviv, 2026-10-15): filters the questions as you type. Every word must appear in the
+   question or its answer; niqqud, geresh and quote marks are ignored. Without JS the box stays hidden
+   and the page is the full list. */
+(function(){
+var box=document.querySelector(".faq-find"),q=document.getElementById("faq-q"),n=document.getElementById("faq-n");
+if(!box||!q)return;box.hidden=false;
+var norm=function(t){return t.toLowerCase().replace(/[\u0591-\u05C7]/g,"").replace(/[׳״'"`’]/g,"").replace(/\s+/g," ").trim();};
+var qas=[].slice.call(document.querySelectorAll(".qa")).map(function(e){return{e:e,t:norm(e.textContent)};});
+var secs=[].slice.call(document.querySelectorAll(".sec"));
+q.addEventListener("input",function(){
+  var w=norm(q.value).split(" ").filter(Boolean),c=0;
+  qas.forEach(function(x){var ok=w.every(function(k){return x.t.indexOf(k)>=0;});x.e.hidden=!ok;if(ok)c++;});
+  secs.forEach(function(s){var e=s.nextElementSibling,any=false;while(e&&!e.classList.contains("sec")){if(e.classList.contains("qa")&&!e.hidden)any=true;e=e.nextElementSibling;}s.hidden=!any;});
+  n.textContent=!w.length?"":c?(c===1?"נמצאה שאלה אחת":"נמצאו "+c+" שאלות"):"לא מצאנו שאלה כזאת. אפשר לשאול אותנו בוואטסאפ, בכפתור שבסוף העמוד.";
+});
+})();
+</script>
 </body></html>
