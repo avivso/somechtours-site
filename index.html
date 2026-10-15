@@ -289,7 +289,7 @@ footer a:hover{color:var(--ink)}
   var h=document.getElementById("hook");
   if(!h||!h.animate||(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches))return;
   // A third item puts a partner's official logo file after the first line's word, moving with it (Wolt, Aviv 2026-10-15).
-  var P=[["כתבתם לאן?","הכרטיס כבר כאן."],["הוולט","של הטיסות.",{mark:"/brand/partners/wolt-logo.png",color:"#00C2E8"}],["נתקעתם","בלי כרטיס?"],["שולחים הודעה.","מקבלים כרטיס."],["מבנגקוק","ועד האי הכי רחוק."]];
+  var P=[["כתבתם לאן?","הכרטיס כבר כאן."],["הוולט","של הטיסות.",{mark:"/brand/partners/wolt-logo.png",color:"#00C2E8"}],["נתקעתם","בלי כרטיס?"],["מבנגקוק","ועד האי הכי רחוק."]];
   // The logo is fetched up front, so its line never jumps when it first appears; a missing file leaves the text alone.
   var markOk={};P.forEach(function(p){if(p[2]&&p[2].mark){var im=new Image();im.onload=function(){markOk[p[2].mark]=1;};im.src=p[2].mark;}});
   // color: the second line in the partner's own colour, sampled from its logo file (Wolt #00C2E8; Aviv 2026-10-15).
