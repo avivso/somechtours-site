@@ -1,72 +1,63 @@
-<!doctype html><html lang="he" dir="rtl"><head>
-<!-- PDF CACHE BUSTING: the ?v= is the first 8 hex of the PDF's sha256. Without it a returning
-     visitor keeps the file their browser cached forever — a corrected CONTRACT would never reach
-     them, which is how the statutory-typography fix looked "not deployed" on 2026-08-25 when it had
-     in fact been live for an hour. Bump it whenever the PDF changes. -->
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>תנאי שירות, ביטול ופרטיות | סוכן הטיול הגדול</title>
-<meta name="description" content="תנאי השירות, מדיניות הביטול וההחזרים ומדיניות הפרטיות של סוכן הטיול הגדול (סומך טורס).">
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>תנאי השירות | סוכן הטיול הגדול</title>
+<meta name="description" content="תנאי השירות של סוכן הטיול הגדול (סומך טורס).">
 <link rel="canonical" href="https://somechtours.com/terms/">
-<link rel="icon" href="/brand/logo.png">
-<link rel="preload" href="/brand/fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/brand/fonts/rubik-latin.woff2" as="font" type="font/woff2" crossorigin>
-<style>
-/* Rubik (OFL) self-hosted: one variable file per script, no third-party round trips before first paint */
-@font-face{font-family:'Rubik';font-style:normal;font-weight:300 900;font-display:swap;src:url(/brand/fonts/rubik-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:'Rubik';font-style:normal;font-weight:300 900;font-display:swap;src:url(/brand/fonts/rubik-hebrew.woff2) format('woff2');unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
-:root{--paper:#FFFFFF;--ink:#111111;--soft:#59615D;--faint:#8A918D;--line:#E3E6E4;--green:#25D366;--deep:#0E7A41}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0;background:var(--paper);color:var(--ink);direction:rtl;
-  font-family:"Rubik",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
-  display:flex;flex-direction:column}
-.bar{display:flex;align-items:center;justify-content:space-between;gap:14px;
-  padding:12px 18px;border-bottom:1px solid var(--line);flex:0 0 auto}
-/* a drawn chevron, not the "→" glyph: that character is in neither woff2, so it fell back to a
-   system font in the middle of a Rubik line */
-.bar .back::before{content:"";display:inline-block;width:7px;height:7px;margin-inline-end:8px;vertical-align:1px;
-  border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;transform:rotate(45deg)}
-.bar a{color:var(--soft);text-decoration:none;font-size:13.5px;text-underline-offset:3px}
-.bar a:hover{color:var(--ink);text-decoration:underline}
-.bar .home{display:inline-flex;align-items:center;gap:8px;color:var(--ink);font-weight:700;font-size:15px}.bar .home img{display:block}
-.bar strong{font-size:14.5px;font-weight:700}
-.doc{flex:1 1 auto;border:0;width:100%;min-height:0}
-/* A phone cannot reliably render an embedded PDF, so it gets a real link instead of a blank frame. */
-.fallback{display:none;padding:34px 22px;text-align:center;line-height:1.8}
-.fallback footer{margin-top:34px;padding-top:24px;border-top:1px solid var(--line);font-size:13px;color:var(--faint)}.fallback footer nav{display:flex;gap:8px 20px;flex-wrap:wrap;justify-content:center;margin:10px 0}.fallback footer a{color:var(--soft);text-decoration:none}.fallback footer .flogo{display:inline-block}.fallback footer img{height:36px;width:auto;display:block}
-.fallback p{color:var(--soft);margin:0 0 20px;font-size:16px}
-.btn{display:inline-block;padding:14px 28px;border-radius:999px;background:var(--deep);color:#fff;
-  text-decoration:none;font-weight:700;font-size:16.5px}
-@media(max-width:820px),(hover:none){.doc{display:none}.fallback{display:block}}
-</style><script defer src="/brand/track.js?v=4"></script>
+<link rel="stylesheet" href="/brand/page.css?v=1"><script defer src="/brand/track.js?v=4"></script>
 </head><body>
-<div class="bar">
-  <a class="home" href="/"><img src="/brand/hiker.png" alt="" width="30" height="30">סוכן הטיול הגדול</a>
-  <strong>תנאי שירות, ביטול ופרטיות</strong>
-  <a href="/terms/somech-tours-terms.pdf?v=d25fe582" download>הורדה</a>
-</div>
-<iframe class="doc" data-src="/terms/somech-tours-terms.pdf?v=d25fe582#view=FitH" title="תנאי שירות, ביטול ופרטיות"></iframe>
-<div class="fallback">
-  <p>המסמך המלא של תנאי השירות, מדיניות הביטול וההחזרים ומדיניות הפרטיות.</p>
-  <a class="btn" href="/terms/somech-tours-terms.pdf?v=d25fe582">פתיחת המסמך</a>
-<footer><div class="wrap">
+<div class="top"><a class="brand" href="/"><img src="/brand/hiker.png" alt="" width="38" height="38">סוכן הטיול הגדול</a><a class="wa" href="https://wa.me/972559171333?text=%D7%94%D7%99%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%91%D7%93%D7%95%D7%A7%20%D7%9B%D7%A8%D7%98%D7%99%D7%A1"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>וואטסאפ</a></div><div class="wrap">
+<style>.legal{padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}.legal .n{font-weight:600;color:var(--deep);margin-inline-end:4px}.legal li{line-height:1.7}.docnote{color:var(--soft);font-size:15px}.toc{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 18px}.toc a{border:1.5px solid var(--line);border-radius:999px;padding:7px 14px;text-decoration:none;color:var(--ink);font-weight:500;font-size:15px}.toc a.on{border-color:var(--deep);color:var(--deep)}</style>
+<!-- Generated by the bot's scripts/sync-site-terms.ts from src/web/terms.ts. Edit the text there, not here. -->
+<h1>תנאי השירות</h1>
+<nav class="toc" aria-label="המסמכים"><a href="/terms/" class="on">תנאי השירות</a><a href="/cancel/#policy">תנאי הכרטיס והביטול</a><a href="/privacy/">מדיניות הפרטיות</a></nav>
+<p>מסמך זה מסדיר את היחסים המשפטיים בין העוסק <b>סומך טורס</b>, הפועל גם בשם המסחרי <b>"סוכן הטיול הגדול"</b> (להלן: <b>"נותן השירות"</b>) לבין כל מזמין המבצע הזמנה באמצעות השירות (להלן: <b>"הלקוח"</b>). ההזמנה והתשלום כפופים לתנאים שלהלן.</p>
+<p><b>פרטי העוסק.</b> אביב סומך (סומך טורס), עוסק פטור, מספר זהות 204923999, מרחוב סוקולוב 3, ירושלים, ישראל. לנותן השירות אין כתובת מחוץ לישראל. דרכי התקשרות: וואטסאפ <span dir="ltr">055-917-1333</span>, דוא"ל <span dir="ltr">support@somechtours.com</span>.</p>
+<h2 id="s1">1. הגדרות</h2>
+<ul class="legal">
+<li><b>"השירות"</b>: שירות הזמנה של כרטיסי טיסה וכרטיסים לתחבורה בין-עירונית (אוטובוס, רכבת ומעבורת), בהתאם למסלולים ולמועדים הזמינים במועד ההזמנה.</li>
+<li><b>"המפעיל"</b>: חברת התעופה או חברת התחבורה, או ספק הכרטיס, צד שלישי, המפעיל בפועל את הטיסה או הנסיעה.</li>
+<li><b>"כרטיס"</b>: אישור נסיעה הנרכש עבור הלקוח אצל המפעיל, על שמו ולפי פרטי ההזמנה.</li>
+<li><b>"הזמנה"</b>: בקשת הלקוח לרכישת כרטיס, אשר השתכללה עם השלמת התשלום.</li>
+</ul>
+<h2 id="s2">2. מהות השירות</h2>
+<ol class="legal"><li id="s2-1"><span class="n">2.1</span> נותן השירות מוכר ללקוח, בשמו ועל חשבונו, שירות הזמנה של כרטיסי טיסה ונסיעה במחיר כולל אחד, בשקלים, הנקוב בהצעה. זהו המחיר הסופי, והוא כולל את עלות הכרטיס, את כל התוספות ואת שכר נותן השירות. הלקוח מסכים כי כל הפרש בין המחיר הכולל לבין העלות בפועל לנותן השירות, לרבות הנחות או עמלות שיקבל מהספק, שייך לנותן השירות, ולא יידרש בגינו פירוט או החזר. הכרטיס מונפק על ידי חברת התעופה או המפעיל, והטיסה או הנסיעה מתבצעת על ידם ולפי תנאי הכרטיס שלהם, וזאת מבלי לגרוע מאחריות נותן השירות לביצוע ההזמנה ולמידע שמסר. לפני התשלום יימסרו ללקוח שם המפעיל, תנאי הכרטיס ותנאי הביטול שלו.</li>
+<li id="s2-2"><span class="n">2.2</span> הכרטיס מונפק על ידי המפעיל וכפוף לתנאיו. ביצוע הנסיעה בפועל, לרבות מועדיה, מסלולה, נקודות העלייה והירידה ואיכות השירות במהלכה, נעשה על ידי המפעיל ובאחריותו. אין באמור כדי לגרוע מאחריותו של נותן השירות לפי סעיף 2.3 ולפי כל דין.</li>
+<li id="s2-3"><span class="n">2.3</span> נותן השירות מתחייב לבצע את ההזמנה בהתאם לפרטים שמסר הלקוח ולמסור לו כרטיס תקף. הלקוח אחראי לנכונות הפרטים שמסר.</li></ol>
+<h2 id="s3">3. מחיר, תשלום וקבלה</h2>
+<ol class="legal"><li id="s3-1"><span class="n">3.1</span> המחיר המוצג הוא המחיר הסופי לתשלום עבור השירות, נקוב בשקלים חדשים וכולל את כל התשלומים החלים.</li>
+<li id="s3-2"><span class="n">3.2</span> התשלום מתבצע באמצעות ספק סליקה מאובטח, בכרטיס אשראי, ביט, Apple Pay או Google Pay. ההזמנה מחייבת את הצדדים עם קליטת התשלום בפועל.</li>
+<li id="s3-3"><span class="n">3.3</span> עם השלמת התשלום יומצאו ללקוח קבלה כדין וכן הכרטיס.</li><li id="s3-4"><span class="n">3.4</span> אופן ומועד האספקה: הכרטיס והקבלה יישלחו ללקוח באותו ערוץ שבו בוצעה ההזמנה, לאחר קליטת התשלום ואישור ההזמנה אצל המפעיל, ולא יאוחר מ-24 שעות מקליטת התשלום. לא הושלמה ההזמנה אצל המפעיל מסיבה שאינה תלויה בלקוח, יושב ללקוח מלוא הסכום ששולם, בתוך המועד הקבוע בדין ובאותו אמצעי שבו שולם. לא הושלמה ההזמנה בשל פרטים שגויים שמסר הלקוח, יחולו הוראות סעיף 4.</li></ol>
+<h2 id="s4">4. ביטול הזמנה והחזר כספי</h2>
+<p>בעמוד <a href="/cancel/#policy">תנאי הכרטיס והביטול</a>.</p>
+<h2 id="s5">5. טיסות</h2>
+<ol class="legal"><li id="s5-1"><span class="n">5.1</span> כרטיס טיסה מונפק על השמות כפי שמסר הלקוח, ועליהם להיות זהים לשמות בדרכון. האחריות לנכונות השמות ופרטי הדרכון חלה על הלקוח.</li>
+<li id="s5-2"><span class="n">5.2</span> על הלקוח להחזיק בדרכון בתוקף לפחות 6 חודשים ממועד סיום הנסיעה, ובאשרות ובמסמכים הנדרשים לכניסה ליעד ולמעבר בו.</li>
+<li id="s5-3"><span class="n">5.3</span> הכבודה הכלולה במחיר היא זו שפורטה בהצעה, לכל פריט ומשקלו. כבודה נוספת כרוכה בתשלום לחברת התעופה.</li>
+<li id="s5-4"><span class="n">5.4</span> זכויות הנוסע בשל סירוב להטיס, עיכוב, הקדמה או ביטול של טיסה מישראל או אליה הן לפי חוק שירותי תעופה (פיצוי וסיוע בשל ביטול טיסה או שינוי בתנאיה), התשע"ב-2012, וההטבות לפיו ניתנות על ידי מפעיל הטיסה. לבקשת הלקוח, יפנה נותן השירות למפעיל הטיסה לשם מימוש זכאותו. נותן השירות יעביר ללקוח, בלא דיחוי, הודעות שיקבל ממפעיל הטיסה, ובהן מועד ההתייצבות לבידוק ופרטי נציג מפעיל הטיסה בשדה התעופה, וכן הודעה על שינויים בטיסה שקיבל ממפעיל הטיסה במצב מיוחד שהוכרז לפי החוק. אין באמור כדי לגרוע מזכויות הנוסע לפי כל דין.</li>
+<li id="s5-5"><span class="n">5.5</span> ההגעה לשדה התעופה, הצ'ק-אין במועד ועמידה בכללי חברת התעופה הם באחריות הלקוח.</li>
+<li id="s5-6"><span class="n">5.6</span> ביטול כרטיס טיסה: כמפורט בסעיף 4. שינוי שמבקש הלקוח כפוף לתנאי התעריף של הכרטיס שהוזמן ולתשלום שיגבה מפעיל הטיסה, כפי שיימסרו ללקוח לפני ביצועו.</li>
+<li id="s5-7"><span class="n">5.7</span> כרטיסים נפרדים: מקום שבהצעה צוין במפורש כי מדובר ב"שני כרטיסים נפרדים", כל כרטיס הוא הזמנה נפרדת, אצל מפעיל הטיסה שלו ובתנאי התעריף שלו, כפי שנמסרו ללקוח במעמד ההזמנה. ביטול, עיכוב או שינוי בטיסה שבכרטיס אחד אינם מחייבים את מפעיל הטיסה שבכרטיס האחר, ואינם מזכים כשלעצמם בשינוי או בהחזר בכרטיס האחר. החמצת טיסה שבכרטיס אחד בשל ביטול, עיכוב או שינוי בטיסה שבכרטיס האחר היא באחריות הלקוח, ככל שהדין מתיר זאת, ואין באמור כדי לגרוע מזכויות הנוסע כלפי מפעיל הטיסה לפי חוק שירותי תעופה (פיצוי וסיוע בשל ביטול טיסה או שינוי בתנאיה), התשע"ב-2012, או לפי כל דין. שינויים ודמי ביטול לפי תנאי המפעיל ייגבו בנפרד לכל כרטיס.</li></ol>
+<h2 id="s6">6. אחריות והגבלתה</h2>
+<ol class="legal"><li id="s6-1"><span class="n">6.1</span> נותן השירות אחראי לביצוע ההזמנה בהתאם לפרטים שמסר הלקוח, למסירת כרטיס תקף ולנכונות פרטי ההזמנה המחייבים כמפורט בסעיף 7.3.</li>
+<li id="s6-2"><span class="n">6.2</span> נותן השירות לא יישא באחריות לנזק, להוצאה או לאובדן שמקורם בעיכוב, בביטול או בשינוי מצד המפעיל, באיכות השירות שנותן המפעיל בפועל, או בנסיבות שאינן בשליטתו הסבירה של נותן השירות, לרבות כוח עליון, מזג אוויר, שביתות והחלטות רשות מוסמכת. אין בסעיף זה כדי לפטור את נותן השירות מאחריות לנזק שנגרם ברשלנותו או בהפרת חיוביו לפי מסמך זה, מאחריות לנזק גוף או למעשה זדון, או מחובותיו לפי חוק הגנת הצרכן ולפי חוק שירותי תעופה.</li>
+<li id="s6-3"><span class="n">6.3</span> אין בסעיף זה כדי לפטור את נותן השירות מאחריות שלפי דין לא ניתן להתנות עליה או להגבילה.</li></ol>
+<h2 id="s7">7. מידע הנמסר בשירות ומענה אוטומטי</h2>
+<ol class="legal"><li id="s7-1"><span class="n">7.1</span> השירות מופעל ברובו באמצעות מערכת מענה אוטומטית המבוססת על בינה מלאכותית, בפיקוח אנושי. בכל שלב ניתן לבקש מענה של נציג אנושי.</li>
+<li id="s7-2"><span class="n">7.2</span> מידע כללי הנמסר בשירות, לרבות משכי נסיעה משוערים, מצב דרכים ומזג אוויר, כבודה, דרישות כניסה, ויזה ובריאות, והמלצות על מסלולים ויעדים, נמסר לנוחות הלקוח על בסיס מקורות של צדדים שלישיים, ועלול להיות חלקי, לא מעודכן או שגוי. מידע כאמור אינו ייעוץ מקצועי, ועל הלקוח לאמת כל פרט מהותי לנסיעתו מול המפעיל או מול גורם רשמי.</li>
+<li id="s7-3"><span class="n">7.3</span> פרטי ההזמנה המחייבים הם אלה המופיעים בקישור התשלום ובכרטיס שהונפק: המסלול, התאריך והשעה, נקודת העלייה, מספר הנוסעים והמחיר הסופי. אין באמור כדי לגרוע מאחריות נותן השירות לנכונות פרטים אלה.</li>
+<li id="s7-4"><span class="n">7.4</span> ככל שהדין מתיר זאת, נותן השירות לא יישא באחריות לנזק שנגרם עקב הסתמכות בלעדית על מידע כללי כאמור בסעיף 7.2 שלא אומת.</li></ol>
+<h2 id="s8">8. הגנת הפרטיות ומידע אישי</h2>
+<p>בעמוד <a href="/privacy/">מדיניות הפרטיות</a>.</p>
+<h2 id="s9">9. שונות</h2>
+<ol class="legal"><li id="s9-1"><span class="n">9.1</span> על מסמך זה יחולו דיני מדינת ישראל, וסמכות השיפוט הבלעדית נתונה לבתי המשפט המוסמכים בישראל.</li>
+<li id="s9-2"><span class="n">9.2</span> הנוסח המחייב לגבי הזמנה הוא הנוסח שהוצג ללקוח במועד אותה הזמנה.</li>
+<li id="s9-3"><span class="n">9.3</span> המסמך מנוסח בלשון זכר מטעמי נוחות ומופנה לכל המגדרים כאחד.</li></ol>
+<p><b>תחולה.</b> תנאים אלה חלים על כל הזמנה שהתשלום בעדה הושלם. הנוסח המחייב הוא הנוסח שהוצג ללקוח במועד ההזמנה.</p>
+<p>סומך טורס · לפניות, ביטולים ותמיכה: בצ'אט הוואטסאפ עצמו או <span dir="ltr">support@somechtours.com</span></p>
+<p class="docnote">המסמך המלא בקובץ אחד: <a href="/terms/somech-tours-terms.pdf?v=746e8984" download>הורדה (PDF)</a>.</p>
+</div><footer><div class="wrap">
   <a class="flogo" href="/" aria-label="סוכן הטיול הגדול"><img src="/brand/hiker.png" alt="סוכן הטיול הגדול" width="512" height="512"></a>
-  <nav><a href="/faq/">שאלות ותשובות</a><a href="/routes/">מדריכי מסלולים</a><a href="/terms/">תנאי שירות, ביטול ופרטיות</a><a href="/passenger-rights/">זכויות נוסעים בטיסה</a><a href="/cancel/">ביטול עסקה</a><a href="/cookies/">עוגיות</a></nav>
+  <nav><a href="/faq/">שאלות ותשובות</a><a href="/routes/">מדריכי מסלולים</a><a href="/terms/">תנאי השירות</a><a href="/privacy/">מדיניות הפרטיות</a><a href="/passenger-rights/">זכויות נוסעים בטיסה</a><a href="/cancel/">ביטול עסקה</a><a href="/cookies/">עוגיות</a></nav>
   <span>סוכן הטיול הגדול · שירות של סומך טורס</span>
-</div></footer></div>
-<script>
-// A phone hides the frame in CSS but would still download the 58KB PDF behind it, so the source is
-// only attached where the frame is actually shown; the button below is the phone's path to the
-// document. The query MATCHES THE STYLESHEET's, and it is re-checked on resize, so a window that
-// grows past the breakpoint gets the frame filled in rather than left blank.
-(() => {
-  const f = document.querySelector(".doc");
-  if (!f) return;
-  const phone = matchMedia("(max-width:820px),(hover:none)");
-  const sync = () => { if (!phone.matches && !f.src) f.src = f.dataset.src; };
-  sync();
-  if (phone.addEventListener) phone.addEventListener("change", sync);
-  addEventListener("resize", sync);
-})();
-</script>
+</div></footer>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="wa-ic" viewBox="0 0 24 24"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.98L2 22l5.16-1.5A9.9 9.9 0 1 0 12.04 2zm5.8 13.97c-.25.7-1.44 1.33-1.99 1.38-.5.05-1.13.07-1.83-.12a16.6 16.6 0 0 1-1.66-.61c-2.92-1.26-4.83-4.2-4.98-4.4-.14-.19-1.19-1.58-1.19-3.02s.75-2.14 1.02-2.44c.27-.29.58-.36.78-.36h.56c.18 0 .42-.07.66.5.25.6.84 2.07.91 2.22.07.14.12.32.02.51-.1.2-.14.32-.29.49l-.43.5c-.14.14-.29.3-.12.59.17.29.74 1.22 1.59 1.98 1.09.97 2.01 1.27 2.3 1.41.29.15.46.12.63-.07.17-.2.73-.85.92-1.14.19-.29.39-.24.66-.14.27.1 1.7.8 1.99.95.29.14.49.22.56.34.07.12.07.7-.18 1.41z"/></symbol></svg>
 </body></html>
