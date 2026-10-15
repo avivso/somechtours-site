@@ -12,8 +12,13 @@ const cssHref = `/routes/route.css?v=${cssV}`;
 for (const slug of slugs) {
   const h = readFileSync(`routes/${slug}/index.html`, "utf8");
   if (/[—–]/.test(h)) fail(`${slug}: em/en dash`);
-  // no prices, in any currency, anywhere. A stale number here would contradict the bot.
-  if (/[₪$€£฿]|\bILS\b|\bTHB\b|\d[\d,.]*\s*(שקל|שקלים|בהט)|(שקל|שקלים|בהט)\s*\d/.test(h))
+  // NO PRICES, except in the "בקצרה" box (Aviv, 2026-10-16, option A): there a price must come with its search date,
+  // "להמחשה בלבד" and the WhatsApp link for the current price. Anywhere else a stale number would contradict the bot.
+  const quick = (h.match(/<section class="quick"[\s\S]*?<\/section>/) ?? [""])[0];
+  if (quick && /₪/.test(quick) && !(/להמחשה בלבד/.test(quick) && /לפי חיפוש לתאריך \d{1,2}\.\d{1,2}\.\d{4}/.test(quick) && /href="https:\/\/wa\.me\//.test(quick)))
+    fail(`${slug}: a price box without its date, "להמחשה בלבד" and the WhatsApp link`);
+  const hNoQuick = h.replace(quick, "").replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, (m) => m.replace(/מכ-\d+ ₪[^".]*/g, ""));
+  if (/[₪$€£฿]|\bILS\b|\bTHB\b|\d[\d,.]*\s*(שקל|שקלים|בהט)|(שקל|שקלים|בהט)\s*\d/.test(hNoQuick))
     fail(`${slug}: looks like a price`);
   if (!h.includes(cssHref)) fail(`${slug}: stylesheet link is not stamped with the current CSS hash`);
   if (!h.includes("wa.me/972559171333")) fail(`${slug}: no WhatsApp CTA`);
