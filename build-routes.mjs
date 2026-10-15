@@ -1340,7 +1340,9 @@ const today = new Date().toISOString().slice(0, 10);
 const BARE_URLS = ["https://somechtours.com/passenger-rights/", "https://somechtours.com/cancel/"];
 const oldMod = new Map([...(existsSync("sitemap.xml") ? readFileSync("sitemap.xml", "utf8") : "").matchAll(/<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/g)].map((m) => [m[1], m[2]]));
 const urls = [
-  { loc: "https://somechtours.com/", pri: "1.0", freq: "weekly" },
+  // THE BRAND'S IMAGES, NAMED FOR GOOGLE IMAGES (Aviv, 2026-10-16: old logos still showed there). The same URLs now hold
+  // the approved logo, so listing them asks Google to fetch the new pictures.
+  { loc: "https://somechtours.com/", pri: "1.0", freq: "weekly", images: ["https://somechtours.com/brand/logo-square-white.png", "https://somechtours.com/brand/og-1200x630.png", "https://somechtours.com/brand/logo.png"] },
   { loc: "https://somechtours.com/faq/", pri: "0.8", freq: "monthly" },
   { loc: "https://somechtours.com/routes/", pri: "0.8", freq: "weekly" },
   ...ROUTES.map((r) => ({ loc: `https://somechtours.com/routes/${r.slug}/`, pri: "0.7", freq: "monthly" })),
@@ -1348,12 +1350,12 @@ const urls = [
   { loc: "https://somechtours.com/privacy/", pri: "0.3", freq: "monthly" },
 ];
 writeFileSync("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${urls.map((u) => `  <url>
     <loc>${u.loc}</loc>
     <lastmod>${changedUrls.has(u.loc) ? today : oldMod.get(u.loc) ?? today}</lastmod>
     <changefreq>${u.freq}</changefreq>
-    <priority>${u.pri}</priority>
+    <priority>${u.pri}</priority>${(u.images ?? []).map((i) => `\n    <image:image><image:loc>${i}</image:loc></image:image>`).join("")}
   </url>`).join("\n")}
 ${BARE_URLS.map((u) => `  <url><loc>${u}</loc></url>`).join("\n")}
 </urlset>
