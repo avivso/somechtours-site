@@ -198,7 +198,7 @@ footer a:hover{color:var(--ink)}
 }
 @media (prefers-reduced-motion:reduce){.js .row{transition:none}html{scroll-behavior:auto}}
 </style>
-<script defer src="/brand/track.js?v=3"></script>
+<script defer src="/brand/track.js?v=4"></script>
 </head><body>
 <script>document.documentElement.classList.add("js")</script>
 
@@ -334,7 +334,7 @@ footer a:hover{color:var(--ink)}
 // The box opens WhatsApp with the question already written. Only a link: nothing is sent to or stored by us.
 function stAsk(f){var d=(f.dest.value||"").trim().replace(/\s+/g," ").slice(0,60);
   var t="אפשר טיסה מישראל ל"+(d?d+"?":"");
-  if(window.stLead)stLead("hero-box");
-  location.href="https://wa.me/972559171333?text="+encodeURIComponent(t);return false;}
+  var url="https://wa.me/972559171333?text="+encodeURIComponent(t);
+  if(window.stOpenWa)stOpenWa(url,"hero-box");else location.href=url;return false;}
 </script>
 </body></html>

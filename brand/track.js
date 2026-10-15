@@ -35,19 +35,29 @@
     }
   }
 
-  /* A tap on any WhatsApp link (or the hero box) is the lead the ad optimises for. After the opt-out, nothing is sent. */
+  /* A tap on any WhatsApp link (or the hero box) is the lead the ad optimises for. After the opt-out, nothing is sent.
+     GA4 batches hits and sends a few seconds later, so a tap that LEAVES the page lost its lead (seen live 2026-10-15:
+     page_view arrived, whatsapp_click never did, even with a callback). So WhatsApp opens in a new tab (on a phone: the
+     app), this page stays alive, and the batch goes out. If the browser blocks the new tab, the same tab goes. */
   window.stLead = function (where) {
     if (get() === "no") return;
-    if (window.gtag) {
+    if (window.fbq) fbq("track", "Lead", { content_name: where || "" }, { eventID: "lead-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8) });
+    if (window.gtag && (CFG.GA4 || CFG.ADS)) {
       gtag("event", "whatsapp_click", { link_location: where || "", transport_type: "beacon" });
       if (CFG.ADS_LEAD) gtag("event", "conversion", { send_to: CFG.ADS_LEAD });
     }
-    /* An event ID on every Lead, so a server-side Lead (the bot's Conversions API) can be deduplicated against it later. */
-    if (window.fbq) fbq("track", "Lead", { content_name: where || "" }, { eventID: "lead-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8) });
+  };
+  /* Opens WhatsApp beside this page, counting the lead; inside the tap, so no popup blocker objects. */
+  window.stOpenWa = function (url, where) {
+    var w = window.open(url, "_blank");
+    window.stLead(where);
+    if (w) { try { w.opener = null; } catch (e) {} } else location.href = url;
   };
   document.addEventListener("click", function (e) {
     var a = e.target.closest && e.target.closest('a[href*="wa.me/"]');
-    if (a) window.stLead(a.getAttribute("data-where") || location.pathname);
+    if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    e.preventDefault();
+    window.stOpenWa(a.href, a.getAttribute("data-where") || location.pathname);
   }, true);
 
   /* THE OPT-OUT on /cookies/ ("הפסקת מדידה"): kept on this device; from the next page on, no tag loads. */
