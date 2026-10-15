@@ -1123,7 +1123,7 @@ const page = (r) => {
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
 <meta property="og:type" content="article"><meta property="og:site_name" content="סוכן הטיול הגדול">
 <meta property="og:title" content="${esc(r.title)}"><meta property="og:description" content="${esc(r.desc)}">
-<meta property="og:url" content="${url}"><meta property="og:image" content="https://somechtours.com/brand/logo.png">
+<meta property="og:url" content="${url}"><meta property="og:image" content="https://somechtours.com/brand/og-1200x630.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:locale" content="he_IL">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/brand/icon-192.png" sizes="192x192">
