@@ -1180,7 +1180,7 @@ ${QUICK[r.slug] ? QUICK_CSS + "\n" : ""}<link rel="icon" href="/favicon.ico" siz
 <script type="application/ld+json">${JSON.stringify(webpage(r))}</script>
 <link rel="stylesheet" href="/routes/route.css?v=${CSS_V}">
 </head><body>
-<div class="top" role="banner"><a class="brand" href="/"><img src="/brand/hiker-180.png" alt="" width="38" height="38">סוכן הטיול</a><a class="wa" href="${waLink(`${FROM_SITE} מ${r.he.from} ל${r.he.to}`)}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>וואטסאפ</a></div>
+<div class="top" role="banner"><a class="brand" href="/"><img src="/brand/logo-full.png" alt="סוכן הטיול." width="129" height="30"></a><a class="wa" href="${waLink(`${FROM_SITE} מ${r.he.from} ל${r.he.to}`)}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>וואטסאפ</a></div>
 <div class="wrap" role="main">
 <nav class="crumb" aria-label="מיקום באתר"><a href="/">בית</a> · <a href="/routes/">מסלולים</a></nav>
 <h1>${esc(r.title)}</h1>
@@ -1329,7 +1329,7 @@ const indexPage = () => `<!doctype html><html lang="he" dir="rtl"><head>
 })}</script>
 <script defer src="/brand/track.js?v=4"></script>
 </head><body>
-<div class="top" role="banner"><a class="brand" href="/"><img src="/brand/hiker-180.png" alt="" width="38" height="38">סוכן הטיול</a><a class="wa" href="${WA}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>וואטסאפ</a></div>
+<div class="top" role="banner"><a class="brand" href="/"><img src="/brand/logo-full.png" alt="סוכן הטיול." width="129" height="30"></a><a class="wa" href="${WA}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>וואטסאפ</a></div>
 <div class="wrap" role="main">
 <h1>מסלולים</h1>
 <p class="lede tight">איך מגיעים בפועל מעיר לעיר: כל האפשרויות, כמה זמן כל אחת לוקחת, ומה שכדאי לדעת לפני שקונים כרטיס.</p>
