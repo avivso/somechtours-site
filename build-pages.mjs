@@ -38,16 +38,16 @@ const titleOf = (slug) => {
 function page({ path, title, h1, description, crumbs, body, faq, waText }) {
   const url = `${SITE}${path}`;
   const ld = [
-    { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ name: "סוכן הטיול הגדול", item: `${SITE}/` }, ...crumbs.map(([n, p]) => ({ name: n, item: `${SITE}${p}` }))].map((x, i) => ({ "@type": "ListItem", position: i + 1, ...x })) },
+    { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ name: "סוכן הטיול", item: `${SITE}/` }, ...crumbs.map(([n, p]) => ({ name: n, item: `${SITE}${p}` }))].map((x, i) => ({ "@type": "ListItem", position: i + 1, ...x })) },
     ...(faq?.length ? [{ "@context": "https://schema.org", "@type": "FAQPage", inLanguage: "he", mainEntity: faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }] : []),
   ];
   const html = `<!doctype html><html lang="he" dir="rtl"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>${esc(title)} | סוכן הטיול הגדול</title>
+<title>${esc(title)} | סוכן הטיול</title>
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${url}">
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
-<meta property="og:type" content="article"><meta property="og:site_name" content="סוכן הטיול הגדול">
+<meta property="og:type" content="article"><meta property="og:site_name" content="סוכן הטיול">
 <meta property="og:title" content="${esc(h1)}"><meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${url}"><meta property="og:image" content="${SITE}/brand/og-1200x630.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:locale" content="he_IL">
