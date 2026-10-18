@@ -69,7 +69,7 @@ const page = (p) => {
   const wa = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(opener(p))}`;
   return `<!doctype html>${MARKER}<html lang="he" dir="rtl"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>פותחים וואטסאפ | סוכן הטיול הגדול</title>
+<title>פותחים וואטסאפ | סוכן הטיול</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="preload" href="/brand/fonts/rubik-hebrew.woff2" as="font" type="font/woff2" crossorigin>
@@ -97,7 +97,7 @@ p{color:#dcdcdc;margin:0 0 26px;font-size:16px;line-height:1.6}
 <script defer src="/brand/track.js?v=4"></script>
 </head><body>
 <div class="card">
-  <img class="logo" src="/brand/logo-white.png" alt="סוכן הטיול הגדול">
+  <img class="logo" src="/brand/logo-white.png" alt="סוכן הטיול">
   <h1>פותחים לכם את הוואטסאפ</h1>
   <p>ההודעה כבר מוכנה, רק צריך לשלוח אותה. נחזור אליכם עם האפשרויות והמחיר הסופי.</p>
   <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -105,7 +105,7 @@ p{color:#dcdcdc;margin:0 0 26px;font-size:16px;line-height:1.6}
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.86 9.86 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.13c-.24.68-1.2 1.25-1.96 1.41-.52.11-1.2.2-3.5-.75-2.94-1.22-4.83-4.2-4.98-4.4-.14-.19-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.27-.29.58-.36.78-.36.19 0 .39 0 .56.01.18.01.42-.7.8.61.39.7 1.33 2.44 1.45 2.61.12.18.2.39.04.62-.15.24-.23.38-.45.59-.22.2-.36.36-.52.58-.15.2-.31.42-.13.73.18.31.8 1.32 1.72 2.14 1.18 1.05 2.17 1.38 2.48 1.53.31.15.49.13.67-.08.18-.2.77-.9.98-1.21.2-.31.41-.26.68-.15.28.1 1.76.83 2.06.98.31.15.51.22.58.35.08.12.08.7-.16 1.38Z"/></svg>
     לפתיחת השיחה
   </a>
-  <p class="small">לא נפתח מעצמו? לחצו על הכפתור. <a href="/">סוכן הטיול הגדול</a></p>
+  <p class="small">לא נפתח מעצמו? לחצו על הכפתור. <a href="/">סוכן הטיול</a></p>
 </div>
 <script>
 // Auto-forward, but not instantly: a beat of brand is worth more than 900ms, and an immediate jump

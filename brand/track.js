@@ -7,7 +7,7 @@
     GA4: "G-VYY5XZ5JSP", /* Google Analytics 4: property somechtours.com, web stream "Site" */
     ADS: "",        /* "AW-XXXXXXX"  Google Ads */
     ADS_LEAD: "",   /* "AW-XXXXXXX/abcDEF" the Google Ads conversion for a WhatsApp click */
-    PIXEL: "1804905007487330" /* Meta: the dataset "סוכן הטיול הגדול · הזמנות מהבוט", where the bot's Conversions API Purchase already lands */
+    PIXEL: "1804905007487330" /* Meta: the dataset "סוכן הטיול · הזמנות מהבוט", where the bot's Conversions API Purchase already lands */
   };
   var KEY = "st-consent-v1";
   var get = function () { try { return localStorage.getItem(KEY); } catch (e) { return null; } };

@@ -1134,8 +1134,8 @@ const webpage = (r) => ({
   "@context": "https://schema.org", "@type": "WebPage", inLanguage: "he",
   "@id": `https://somechtours.com/routes/${r.slug}/`,
   name: r.title, description: r.desc, dateModified: BUILD_DATE,
-  isPartOf: { "@type": "WebSite", name: "סוכן הטיול הגדול", url: "https://somechtours.com/" },
-  publisher: { "@type": "TravelAgency", name: "סוכן הטיול הגדול", url: "https://somechtours.com/" },
+  isPartOf: { "@type": "WebSite", name: "סוכן הטיול", url: "https://somechtours.com/" },
+  publisher: { "@type": "TravelAgency", name: "סוכן הטיול", url: "https://somechtours.com/" },
   about: { "@type": "Place", name: `${r.he.from} - ${r.he.to}` },
 });
 
@@ -1156,18 +1156,18 @@ const page = (r) => {
   };
   const crumbs = {
     "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
-      { "@type": "ListItem", position: 1, name: "סוכן הטיול הגדול", item: "https://somechtours.com/" },
+      { "@type": "ListItem", position: 1, name: "סוכן הטיול", item: "https://somechtours.com/" },
       { "@type": "ListItem", position: 2, name: "מסלולים", item: "https://somechtours.com/routes/" },
       { "@type": "ListItem", position: 3, name: `${r.he.from} ל${r.he.to}`, item: url },
     ],
   };
   return `<!doctype html><html lang="he" dir="rtl"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>${esc(r.title)} | סוכן הטיול הגדול</title>
+<title>${esc(r.title)} | סוכן הטיול</title>
 <meta name="description" content="${esc(r.desc)}">
 <link rel="canonical" href="${url}">
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
-<meta property="og:type" content="article"><meta property="og:site_name" content="סוכן הטיול הגדול">
+<meta property="og:type" content="article"><meta property="og:site_name" content="סוכן הטיול">
 <meta property="og:title" content="${esc(r.title)}"><meta property="og:description" content="${esc(r.desc)}">
 <meta property="og:url" content="${url}"><meta property="og:image" content="https://somechtours.com/brand/og-1200x630.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:locale" content="he_IL">
@@ -1180,7 +1180,7 @@ ${QUICK[r.slug] ? QUICK_CSS + "\n" : ""}<link rel="icon" href="/favicon.ico" siz
 <script type="application/ld+json">${JSON.stringify(webpage(r))}</script>
 <link rel="stylesheet" href="/routes/route.css?v=${CSS_V}">
 </head><body>
-<div class="top" role="banner"><a class="brand" href="/"><img src="/brand/hiker-180.png" alt="" width="38" height="38">סוכן הטיול הגדול</a><a class="wa" href="${waLink(`${FROM_SITE} מ${r.he.from} ל${r.he.to}`)}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>וואטסאפ</a></div>
+<div class="top" role="banner"><a class="brand" href="/"><img src="/brand/hiker-180.png" alt="" width="38" height="38">סוכן הטיול</a><a class="wa" href="${waLink(`${FROM_SITE} מ${r.he.from} ל${r.he.to}`)}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>וואטסאפ</a></div>
 <div class="wrap" role="main">
 <nav class="crumb" aria-label="מיקום באתר"><a href="/">בית</a> · <a href="/routes/">מסלולים</a></nav>
 <h1>${esc(r.title)}</h1>
@@ -1198,9 +1198,9 @@ ${(() => { const n = relatedTo(r); return n.length ? `<h2 class="sec">קווים
 <p class="legal"><a href="/faq/">שאלות ותשובות</a> · <a href="/routes/">כל המסלולים</a> · <a href="/terms/">תנאי שימוש</a></p>
 </div>
 <footer><div class="wrap">
-  <a class="flogo" href="/" aria-label="סוכן הטיול הגדול"><img src="/brand/hiker-180.png" alt="סוכן הטיול הגדול" width="512" height="512"></a>
+  <a class="flogo" href="/" aria-label="סוכן הטיול"><img src="/brand/hiker-180.png" alt="סוכן הטיול" width="512" height="512"></a>
   <nav><a href="/faq/">שאלות ותשובות</a><a href="/routes/">מדריכי מסלולים</a><a href="/terms/">תנאי השירות</a><a href="/privacy/">מדיניות הפרטיות</a><a href="/passenger-rights/">זכויות נוסעים בטיסה</a><a href="/cancel/">ביטול עסקה</a></nav>
-  <span>סוכן הטיול הגדול · שירות של סומך טורס</span>
+  <span>סוכן הטיול · שירות של סומך טורס</span>
 </div></footer>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="wa-ic" viewBox="0 0 24 24"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.98L2 22l5.16-1.5A9.9 9.9 0 1 0 12.04 2zm5.8 13.97c-.25.7-1.44 1.33-1.99 1.38-.5.05-1.13.07-1.83-.12a16.6 16.6 0 0 1-1.66-.61c-2.92-1.26-4.83-4.2-4.98-4.4-.14-.19-1.19-1.58-1.19-3.02s.75-2.14 1.02-2.44c.27-.29.58-.36.78-.36h.56c.18 0 .42-.07.66.5.25.6.84 2.07.91 2.22.07.14.12.32.02.51-.1.2-.14.32-.29.49l-.43.5c-.14.14-.29.3-.12.59.17.29.74 1.22 1.59 1.98 1.09.97 2.01 1.27 2.3 1.41.29.15.46.12.63-.07.17-.2.73-.85.92-1.14.19-.29.39-.24.66-.14.27.1 1.7.8 1.99.95.29.14.49.22.56.34.07.12.07.7-.18 1.41z"/></symbol></svg>
 </body></html>
@@ -1309,7 +1309,7 @@ const card = (r) => `<li><a href="/routes/${r.slug}/">
 
 const indexPage = () => `<!doctype html><html lang="he" dir="rtl"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>מסלולים: איך מגיעים מעיר לעיר | סוכן הטיול הגדול</title>
+<title>מסלולים: איך מגיעים מעיר לעיר | סוכן הטיול</title>
 <meta name="description" content="מדריכים קצרים לקווים שמטיילים ישראלים נוסעים בהם בפועל: איך מגיעים, כמה זמן זה לוקח, ומה שכדאי לדעת לפני שקונים כרטיס.">
 <link rel="canonical" href="https://somechtours.com/routes/">
 <meta name="robots" content="index,follow">
@@ -1329,7 +1329,7 @@ const indexPage = () => `<!doctype html><html lang="he" dir="rtl"><head>
 })}</script>
 <script defer src="/brand/track.js?v=4"></script>
 </head><body>
-<div class="top" role="banner"><a class="brand" href="/"><img src="/brand/hiker-180.png" alt="" width="38" height="38">סוכן הטיול הגדול</a><a class="wa" href="${WA}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>וואטסאפ</a></div>
+<div class="top" role="banner"><a class="brand" href="/"><img src="/brand/hiker-180.png" alt="" width="38" height="38">סוכן הטיול</a><a class="wa" href="${WA}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>וואטסאפ</a></div>
 <div class="wrap" role="main">
 <h1>מסלולים</h1>
 <p class="lede tight">איך מגיעים בפועל מעיר לעיר: כל האפשרויות, כמה זמן כל אחת לוקחת, ומה שכדאי לדעת לפני שקונים כרטיס.</p>
@@ -1340,9 +1340,9 @@ ${g.routes.map(card).join("\n")}
 </ul>`).join("\n")}
 <p class="legal"><a href="/faq/">שאלות ותשובות</a> · <a href="/">לעמוד הבית</a></p>
 </div><footer><div class="wrap">
-  <a class="flogo" href="/" aria-label="סוכן הטיול הגדול"><img src="/brand/hiker-180.png" alt="סוכן הטיול הגדול" width="512" height="512"></a>
+  <a class="flogo" href="/" aria-label="סוכן הטיול"><img src="/brand/hiker-180.png" alt="סוכן הטיול" width="512" height="512"></a>
   <nav><a href="/faq/">שאלות ותשובות</a><a href="/routes/">מדריכי מסלולים</a><a href="/terms/">תנאי השירות</a><a href="/privacy/">מדיניות הפרטיות</a><a href="/passenger-rights/">זכויות נוסעים בטיסה</a><a href="/cancel/">ביטול עסקה</a><a href="/cookies/">עוגיות</a></nav>
-  <span>סוכן הטיול הגדול · שירות של סומך טורס</span>
+  <span>סוכן הטיול · שירות של סומך טורס</span>
 </div></footer>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="wa-ic" viewBox="0 0 24 24"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.98L2 22l5.16-1.5A9.9 9.9 0 1 0 12.04 2zm5.8 13.97c-.25.7-1.44 1.33-1.99 1.38-.5.05-1.13.07-1.83-.12a16.6 16.6 0 0 1-1.66-.61c-2.92-1.26-4.83-4.2-4.98-4.4-.14-.19-1.19-1.58-1.19-3.02s.75-2.14 1.02-2.44c.27-.29.58-.36.78-.36h.56c.18 0 .42-.07.66.5.25.6.84 2.07.91 2.22.07.14.12.32.02.51-.1.2-.14.32-.29.49l-.43.5c-.14.14-.29.3-.12.59.17.29.74 1.22 1.59 1.98 1.09.97 2.01 1.27 2.3 1.41.29.15.46.12.63-.07.17-.2.73-.85.92-1.14.19-.29.39-.24.66-.14.27.1 1.7.8 1.99.95.29.14.49.22.56.34.07.12.07.7-.18 1.41z"/></symbol></svg>
 </body></html>

@@ -1,4 +1,4 @@
-# סוכן הטיול הגדול (Somech Tours)
+# סוכן הטיול (Somech Tours)
 
 > An Israeli service that books FLIGHTS, plus intercity buses, trains and ferries, worldwide for
 > Hebrew-speaking travellers, entirely inside a WhatsApp conversation. The traveller writes where and
@@ -13,7 +13,7 @@ is stated plainly so it can be quoted directly and checked against the pages it 
 
 ## What it is
 
-- **Brand name (what customers see):** סוכן הטיול הגדול
+- **Brand name (what customers see):** סוכן הטיול
 - **Legal name (invoices, terms):** סומך טורס, a registered business in Israel
 - **Language:** Hebrew
 - **Channel:** WhatsApp only: https://wa.me/972559171333
