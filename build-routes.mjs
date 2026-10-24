@@ -1388,7 +1388,7 @@ const oldMod = new Map([...(existsSync("sitemap.xml") ? readFileSync("sitemap.xm
 const urls = [
   // THE BRAND'S IMAGES, NAMED FOR GOOGLE IMAGES (Aviv, 2026-10-16: old logos still showed there). The same URLs now hold
   // the approved logo, so listing them asks Google to fetch the new pictures.
-  { loc: "https://somechtours.com/", pri: "1.0", freq: "weekly", images: ["https://somechtours.com/brand/logo-square-white.png", "https://somechtours.com/brand/og-1200x630.png", "https://somechtours.com/brand/logo.png"] },
+  { loc: "https://somechtours.com/", pri: "1.0", freq: "weekly", images: ["https://somechtours.com/brand/hiker-square-white.png", "https://somechtours.com/brand/og-1200x630.png", "https://somechtours.com/brand/hiker.png"] },
   { loc: "https://somechtours.com/faq/", pri: "0.8", freq: "monthly" },
   { loc: "https://somechtours.com/routes/", pri: "0.8", freq: "weekly" },
   ...ROUTES.map((r) => ({ loc: `https://somechtours.com/routes/${r.slug}/`, pri: "0.7", freq: "monthly" })),
