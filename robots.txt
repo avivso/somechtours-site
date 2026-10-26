@@ -2,6 +2,19 @@
 User-agent: *
 Allow: /
 
+# Answer engines and AI search are welcome to read and cite the site (Aviv, 26.10). Named explicitly so no default
+# policy of theirs reads silence as a no. The frame images stay out for them too.
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: PerplexityBot
+User-agent: ClaudeBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: Bingbot
+Allow: /
+Disallow: /journey/frames/
+
 # The film's 1,536 frame images are decoration, not content. Crawling them wastes crawl budget on a
 # new domain and puts nothing useful in the index.
 Disallow: /journey/frames/
