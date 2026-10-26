@@ -1139,6 +1139,32 @@ const webpage = (r) => ({
   about: { "@type": "Place", name: `${r.he.from} - ${r.he.to}` },
 });
 
+// SEARCH CONSOLE, 26.10 (Aviv approved): the title, description and H1 name what people actually search, and the
+// page opens with the answer and a WhatsApp button. SEO holds the pages with real impressions; every other page gets
+// the same shape from its own title.
+const SEO = {
+  "hanoi-sapa": { title: "אוטובוס מהאנוי לסאפה: סליפר, ואן או רכבת, זמנים והזמנה", h1: "איך מגיעים מהאנוי לסאפה: אוטובוס סליפר, ואן או רכבת" },
+  "hanoi-da-nang": { title: "מהאנוי לדה נאנג: טיסה או רכבת, כמה זמן והזמנה בוואטסאפ", h1: "איך מגיעים מהאנוי לדה נאנג: טיסה או רכבת לילה" },
+  "delhi-manali": { title: "אוטובוס מדלהי למנאלי: כמה זמן, סוגי האוטובוסים והזמנה", h1: "איך מגיעים מדלהי למנאלי: אוטובוס לילה, כמה זמן ומה כדאי לדעת" },
+  "lima-cusco": { title: "מלימה לקוסקו: אוטובוס או טיסה, כמה זמן והזמנה בוואטסאפ", h1: "איך מגיעים מלימה לקוסקו: אוטובוס או טיסה" },
+  "chiang-mai-pai": { title: "ואן מצ'אנג מאי לפאי: כמה זמן, הדרך והזמנה בוואטסאפ", h1: "איך מגיעים מצ'אנג מאי לפאי: ואן בדרך ההררית" },
+  "da-nang-hoi-an": { title: "מדה נאנג להוי אן: כמה זמן, איך מגיעים והזמנה", h1: "איך מגיעים מדה נאנג להוי אן" },
+  "delhi-agra": { title: "רכבת מדלהי לאגרה: כמה זמן, אוטובוס והזמנה בוואטסאפ", h1: "איך מגיעים מדלהי לאגרה: רכבת מהירה או אוטובוס" },
+  "bangkok-chiang-mai": { title: "מבנגקוק לצ'אנג מאי: רכבת לילה, אוטובוס או טיסה", h1: "איך מגיעים מבנגקוק לצ'אנג מאי: רכבת לילה, אוטובוס או טיסה" },
+  "delhi-dharamshala": { title: "מדלהי לדרמסלה: אוטובוס לילה או טיסה, כמה זמן והזמנה", h1: "איך מגיעים מדלהי לדרמסלה: אוטובוס לילה או טיסה" },
+};
+const seoTitle = (r) => SEO[r.slug]?.title ?? `${r.title}: כמה זמן והזמנה בוואטסאפ`;
+const seoH1 = (r) => SEO[r.slug]?.h1 ?? r.title;
+const seoDesc = (r) => `${r.desc} מזמינים בוואטסאפ, במחיר סופי בשקלים.`;
+// THE SHORT Q&A UNDER THE ANSWER (GEO, Aviv 26.10): three questions an answer engine can lift whole, the same ones the
+// FAQPage block carries.
+const shortQa = (r) => [
+  [`כמה זמן לוקח מ${r.he.from} ל${r.he.to}?`, `${journeyTime(r)} בדרך היבשתית, לפי האפשרות שבוחרים.`],
+  [`אפשר לטוס מ${r.he.from} ל${r.he.to}?`, r.air.no ? `${r.air.t}.` : `כן, יש טיסה: ${r.air.t}. את הטיסה אפשר להזמין אצלנו בצ׳אט.`],
+  [`איך מזמינים כרטיס מ${r.he.from} ל${r.he.to}?`, "כותבים לנו בוואטסאפ את התאריך וכמה נוסעים, מקבלים את האפשרויות עם שעות ומחיר סופי בשקלים, משלמים בקישור מאובטח והכרטיס מגיע לאותה שיחה."],
+];
+const WA_SVG = `<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>`;
+
 const page = (r) => {
   const url = `https://somechtours.com/routes/${r.slug}/`;
   // FAQPage from the route's own questions: each "way" is a question a traveller really asks, and the
@@ -1147,6 +1173,7 @@ const page = (r) => {
     "@context": "https://schema.org", "@type": "FAQPage", inLanguage: "he",
     mainEntity: [
       { "@type": "Question", name: r.title + "?", acceptedAnswer: { "@type": "Answer", text: r.lede } },
+      ...shortQa(r).filter(([q]) => !q.startsWith("אפשר לטוס")).map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
       ...(QUICK[r.slug] ? [{ "@type": "Question", name: `כמה זמן ובכמה מ${r.he.from} ל${r.he.to}?`, acceptedAnswer: { "@type": "Answer", text: quickAnswer(r) } }] : []),
       ...r.ways.map((w) => ({ "@type": "Question", name: `${w.h} מ${r.he.from} ל${r.he.to} - כמה זמן וממה זה מורכב?`,
         acceptedAnswer: { "@type": "Answer", text: `${w.t}. ${w.p}` } })),
@@ -1163,12 +1190,12 @@ const page = (r) => {
   };
   return `<!doctype html><html lang="he" dir="rtl"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>${esc(r.title)} | סוכן הטיול</title>
-<meta name="description" content="${esc(r.desc)}">
+<title>${esc(seoTitle(r))} | סוכן הטיול</title>
+<meta name="description" content="${esc(seoDesc(r))}">
 <link rel="canonical" href="${url}">
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
 <meta property="og:type" content="article"><meta property="og:site_name" content="סוכן הטיול">
-<meta property="og:title" content="${esc(r.title)}"><meta property="og:description" content="${esc(r.desc)}">
+<meta property="og:title" content="${esc(seoH1(r))}"><meta property="og:description" content="${esc(seoDesc(r))}">
 <meta property="og:url" content="${url}"><meta property="og:image" content="https://somechtours.com/brand/og-1200x630.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:locale" content="he_IL">
 ${QUICK[r.slug] ? QUICK_CSS + "\n" : ""}<link rel="icon" href="/favicon.ico" sizes="any">
@@ -1183,8 +1210,11 @@ ${QUICK[r.slug] ? QUICK_CSS + "\n" : ""}<link rel="icon" href="/favicon.ico" siz
 <div class="top" role="banner"><a class="brand" href="/"><img src="/brand/hiker-180.png" alt="" width="38" height="38">סוכן הטיול</a><a class="wa" href="${waLink(`${FROM_SITE} מ${r.he.from} ל${r.he.to}`)}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>וואטסאפ</a></div>
 <div class="wrap" role="main">
 <nav class="crumb" aria-label="מיקום באתר"><a href="/">בית</a> · <a href="/routes/">מסלולים</a></nav>
-<h1>${esc(r.title)}</h1>
-${QUICK[r.slug] ? quickHtml(r) + "\n" : ""}<p class="lede">${esc(r.lede)}</p>
+<h1>${esc(seoH1(r))}</h1>
+<div class="upd">עודכן לאחרונה: ${BUILD_DATE.split("-").reverse().join(".")}</div>
+<p class="lede">${esc(r.lede)}</p>
+<div class="topcta"><a class="cta" href="${waLink(`${FROM_SITE} מ${r.he.from} ל${r.he.to}`)}">${WA_SVG}לבדוק מחיר ושעות בוואטסאפ</a></div>
+${QUICK[r.slug] ? quickHtml(r) + "\n" : ""}<dl class="qa" aria-label="שאלות קצרות">${shortQa(r).map(([q, a]) => `<dt>${esc(q)}</dt><dd>${esc(a)}</dd>`).join("")}</dl>
 ${r.ways.map((w) => `<div class="way"><h2>${esc(w.h)}</h2><p class="dur">${esc(w.t)}</p><p>${esc(w.p)}</p></div>`).join("\n")}
 <div class="air${r.air.no ? " none" : ""}"><h2>מה עם טיסה?</h2><p class="dur">${esc(r.air.t)}</p><p>${esc(r.air.p)}</p></div>
 <h2 class="sec">מה שכדאי לדעת</h2>
@@ -1367,7 +1397,7 @@ writeFileSync("routes/route.css", CSS);
 const changedUrls = new Set();
 const writePage = (file, html, loc) => {
   const old = existsSync(file) ? readFileSync(file, "utf8") : "";
-  const bare = (x) => x.replace(/"dateModified":"\d{4}-\d{2}-\d{2}"/g, "");
+  const bare = (x) => x.replace(/"dateModified":"\d{4}-\d{2}-\d{2}"/g, "").replace(/עודכן לאחרונה: [\d.]+/g, "");
   if (old && bare(old) === bare(html)) return;
   writeFileSync(file, html);
   changedUrls.add(loc);
