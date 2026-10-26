@@ -17,7 +17,7 @@ for (const slug of slugs) {
   const quick = (h.match(/<section class="quick"[\s\S]*?<\/section>/) ?? [""])[0];
   if (quick && /₪/.test(quick) && !(/להמחשה בלבד/.test(quick) && /לפי חיפוש לתאריך \d{1,2}\.\d{1,2}\.\d{4}/.test(quick) && /href="https:\/\/wa\.me\//.test(quick)))
     fail(`${slug}: a price box without its date, "להמחשה בלבד" and the WhatsApp link`);
-  const hNoQuick = h.replace(quick, "").replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, (m) => m.replace(/מכ-\d+ ₪[^".]*/g, ""));
+  const hNoQuick = h.replace(quick, "").replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, (m) => m.replace(/מכ-₪\d+[^".]*/g, ""));
   if (/[₪$€£฿]|\bILS\b|\bTHB\b|\d[\d,.]*\s*(שקל|שקלים|בהט)|(שקל|שקלים|בהט)\s*\d/.test(hNoQuick))
     fail(`${slug}: looks like a price`);
   if (!h.includes(cssHref)) fail(`${slug}: stylesheet link is not stamped with the current CSS hash`);
