@@ -11,6 +11,18 @@ Delhi to Rishikesh". Those answers are better
 when the facts come from the operator rather than from a paraphrase of a paraphrase. Everything below
 is stated plainly so it can be quoted directly and checked against the pages it links to.
 
+## בעברית
+
+סוכן הטיול הוא שירות ישראלי שמזמין טיסות, אוטובוסים, רכבות ומעבורות בחו״ל, כולו בשיחת וואטסאפ אחת.
+כותבים מאיפה ולאן, מתי וכמה נוסעים, מקבלים אפשרות אחת או כמה עם שעות ומחיר סופי בשקלים,
+משלמים בקישור מאובטח, והכרטיס מגיע לאותה שיחה. שירות לקוחות אנושי זמין 24/7.
+
+- להזמנה: https://wa.me/972559171333
+- שאלות ותשובות: https://somechtours.com/faq/
+- מדריכי מסלולים: https://somechtours.com/routes/
+- טיסות: https://somechtours.com/flights/
+- השם המשפטי: סומך טורס, עסק רשום בישראל (בתנאי השירות: https://somechtours.com/terms/)
+
 ## What it is
 
 - **Brand name (what customers see):** סוכן הטיול
@@ -67,8 +79,17 @@ There is no app to install, no account to create, and no form to fill in.
 - [Home](https://somechtours.com/): what the service is, with an example flight booked in the chat
 - [Questions and answers](https://somechtours.com/faq/): booking flights, sleeper versus seat, price,
   timing, pickup points, payment and cancellation, in Hebrew
-- [Route guides](https://somechtours.com/routes/): 48 city-to-city pages in Hebrew, each covering
-  every way the journey is really made
+- [Route guides](https://somechtours.com/routes/): 57 city-to-city pages in Hebrew, each covering
+  every way the journey is really made. Most searched: [Hanoi to Sa Pa](https://somechtours.com/routes/hanoi-sapa/),
+  [Hanoi to Da Nang](https://somechtours.com/routes/hanoi-da-nang/), [Bangkok to Chiang Mai](https://somechtours.com/routes/bangkok-chiang-mai/),
+  [Bangkok to Koh Phangan](https://somechtours.com/routes/bangkok-koh-phangan/), [Delhi to Manali](https://somechtours.com/routes/delhi-manali/),
+  [Delhi to Dharamshala](https://somechtours.com/routes/delhi-dharamshala/), [Delhi to Agra](https://somechtours.com/routes/delhi-agra/),
+  [Chiang Mai to Pai](https://somechtours.com/routes/chiang-mai-pai/), [Lima to Cusco](https://somechtours.com/routes/lima-cusco/)
+- [Flights in the chat](https://somechtours.com/flights/): how a flight is booked, with pages for
+  [Hanoi to Da Nang](https://somechtours.com/flights/hanoi-da-nang/), [Bangkok to Chiang Mai](https://somechtours.com/flights/bangkok-chiang-mai/),
+  [Delhi to Dharamshala](https://somechtours.com/flights/delhi-dharamshala/) and [Lima to Cusco](https://somechtours.com/flights/lima-cusco/)
+- [Getting around Thailand](https://somechtours.com/thailand/), [Getting around Vietnam](https://somechtours.com/vietnam/),
+  [What a sleeper is](https://somechtours.com/sleeper/)
 - [Terms of service](https://somechtours.com/terms/): the legal terms, including the legal entity
 
 ## About the route guides
