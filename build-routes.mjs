@@ -1142,6 +1142,8 @@ const webpage = (r) => ({
 // SEARCH CONSOLE, 26.10 (Aviv approved): the title, description and H1 name what people actually search, and the
 // page opens with the answer and a WhatsApp button. SEO holds the pages with real impressions; every other page gets
 // the same shape from its own title.
+// The flight pages build-pages.mjs makes (Aviv approved, 26.10): each route page with one links to it.
+const FLIGHT_PAGES = ["hanoi-da-nang", "bangkok-chiang-mai", "delhi-dharamshala", "lima-cusco"];
 const SEO = {
   "hanoi-sapa": { title: "אוטובוס מהאנוי לסאפה: סליפר, ואן או רכבת, זמנים והזמנה", h1: "איך מגיעים מהאנוי לסאפה: אוטובוס סליפר, ואן או רכבת" },
   "hanoi-da-nang": { title: "מהאנוי לדה נאנג: טיסה או רכבת, כמה זמן והזמנה בוואטסאפ", h1: "איך מגיעים מהאנוי לדה נאנג: טיסה או רכבת לילה" },
@@ -1216,7 +1218,7 @@ ${QUICK[r.slug] ? QUICK_CSS + "\n" : ""}<link rel="icon" href="/favicon.ico" siz
 <div class="topcta"><a class="cta" href="${waLink(`${FROM_SITE} מ${r.he.from} ל${r.he.to}`)}">${WA_SVG}לבדוק מחיר ושעות בוואטסאפ</a></div>
 ${QUICK[r.slug] ? quickHtml(r) + "\n" : ""}<dl class="qa" aria-label="שאלות קצרות">${shortQa(r).map(([q, a]) => `<dt>${esc(q)}</dt><dd>${esc(a)}</dd>`).join("")}</dl>
 ${r.ways.map((w) => `<div class="way"><h2>${esc(w.h)}</h2><p class="dur">${esc(w.t)}</p><p>${esc(w.p)}</p></div>`).join("\n")}
-<div class="air${r.air.no ? " none" : ""}"><h2>מה עם טיסה?</h2><p class="dur">${esc(r.air.t)}</p><p>${esc(r.air.p)}</p></div>
+<div class="air${r.air.no ? " none" : ""}"><h2>מה עם טיסה?</h2><p class="dur">${esc(r.air.t)}</p><p>${esc(r.air.p)}</p>${FLIGHT_PAGES.includes(r.slug) ? `<p><a href="/flights/${r.slug}/">כל מה שצריך לדעת על הטיסה מ${esc(r.he.from)} ל${esc(r.he.to)}</a></p>` : ""}</div>
 <h2 class="sec">מה שכדאי לדעת</h2>
 <ul class="know">${r.know.map((k) => `<li>${esc(k)}</li>`).join("")}</ul>
 ${(() => { const n = relatedTo(r); return n.length ? `<h2 class="sec">קווים קרובים</h2>
@@ -1424,6 +1426,7 @@ const urls = [
   ...ROUTES.map((r) => ({ loc: `https://somechtours.com/routes/${r.slug}/`, pri: "0.7", freq: "monthly" })),
   // The flight and country pages (build-pages.mjs, Aviv 2026-10-16).
   { loc: "https://somechtours.com/flights/", pri: "0.8", freq: "monthly" },
+  ...FLIGHT_PAGES.map((f) => ({ loc: `https://somechtours.com/flights/${f}/`, pri: "0.7", freq: "monthly" })),
   { loc: "https://somechtours.com/thailand/", pri: "0.7", freq: "monthly" },
   { loc: "https://somechtours.com/vietnam/", pri: "0.7", freq: "monthly" },
   { loc: "https://somechtours.com/sleeper/", pri: "0.6", freq: "monthly" },

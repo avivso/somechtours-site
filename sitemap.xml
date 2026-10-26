@@ -316,6 +316,30 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://somechtours.com/flights/hanoi-da-nang/</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://somechtours.com/flights/bangkok-chiang-mai/</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://somechtours.com/flights/delhi-dharamshala/</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://somechtours.com/flights/lima-cusco/</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://somechtours.com/thailand/</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>monthly</changefreq>
