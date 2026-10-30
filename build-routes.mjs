@@ -2909,8 +2909,7 @@ const page = (r) => {
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
 <meta property="og:type" content="article"><meta property="og:site_name" content="סוכן הטיול">
 <meta property="og:title" content="${esc(seoH1(r))}"><meta property="og:description" content="${esc(seoDesc(r))}">
-<meta property="og:url" content="${url}"><meta property="og:image" content="https://somechtours.com/brand/og-1200x630.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta property="og:locale" content="he_IL">
+<meta property="og:url" content="${url}"><meta property="og:locale" content="he_IL">
 ${QUICK[r.slug] ? QUICK_CSS + "\n" : ""}<link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/brand/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="/brand/icon-180.png" sizes="180x180">
@@ -3133,7 +3132,7 @@ const oldMod = new Map([...(existsSync("sitemap.xml") ? readFileSync("sitemap.xm
 const urls = [
   // THE BRAND'S IMAGES, NAMED FOR GOOGLE IMAGES (Aviv, 2026-10-16: old logos still showed there). The same URLs now hold
   // the approved logo, so listing them asks Google to fetch the new pictures.
-  { loc: "https://somechtours.com/", pri: "1.0", freq: "weekly", images: ["https://somechtours.com/brand/hiker-square-white.png", "https://somechtours.com/brand/og-1200x630.png", "https://somechtours.com/brand/hiker.png"] },
+  { loc: "https://somechtours.com/", pri: "1.0", freq: "weekly", images: ["https://somechtours.com/brand/icon-512.png", "https://somechtours.com/brand/hiker.png"] },
   { loc: "https://somechtours.com/faq/", pri: "0.8", freq: "monthly" },
   { loc: "https://somechtours.com/routes/", pri: "0.8", freq: "weekly" },
   ...ROUTES.map((r) => ({ loc: `https://somechtours.com/routes/${r.slug}/`, pri: "0.7", freq: "monthly" })),
