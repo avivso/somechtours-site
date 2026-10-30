@@ -41,9 +41,9 @@ Flights are the main product, worldwide. It also sells intercity buses, trains a
 **not** sell hotels or package tours, ever.
 
 **How flights are handled.** The traveller writes where from, where to, the dates, how many travellers
-and whether they have checked baggage. The team scans all the flights, and a HUMAN member of the team
-sends back the best-value option at one final price. The automated WhatsApp agent books buses, trains
-and ferries itself; a flight offer always comes from a person. The service can also arrange the ground
+and whether they have checked baggage. The team scans all the flights, and the
+best-value option arrives in WhatsApp at one final price. Buses, trains and ferries are booked in the
+same chat. The service can also arrange the ground
 legs on either side of the flight.
 
 ## How booking works
