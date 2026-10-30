@@ -203,7 +203,7 @@ footer a:hover{color:var(--ink)}
     <!-- Aviv's approved line, 2026-10-06, word for word -->
     <p class="lead">כתבו לנו לאן ומתי, ונמצא עבורכם את הכרטיס המשתלם ביותר: טיסות וכל מה שאחרי, ישר אצלכם בוואטסאפ</p>
     <!-- THE BOX (Aviv, 2026-10-15: the ad sends people here; "the physical box"). What they type opens WhatsApp with
-         exactly their words, nothing added (Aviv, 2026-10-30: "india to dubai" became "מישראל להודו לדובאי"). Nothing is sent to us or kept: it is only a wa.me link. -->
+         "אפשר טיסה מישראל ל<place>?" for one place; a route they wrote goes as is (Aviv, 2026-10-30). Nothing is sent to us or kept: it is only a wa.me link. -->
     <form class="ask" action="https://wa.me/972559171333" onsubmit="return stAsk(this)">
       <label class="ask-l" for="dest">לאן טסים?</label>
       <div class="ask-row">
@@ -327,7 +327,11 @@ footer a:hover{color:var(--ink)}
 <script>
 // The box opens WhatsApp with the question already written. Only a link: nothing is sent to or stored by us.
 function stAsk(f){var d=(f.dest.value||"").trim().replace(/\s+/g," ").slice(0,60);
-  var url="https://wa.me/972559171333"+(d?"?text="+encodeURIComponent(d):"");
+  // One place ("בנגקוק") gets the question around it. A route they wrote themselves ("india to dubai", "מהודו לדובאי",
+  // "דלהי - דובאי") goes as they wrote it, so we never add "מישראל" to a trip that does not start in Israel.
+  var route=/\s(to|from)\s|[-–>→←]|(^|\s)מ\S+\s+ל\S|\S\s+ל\S/i.test(d);
+  var t=!d?"":route?d:"אפשר טיסה מישראל ל"+d+"?";
+  var url="https://wa.me/972559171333"+(t?"?text="+encodeURIComponent(t):"");
   if(window.stOpenWa)stOpenWa(url,"hero-box");else location.href=url;return false;}
 </script>
 </body></html>
