@@ -26,8 +26,10 @@ const WA_ICON = (top.match(/<svg[\s\S]*?<\/svg>/) ?? [""])[0];
 // Route guides by country, as build-routes.mjs groups them; the Hebrew title read from each built page.
 const COUNTRY_ROUTES = {
   th: ["bangkok-chiang-mai", "chiang-mai-pai", "chiang-mai-chiang-rai", "bangkok-ayutthaya", "bangkok-kanchanaburi", "bangkok-koh-samui",
-    "bangkok-koh-phangan", "bangkok-koh-tao", "koh-samui-koh-phangan", "koh-phangan-koh-tao", "bangkok-phuket", "bangkok-krabi", "phuket-koh-phi-phi", "krabi-koh-lanta", "bangkok-koh-chang"],
-  vn: ["hanoi-sapa", "hanoi-ha-long", "hanoi-ninh-binh", "hanoi-da-nang", "hue-hoi-an", "da-nang-hoi-an", "ho-chi-minh-da-lat", "ho-chi-minh-mui-ne", "hanoi-hue", "hoi-an-nha-trang", "nha-trang-da-lat"],
+    "bangkok-koh-phangan", "bangkok-koh-tao", "koh-samui-koh-phangan", "koh-phangan-koh-tao", "bangkok-phuket", "bangkok-krabi", "phuket-koh-phi-phi", "krabi-koh-lanta", "bangkok-koh-chang",
+    "bangkok-pattaya", "bangkok-hua-hin", "bangkok-chiang-rai", "bangkok-koh-samet", "koh-samui-koh-tao", "phuket-krabi", "krabi-koh-phi-phi", "phuket-koh-lanta", "koh-lanta-koh-lipe"],
+  vn: ["hanoi-sapa", "hanoi-ha-long", "hanoi-ninh-binh", "hanoi-da-nang", "hue-hoi-an", "da-nang-hoi-an", "ho-chi-minh-da-lat", "ho-chi-minh-mui-ne", "hanoi-hue", "hoi-an-nha-trang", "nha-trang-da-lat",
+    "hanoi-ha-giang", "hanoi-cat-ba", "da-lat-mui-ne"],
 };
 const titleOf = (slug) => {
   const f = `routes/${slug}/index.html`;
