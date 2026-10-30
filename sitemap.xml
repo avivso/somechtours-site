@@ -842,6 +842,36 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://somechtours.com/flights/tel-aviv-vienna/</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://somechtours.com/flights/tel-aviv-bucharest/</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://somechtours.com/flights/tel-aviv-barcelona/</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://somechtours.com/flights/tel-aviv-paris/</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://somechtours.com/flights/tel-aviv-lima/</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://somechtours.com/thailand/</loc>
     <lastmod>2026-10-15</lastmod>
     <changefreq>monthly</changefreq>

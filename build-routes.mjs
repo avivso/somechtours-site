@@ -2846,7 +2846,7 @@ const webpage = (r) => ({
 // page opens with the answer and a WhatsApp button. SEO holds the pages with real impressions; every other page gets
 // the same shape from its own title.
 // The flight pages build-pages.mjs makes (Aviv approved, 26.10): each route page with one links to it.
-const INTL_FLIGHT_PAGES = ["bangkok", "phuket", "koh-samui", "hanoi", "ho-chi-minh", "delhi", "goa", "kathmandu", "tbilisi", "athens", "budapest", "prague", "rome", "london", "new-york"];
+const INTL_FLIGHT_PAGES = ["bangkok", "phuket", "koh-samui", "hanoi", "ho-chi-minh", "delhi", "goa", "kathmandu", "tbilisi", "athens", "budapest", "prague", "rome", "london", "new-york", "vienna", "bucharest", "barcelona", "paris", "lima"];
 const FLIGHT_PAGES = ["hanoi-da-nang", "bangkok-chiang-mai", "delhi-dharamshala", "lima-cusco"];
 const SEO = {
   "hanoi-sapa": { title: "אוטובוס מהאנוי לסאפה: סליפר, ואן או רכבת, זמנים והזמנה", h1: "איך מגיעים מהאנוי לסאפה: אוטובוס סליפר, ואן או רכבת" },
