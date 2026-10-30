@@ -49,8 +49,7 @@ function page({ path, title, h1, description, crumbs, body, faq, waText }) {
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
 <meta property="og:type" content="article"><meta property="og:site_name" content="סוכן הטיול">
 <meta property="og:title" content="${esc(h1)}"><meta property="og:description" content="${esc(description)}">
-<meta property="og:url" content="${url}"><meta property="og:image" content="${SITE}/brand/og-1200x630.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta property="og:locale" content="he_IL">
+<meta property="og:url" content="${url}"><meta property="og:locale" content="he_IL">
 ${ld.map((x) => `<script type="application/ld+json">${JSON.stringify(x)}</script>`).join("\n")}
 ${headTail}</head><body>
 ${top}<div class="wrap" role="main">
