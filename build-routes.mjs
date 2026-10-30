@@ -2846,6 +2846,7 @@ const webpage = (r) => ({
 // page opens with the answer and a WhatsApp button. SEO holds the pages with real impressions; every other page gets
 // the same shape from its own title.
 // The flight pages build-pages.mjs makes (Aviv approved, 26.10): each route page with one links to it.
+const INTL_FLIGHT_PAGES = ["bangkok", "phuket", "koh-samui", "hanoi", "ho-chi-minh", "delhi", "goa", "kathmandu", "tbilisi", "athens", "budapest", "prague", "rome", "london", "new-york"];
 const FLIGHT_PAGES = ["hanoi-da-nang", "bangkok-chiang-mai", "delhi-dharamshala", "lima-cusco"];
 const SEO = {
   "hanoi-sapa": { title: "אוטובוס מהאנוי לסאפה: סליפר, ואן או רכבת, זמנים והזמנה", h1: "איך מגיעים מהאנוי לסאפה: אוטובוס סליפר, ואן או רכבת" },
@@ -3139,6 +3140,8 @@ const urls = [
   // The flight and country pages (build-pages.mjs, Aviv 2026-10-16).
   { loc: "https://somechtours.com/flights/", pri: "0.8", freq: "monthly" },
   ...FLIGHT_PAGES.map((f) => ({ loc: `https://somechtours.com/flights/${f}/`, pri: "0.7", freq: "monthly" })),
+  // Flights from Tel Aviv (build-pages.mjs INTL, seo/flights 30.10).
+  ...INTL_FLIGHT_PAGES.map((f) => ({ loc: `https://somechtours.com/flights/tel-aviv-${f}/`, pri: "0.7", freq: "monthly" })),
   { loc: "https://somechtours.com/thailand/", pri: "0.7", freq: "monthly" },
   { loc: "https://somechtours.com/vietnam/", pri: "0.7", freq: "monthly" },
   { loc: "https://somechtours.com/sleeper/", pri: "0.6", freq: "monthly" },
