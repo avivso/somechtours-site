@@ -1,0 +1,12 @@
+# GitHub Pages (Jekyll) settings. INTERNAL files must never be served: the page generators and checkers below are
+# build tools, not pages (review 03.11: somechtours.com/build-routes.mjs answered 200). Jekyll does not publish
+# anything listed here; dotfiles and _folders are never published anyway. A new tool file goes on this list.
+exclude:
+  - "*.mjs"
+  - "*.md"
+  - build-go.mjs
+  - build-pages.mjs
+  - build-routes.mjs
+  - check-routes.mjs
+  - indexnow.mjs
+  - FLIGHTS-SEO-REVIEW.md
