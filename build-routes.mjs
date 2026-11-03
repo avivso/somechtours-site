@@ -14,7 +14,7 @@
 // are stable facts; prices are not, and a stale number on a static page would also contradict the bot,
 // which is the same failure that cost a day of work inside the product.
 //
-// Every route below was checked against live supplier inventory before being written (all 27 candidates
+// Every route below was checked against our ground supplier's live inventory before being written (all 27 candidates
 // had real service) and then RESEARCHED for the real-world picture, because inventory tells you what
 // is bookable, not what people actually do.
 //

@@ -2,6 +2,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 let bad = 0;
 const fail = (m) => { console.log("  FAIL " + m); bad++; };
+const SUPPLIER_RE = new RegExp(String.fromCharCode(49, 50, 103, 111), "i");
 const slugs = readdirSync("routes", { withFileTypes: true }).filter(d => d.isDirectory()).map(d => d.name);
 const bodies = new Map();
 // The stylesheet URL carries a hash of the CSS, so a cache cannot serve yesterday's layout with
@@ -43,8 +44,8 @@ for (const slug of slugs) {
     }
   }
   if (!h.includes("מה עם טיסה?")) fail(`${slug}: no flight section`);
-  // never name the supplier
-  if (/supplier|supplier/i.test(h)) fail(`${slug}: supplier leak`);
+  // never name the supplier (its name is built from char codes so this public file does not carry it either)
+  if (SUPPLIER_RE.test(h)) fail(`${slug}: supplier leak`);
   // A Latin letter welded to a Hebrew one is always a typo, never intent. Caught "קרונג תep" after a
   // careless sed ate a character mid-word and the page still rendered, still validated, still lied.
   for (const m of h.matchAll(/[\u0590-\u05FF][A-Za-z]|[A-Za-z][\u0590-\u05FF]/g))
