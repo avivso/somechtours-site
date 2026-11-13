@@ -42,6 +42,9 @@ p{color:#dcdcdc;margin:0 0 26px;font-size:16px;line-height:1.6}
 // Auto-forward, but not instantly: a beat of brand is worth more than 900ms, and an immediate jump
 // from a video looks to the viewer like the link was broken. The button is always there, so a
 // blocked redirect (in-app browsers block plenty) costs one tap rather than the lead.
-setTimeout(function () { window.location.href = document.getElementById("go").href; }, 1400);
+// The forward counts as the WhatsApp lead the ads optimise for (track.js, sent as a beacon so it survives the jump).
+// A tap on the button already counted it (track.js opens the chat in a new tab), so the forward then does nothing.
+var tapped = false; document.getElementById("go").addEventListener("click", function () { tapped = true; });
+setTimeout(function () { if (tapped) return; if (window.stLead) window.stLead("barandshany"); window.location.href = document.getElementById("go").href; }, 1400);
 </script>
 </body></html>

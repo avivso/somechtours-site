@@ -49,6 +49,10 @@ const MARKER = "<!--somechtours-referral-->";
 const PARTNERS = [
   { slug: "opli", name: "אופלי", via: "דרך " }, // Aviv shortened the URL, 2026-08-30; the NAME she is credited by is unchanged
   { slug: "barandshany", name: "בר ושני", via: "מ" }, // a pair, so "מבר ושני" reads better than "דרך בר ושני" (Aviv, 2026-08-30)
+  // NOT A PARTNER: the business's own short link to the chat (Aviv, 2026-11-14: "a somechtours.com/whatsapp which leads to
+  // the chat ... so i can lead leads there"). It takes `text` instead of a name, the same opening line the site uses, so it
+  // credits nobody and needs no row in bot/src/referrals.ts.
+  { slug: "whatsapp", text: "היי, אשמח להזמין כרטיס" },
 ];
 
 // The opening line. Kept SHORT and natural, because the customer sees it in their own chat and can
@@ -63,7 +67,7 @@ const PARTNERS = [
 // No emoji, and one flowing sentence rather than two clauses (Aviv, 2026-08-29). Words the customer
 // is about to send AS THEIR OWN have to sound like them, and a smiley someone else put in their
 // mouth is the tell that they did not write it.
-const opener = (p) => `היי! הגעתי ${p.via}${p.name} ואשמח לבדוק כרטיס`;
+const opener = (p) => p.text ?? `היי! הגעתי ${p.via}${p.name} ואשמח לבדוק כרטיס`;
 
 const page = (p) => {
   const wa = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(opener(p))}`;
@@ -111,7 +115,10 @@ p{color:#dcdcdc;margin:0 0 26px;font-size:16px;line-height:1.6}
 // Auto-forward, but not instantly: a beat of brand is worth more than 900ms, and an immediate jump
 // from a video looks to the viewer like the link was broken. The button is always there, so a
 // blocked redirect (in-app browsers block plenty) costs one tap rather than the lead.
-setTimeout(function () { window.location.href = document.getElementById("go").href; }, 1400);
+// The forward counts as the WhatsApp lead the ads optimise for (track.js, sent as a beacon so it survives the jump).
+// A tap on the button already counted it (track.js opens the chat in a new tab), so the forward then does nothing.
+var tapped = false; document.getElementById("go").addEventListener("click", function () { tapped = true; });
+setTimeout(function () { if (tapped) return; if (window.stLead) window.stLead("${p.slug}"); window.location.href = document.getElementById("go").href; }, 1400);
 </script>
 </body></html>
 `;
@@ -164,6 +171,6 @@ for (const dir of readdirSync(".", { withFileTypes: true })) {
 for (const p of PARTNERS) {
   mkdirSync(p.slug, { recursive: true });
   writeFileSync(`${p.slug}/index.html`, page(p));
-  console.log(`  /${p.slug}/  ->  ${p.name}`);
+  console.log(`  /${p.slug}/  ->  ${p.name ?? p.text}`);
 }
 console.log(`built ${PARTNERS.length} referral link(s)`);
