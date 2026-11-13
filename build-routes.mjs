@@ -2859,7 +2859,9 @@ const SEO = {
   "bangkok-chiang-mai": { title: "מבנגקוק לצ'אנג מאי: רכבת לילה, אוטובוס או טיסה", h1: "איך מגיעים מבנגקוק לצ'אנג מאי: רכבת לילה, אוטובוס או טיסה" },
   "delhi-dharamshala": { title: "מדלהי לדרמסלה: אוטובוס לילה או טיסה, כמה זמן והזמנה", h1: "איך מגיעים מדלהי לדרמסלה: אוטובוס לילה או טיסה" },
 };
-const seoTitle = (r) => SEO[r.slug]?.title ?? `${r.title}: כמה זמן והזמנה בוואטסאפ`;
+// Bing's site scan (14.11) flags a title over 70 characters. The page title is this plus " | סוכן הטיול" (13), so a long
+// pair of place names gets the shorter tail.
+const seoTitle = (r) => SEO[r.slug]?.title ?? (`${r.title}: כמה זמן והזמנה בוואטסאפ`.length + 13 > 70 ? `${r.title}: זמנים והזמנה` : `${r.title}: כמה זמן והזמנה בוואטסאפ`);
 const seoH1 = (r) => SEO[r.slug]?.h1 ?? r.title;
 const seoDesc = (r) => `${r.desc} מזמינים בוואטסאפ, במחיר סופי בשקלים.`;
 // THE SHORT Q&A UNDER THE ANSWER (GEO, Aviv 26.10): three questions an answer engine can lift whole, the same ones the
