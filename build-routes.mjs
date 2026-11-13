@@ -3048,7 +3048,7 @@ if (ORDERED.length !== ROUTES.length) throw new Error("a route fell out of the c
 const card = (r) => `<li><a href="/routes/${r.slug}/">
 <span class="rt-name">מ${esc(r.he.from)} ל${esc(r.he.to)}</span>
 <span class="rt-facts"><span class="rt-time">${journeyTime(r)}</span>${
-  r.air.no ? "" : `<span class="rt-air">יש גם טיסה</span>`}</span>
+  r.air.no ? "" : `<span class="rt-air">טיסה: ${esc(r.air.t.split(",")[0])}</span>`}</span>
 <span class="rt-go">למדריך המלא <span aria-hidden="true">←</span></span>
 </a></li>`;
 
@@ -3078,7 +3078,7 @@ const indexPage = () => `<!doctype html><html lang="he" dir="rtl"><head>
 <div class="wrap" role="main">
 <h1>מסלולים</h1>
 <p class="lede tight">איך מגיעים בפועל מעיר לעיר: כל האפשרויות, כמה זמן כל אחת לוקחת, ומה שכדאי לדעת לפני שקונים כרטיס.</p>
-<p class="hint">לחצו על קו כדי לפתוח את המדריך המלא שלו. הזמנים שליד כל קו הם של הנסיעה עצמה, באוטובוס, ברכבת או במעבורת, ולא של טיסה.</p>
+<p class="hint">לחצו על קו כדי לפתוח את המדריך המלא שלו. ליד כל קו מופיע זמן הנסיעה באוטובוס, ברכבת או במעבורת, וכשיש טיסה, גם זמן הטיסה.</p>
 ${GROUPS.map((g) => `<h2 class="grp">${g.name}<span>${g.routes.length === 1 ? "קו אחד" : `${g.routes.length} קווים`}</span></h2>
 ${idWarn(g.c)}<ul class="routes">
 ${g.routes.map(card).join("\n")}
@@ -3134,6 +3134,8 @@ const urls = [
   // THE BRAND'S IMAGES, NAMED FOR GOOGLE IMAGES (Aviv, 2026-10-16: old logos still showed there). The same URLs now hold
   // the approved logo, so listing them asks Google to fetch the new pictures.
   { loc: "https://somechtours.com/", pri: "1.0", freq: "weekly", images: ["https://somechtours.com/brand/icon-512.png", "https://somechtours.com/brand/hiker.png"] },
+  // What the service is (hand-written page, Aviv 2026-11-13: "מה זה סוכן הטיול" should find us).
+  { loc: "https://somechtours.com/about/", pri: "0.9", freq: "monthly" },
   { loc: "https://somechtours.com/faq/", pri: "0.8", freq: "monthly" },
   { loc: "https://somechtours.com/routes/", pri: "0.8", freq: "weekly" },
   ...ROUTES.map((r) => ({ loc: `https://somechtours.com/routes/${r.slug}/`, pri: "0.7", freq: "monthly" })),
