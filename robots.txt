@@ -19,6 +19,18 @@ Disallow: /journey/frames/
 # new domain and puts nothing useful in the index.
 Disallow: /journey/frames/
 
+# OLD BRAND IMAGES STAY OUT OF IMAGE SEARCH (Aviv 14.11: "i dont want these photos on google or anywhere"). The files are
+# deleted; this also tells Google Images to drop the copies it still shows (the green "סוכן הטיול הגדול" share card and
+# the name logo).
+User-agent: Googlebot-Image
+Disallow: /brand/og-1200x630.png
+Disallow: /brand/logo.png
+Disallow: /brand/logo-square.png
+Disallow: /brand/logo-square-white.png
+Disallow: /brand/logo-alpha.png
+Disallow: /brand/logo-white.png
+Disallow: /brand/hiker-square-white.png
+
 Sitemap: https://somechtours.com/sitemap.xml
 
 # A plain-language summary of what this service is and is not, for assistants
