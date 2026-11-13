@@ -95,3 +95,32 @@ footer a{text-decoration:none;color:inherit}footer a:hover{color:var(--ink)}
    tabs sit in ONE row of equal buttons (Aviv, 2026-10-16), a long name wrapping inside its own button. */
 @media(max-width:760px){html .toc a,html .wa,html .brand{min-height:44px;display:inline-flex;align-items:center}html footer a,html [role=main] :not(.toc)>a:not(.wa):not(.brand){padding-block:12px}
 html .toc{flex-wrap:nowrap;gap:6px}html .toc a{flex:1 1 0;min-width:0;justify-content:center;text-align:center;padding:4px 6px;font-size:13.5px;line-height:1.25}}
+
+/* ===== 2026-11 redesign (Aviv approved 13.11): inner pages in the home page's look ===== */
+:root{--bg:#F5F2EA;--card:rgba(255,255,255,.62)}
+body{background:var(--bg);overflow-x:clip}
+body:before{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none;opacity:.7;
+  background:radial-gradient(28vw 28vw at 92% 12%,#BFF0D2,transparent 70%),radial-gradient(26vw 26vw at 6% 92%,#FBD9B8,transparent 70%),radial-gradient(22vw 22vw at 48% 58%,#CDE3F6,transparent 70%)}
+/* the top: a floating capsule with the logo, no button (one WhatsApp button per page, at the end) */
+.top{position:sticky;top:12px;z-index:20;width:max-content;margin:12px auto 0;border:1px solid rgba(255,255,255,.9);border-radius:99px;padding:8px 18px;
+  background:rgba(255,255,255,.72);backdrop-filter:blur(14px);box-shadow:0 8px 30px rgba(0,0,0,.08)}
+.top .wa{display:none}
+.top .brand{font-weight:800;font-size:16px}.top .brand img{width:30px;height:30px}
+.wrap{max-width:52rem}
+h1{font-size:clamp(40px,7vw,84px);letter-spacing:-.045em;line-height:.95;margin:40px 0 18px}
+h2{font-weight:800;letter-spacing:-.02em}
+.lede,.sub{font-size:clamp(17px,1.6vw,20px);color:#45493f}
+.sec{font-size:12px!important;letter-spacing:.16em;color:var(--deep)!important;font-weight:800;text-transform:none;margin-top:44px!important;border:0!important}
+.qa{border:0;border-bottom:1px solid rgba(18,20,18,.1);padding:6px 0 14px;background:none}
+.qa h2{font-size:clamp(20px,2.2vw,26px)}
+.routes a,.rt-go,.grp a{border-radius:18px}
+.faq-find input{border-radius:99px!important;padding:16px 22px!important;box-shadow:0 6px 20px rgba(0,0,0,.05)}
+.wa,.cta{box-shadow:0 10px 30px rgba(37,211,102,.35)}
+footer{background:none!important;border-top:1px solid rgba(18,20,18,.08)}
+footer .wrap{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
+footer nav{justify-content:center}
+footer .flogo img{width:44px!important;height:44px!important}
+
+/* clickable text: a green underline grows in on hover, so it reads as a link */
+p a,li a,dd a,.qa a,footer a,.crumb a,.back{background:linear-gradient(var(--green,#25D366),var(--green,#25D366)) no-repeat 100% 100%/0 1.5px;text-decoration:none;transition:background-size .35s cubic-bezier(.2,.8,.2,1),color .25s}
+p a:hover,li a:hover,dd a:hover,.qa a:hover,footer a:hover,.crumb a:hover,.back:hover{background-size:100% 1.5px;color:var(--deep,#0E7A41);text-decoration:none}
