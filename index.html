@@ -333,8 +333,11 @@ footer a{color:#C9CEC9}
 /* the section's own green glow leans toward the cursor, and the box's lit edge turns to face it (mouse only) */
 .cta{overflow:hidden}
 .cta:before{display:none!important}
-.cglow{position:absolute;left:50%;top:44%;width:min(900px,80vw);height:min(700px,76vh);pointer-events:none;z-index:0;border-radius:50%;
-  background:radial-gradient(closest-side,rgba(37,211,102,.34),rgba(37,211,102,.1) 55%,transparent);transform:translate(-50%,-50%);will-change:transform}
+.cglow{position:absolute;left:50%;top:44%;width:min(1100px,90vw);height:min(820px,84vh);pointer-events:none;z-index:0;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(37,211,102,.20),rgba(37,211,102,.15) 18%,rgba(37,211,102,.09) 38%,rgba(37,211,102,.045) 58%,rgba(37,211,102,.015) 78%,rgba(37,211,102,0));
+  filter:blur(48px);transform:translate3d(-50%,-50%,0);will-change:transform}
+.cta:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .cta-in,.cta .cta-txt{position:relative;z-index:1}
 /* ===== the click section ===== */
 .ask3{max-width:720px;margin:clamp(36px,4vw,56px) auto 0}
@@ -539,11 +542,11 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
   // box's bright edge turns to face it; both ease, and stop working once they have arrived
   (function(){var c=document.getElementById('go'),g=c&&c.querySelector('.cglow'),b=c&&c.querySelector('.box');if(!g||!matchMedia('(hover:hover) and (pointer:fine)').matches)return;
     var x=0,y=0,tx=0,ty=0,a=125,ta=125,run=false;
-    function go(){x+=(tx-x)*0.13;y+=(ty-y)*0.13;var da=((ta-a+540)%360)-180;a+=da*0.2;
-      g.style.transform='translate(calc(-50% + '+x.toFixed(1)+'px),calc(-50% + '+y.toFixed(1)+'px))';if(b)b.style.setProperty('--ang',a.toFixed(1)+'deg');
+    function go(){x+=(tx-x)*0.06;y+=(ty-y)*0.06;var da=((ta-a+540)%360)-180;a+=da*0.2;
+      g.style.transform='translate3d(calc(-50% + '+x.toFixed(1)+'px),calc(-50% + '+y.toFixed(1)+'px),0)';if(b)b.style.setProperty('--ang',a.toFixed(1)+'deg');
       if(Math.abs(tx-x)+Math.abs(ty-y)>0.3||Math.abs(da)>0.2)requestAnimationFrame(go);else run=false}
     function kick(){if(!run){run=true;requestAnimationFrame(go)}}
-    c.addEventListener('pointermove',function(e){var r=c.getBoundingClientRect();tx=(e.clientX-r.left-r.width/2)*0.85;ty=(e.clientY-r.top-r.height*0.44)*0.85;
+    c.addEventListener('pointermove',function(e){var r=c.getBoundingClientRect();tx=(e.clientX-r.left-r.width/2)*0.5;ty=(e.clientY-r.top-r.height*0.44)*0.5;
       if(b){var q=b.getBoundingClientRect();ta=Math.atan2(e.clientY-(q.top+q.height/2),e.clientX-(q.left+q.width/2))*180/Math.PI+270}kick()});
     c.addEventListener('pointerleave',function(){tx=0;ty=0;ta=125;kick()});
   })();
