@@ -339,6 +339,8 @@ footer a{color:#C9CEC9}
   background:radial-gradient(closest-side,rgba(37,211,102,.26),rgba(37,211,102,.22) 14%,rgba(37,211,102,.155) 30%,rgba(37,211,102,.09) 46%,rgba(37,211,102,.045) 62%,rgba(37,211,102,.016) 78%,rgba(37,211,102,.004) 90%,rgba(37,211,102,0));
   filter:blur(18px);transform:translate3d(50vw,44vh,0);will-change:transform;opacity:.75;transition:opacity .6s}
 .endwrap.lit .cglow{opacity:1}
+.cglow.tr{width:520px;height:520px;margin:-260px 0 0 -260px;filter:blur(22px)}.cglow.t1{opacity:.42}.cglow.t2{opacity:.28;width:440px;height:440px;margin:-220px 0 0 -220px}.cglow.t3{opacity:.16;width:360px;height:360px;margin:-180px 0 0 -180px}
+.endwrap.lit .cglow.t1{opacity:.55}.endwrap.lit .cglow.t2{opacity:.36}.endwrap.lit .cglow.t3{opacity:.2}
 .endwrap:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.07;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .cta-in,.cta .cta-txt{position:relative;z-index:1}
@@ -459,7 +461,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
 
 <section class="why" id="why"><h2 class="why-k" id="whyk"><span>כמו</span> <span>סוכן</span> <span>נסיעות,</span><br><em><span>רק</span> <span>בוואטסאפ.</span></em></h2></section>
 
-<div class="endwrap" id="endwrap"><i class="cglow" aria-hidden="true"></i>
+<div class="endwrap" id="endwrap"><i class="cglow tr t3" aria-hidden="true"></i><i class="cglow tr t2" aria-hidden="true"></i><i class="cglow tr t1" aria-hidden="true"></i><i class="cglow" aria-hidden="true"></i>
 <div class="cta" id="go">
   <div class="cta-in">
     <div class="cta-txt">
@@ -545,12 +547,17 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
 
   // the cursor moves the light: the big glow drifts toward it (softly, never all the way) and the
   // box's bright edge turns to face it; both ease, and stop working once they have arrived
-  (function(){var c=document.getElementById('endwrap'),k=document.getElementById('go'),g=c&&c.querySelector('.cglow'),b=k&&k.querySelector('.box');if(!g||!matchMedia('(hover:hover) and (pointer:fine)').matches)return;
+  (function(){var c=document.getElementById('endwrap'),k=document.getElementById('go'),g=c&&c.querySelector('.cglow:not(.tr)'),T=c?[c.querySelector('.t1'),c.querySelector('.t2'),c.querySelector('.t3')]:[],P=[],b=k&&k.querySelector('.box');if(!g||!matchMedia('(hover:hover) and (pointer:fine)').matches)return;
     var home=function(){return [k.offsetWidth/2,k.offsetHeight*0.44]},h=home(),x=h[0],y=h[1],tx=x,ty=y,a=125,ta=125,run=false;
-    g.style.transform='translate3d('+x+'px,'+y+'px,0)';
-    function go(){x+=(tx-x)*0.22;y+=(ty-y)*0.22;var da=((ta-a+540)%360)-180;a+=da*0.2;
-      g.style.transform='translate3d('+x.toFixed(1)+'px,'+y.toFixed(1)+'px,0)';if(b)b.style.setProperty('--ang',a.toFixed(1)+'deg');
-      if(Math.abs(tx-x)+Math.abs(ty-y)>0.3||Math.abs(da)>0.2)requestAnimationFrame(go);else run=false}
+    var put=function(el,px,py){el.style.transform='translate3d('+px.toFixed(1)+'px,'+py.toFixed(1)+'px,0)'};
+    put(g,x,y);T.forEach(function(el){P.push([x,y]);put(el,x,y)});
+    // the light lags a little behind the cursor (0.09 a frame) and three fainter lights follow it, each a step behind the one
+    // before, so a quick move leaves a short fading trail
+    function go(){x+=(tx-x)*0.09;y+=(ty-y)*0.09;var da=((ta-a+540)%360)-180;a+=da*0.2;put(g,x,y);
+      var lx=x,ly=y,moving=Math.abs(tx-x)+Math.abs(ty-y)>0.3||Math.abs(da)>0.2;
+      for(var i=0;i<T.length;i++){var q=P[i];q[0]+=(lx-q[0])*0.2;q[1]+=(ly-q[1])*0.2;put(T[i],q[0],q[1]);if(Math.abs(lx-q[0])+Math.abs(ly-q[1])>0.3)moving=true;lx=q[0];ly=q[1]}
+      if(b)b.style.setProperty('--ang',a.toFixed(1)+'deg');
+      if(moving)requestAnimationFrame(go);else run=false}
     function kick(){if(!run){run=true;requestAnimationFrame(go)}}
     c.addEventListener('pointermove',function(e){var r=c.getBoundingClientRect();tx=e.clientX-r.left;ty=e.clientY-r.top;c.classList.add('lit');
       if(b){var q=b.getBoundingClientRect();ta=Math.atan2(e.clientY-(q.top+q.height/2),e.clientX-(q.left+q.width/2))*180/Math.PI+270}kick()});
