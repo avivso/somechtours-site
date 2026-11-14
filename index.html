@@ -347,7 +347,7 @@ footer a{color:#C9CEC9}
 /* ===== the click section ===== */
 .ask3{max-width:720px;margin:clamp(36px,4vw,56px) auto 0}
 .box{position:relative;text-align:right;border-radius:26px;padding:20px 22px 14px;border:1px solid transparent;
-  background:linear-gradient(#151916,#151916) padding-box,linear-gradient(var(--ang,125deg),rgba(37,211,102,1),rgba(255,255,255,.14) 35%,rgba(255,255,255,.06) 65%,rgba(37,211,102,.45)) border-box;
+  background:linear-gradient(#151916,#151916) padding-box,radial-gradient(340px circle at var(--gx,30%) var(--gy,-60px),rgba(37,211,102,.95),rgba(37,211,102,.62) 18%,rgba(37,211,102,.3) 40%,rgba(255,255,255,.12) 68%,rgba(255,255,255,.08)) border-box;
   box-shadow:0 30px 80px rgba(0,0,0,.45),0 0 60px rgba(37,211,102,.08);transition:box-shadow .35s}
 .box:focus-within{box-shadow:0 30px 80px rgba(0,0,0,.45),0 0 0 4px rgba(37,211,102,.14),0 0 80px rgba(37,211,102,.16)}
 .box textarea{display:block;width:100%;min-height:2.9em;resize:none;overflow:hidden;font:inherit;font-size:clamp(19px,1.8vw,23px);line-height:1.45;color:#fff;text-align:right;background:transparent;border:0;outline:0;padding:0}
@@ -556,7 +556,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     if(g)g.style.transform='translate3d('+h[0]+'px,'+h[1]+'px,0)';
     if(!fine)return;
     var gl=null;try{gl=cv.getContext('webgl',{premultipliedAlpha:true,alpha:true,antialias:false})}catch(e){}
-    var N=40,SPAN=2.6,SMOOTH=0.2,px=h[0],py=h[1],vx=0,vy=0,tx=px,ty=py,a=125,ta=125,run=false,last=0,hist=[],H=[];for(var i=0;i<N;i++)H.push([px,py]);
+    var N=40,SPAN=2.6,SMOOTH=0.09,px=h[0],py=h[1],vx=0,vy=0,tx=px,ty=py,a=125,ta=125,run=false,last=0,hist=[],H=[];for(var i=0;i<N;i++)H.push([px,py]);
     var prog,uP,uR,uW,uS,W=0,Hh=0,pts=new Float32Array(N*2),rad=new Float32Array(N),wt=new Float32Array(N);
     for(i=0;i<N;i++){var f=i/(N-1);rad[i]=230*(1-0.62*f);wt[i]=(i==0?1:0.17*Math.pow(1-f,1.25))}var wb=new Float32Array(N);
     function sh(t,src){var o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);return gl.getShaderParameter(o,gl.COMPILE_STATUS)?o:null}
@@ -587,6 +587,8 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
         var d=Math.hypot(q[1]-px,q[2]-py);wb[i]=i?wt[i]*Math.min(1,d/90):1;if(d>moved)moved=d}
       var da=((ta-a+540)%360)-180;a+=da*Math.min(1,dt*12);if(b)b.style.setProperty('--ang',a.toFixed(1)+'deg');
       if(gl)draw();else if(g)g.style.transform='translate3d('+px.toFixed(1)+'px,'+py.toFixed(1)+'px,0)';
+      // the box's outline is lit around the light's own point, one soft spot that slides along the edge
+      if(b){var cr=c.getBoundingClientRect(),br=b.getBoundingClientRect();b.style.setProperty('--gx',(cr.left+px-br.left).toFixed(1)+'px');b.style.setProperty('--gy',(cr.top+py-br.top).toFixed(1)+'px')}
       var still=Math.abs(tx-px)+Math.abs(ty-py)<0.3&&Math.abs(vx)+Math.abs(vy)<0.5&&moved<0.5&&Math.abs(da)<0.2;
       if(still){run=false;last=0}else requestAnimationFrame(go)}
     function kick(){if(!run){run=true;requestAnimationFrame(go)}}
