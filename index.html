@@ -556,15 +556,15 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     if(g)g.style.transform='translate3d('+h[0]+'px,'+h[1]+'px,0)';
     if(!fine)return;
     var gl=null;try{gl=cv.getContext('webgl',{premultipliedAlpha:true,alpha:true,antialias:false})}catch(e){}
-    var N=40,STEP=3,px=h[0],py=h[1],vx=0,vy=0,tx=px,ty=py,a=125,ta=125,run=false,hist=[],H=[];for(var i=0;i<N*STEP;i++)hist.push([px,py]);for(i=0;i<N;i++)H.push(hist[i*STEP]);
+    var N=40,STEP=5,px=h[0],py=h[1],vx=0,vy=0,tx=px,ty=py,a=125,ta=125,run=false,hist=[],H=[];for(var i=0;i<N*STEP;i++)hist.push([px,py]);for(i=0;i<N;i++)H.push(hist[i*STEP]);
     var prog,uP,uR,uW,uS,W=0,Hh=0,pts=new Float32Array(N*2),rad=new Float32Array(N),wt=new Float32Array(N);
-    for(i=0;i<N;i++){var f=i/(N-1);rad[i]=230*(1-0.55*f);wt[i]=(i==0?1:0.07*Math.pow(1-f,1.4))}
+    for(i=0;i<N;i++){var f=i/(N-1);rad[i]=230*(1-0.45*f);wt[i]=(i==0?1:0.12*Math.pow(1-f,1.1))}
     function sh(t,src){var o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);return gl.getShaderParameter(o,gl.COMPILE_STATUS)?o:null}
     if(gl){var vs=sh(gl.VERTEX_SHADER,'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}'),
       fs=sh(gl.FRAGMENT_SHADER,'precision highp float;uniform vec2 P['+N+'];uniform float R['+N+'];uniform float Wt['+N+'];uniform vec2 S;'+
         'float hash(vec2 q){return fract(sin(dot(q,vec2(12.9898,78.233)))*43758.5453);}'+
         'void main(){vec2 q=vec2(gl_FragCoord.x,S.y-gl_FragCoord.y);float I=0.;for(int i=0;i<'+N+';i++){vec2 d=q-P[i];I+=Wt[i]*exp(-dot(d,d)/(R[i]*R[i]));}'+
-        'float al=clamp(0.24*(1.-exp(-1.5*I)),0.,1.);al+=(hash(gl_FragCoord.xy)-0.5)/255.;al=max(al,0.);'+
+        'float al=clamp(0.28*(1.-exp(-1.5*I)),0.,1.);al+=(hash(gl_FragCoord.xy)-0.5)/255.;al=max(al,0.);'+
         'gl_FragColor=vec4(vec3(0.145,0.827,0.4)*al,al);}');
       if(vs&&fs){prog=gl.createProgram();gl.attachShader(prog,vs);gl.attachShader(prog,fs);gl.linkProgram(prog);
         if(gl.getProgramParameter(prog,gl.LINK_STATUS)){gl.useProgram(prog);var bf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,bf);
@@ -575,8 +575,8 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
       gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);gl.drawArrays(gl.TRIANGLE_STRIP,0,4)}
     function go(){
       // a soft spring: a little behind the cursor, no jumps, a gentle settle
-      vx=(vx+(tx-px)*0.045)*0.84;vy=(vy+(ty-py)*0.045)*0.84;px+=vx;py+=vy;
-      // the trail is the path the light really took over the last ~2 seconds, fading along its length
+      vx=(vx+(tx-px)*0.03)*0.86;vy=(vy+(ty-py)*0.03)*0.86;px+=vx;py+=vy;
+      // the trail is the path the light really took over the last ~3 seconds, fading along its length
       hist.unshift([px,py]);hist.length=N*STEP;for(var i=0;i<N;i++)H[i]=hist[i*STEP];
       var da=((ta-a+540)%360)-180;a+=da*0.2;if(b)b.style.setProperty('--ang',a.toFixed(1)+'deg');
       if(gl)draw();else if(g)g.style.transform='translate3d('+px.toFixed(1)+'px,'+py.toFixed(1)+'px,0)';
