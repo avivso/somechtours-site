@@ -331,12 +331,15 @@ footer a{color:#C9CEC9}
 .wa{transition:transform .25s,box-shadow .25s,filter .25s}.wa:hover{transform:translateY(-2px);filter:brightness(1.06);box-shadow:0 14px 34px rgba(37,211,102,.35)}
 #bar{display:none!important}
 /* the section's own green glow leans toward the cursor, and the box's lit edge turns to face it (mouse only) */
-.cta{overflow:hidden}
+.endwrap{position:relative;overflow:hidden;background:var(--night);border-radius:44px 44px 0 0;margin-top:6vh}
+.endwrap .cta{background:transparent!important;margin-top:0!important;border-radius:0}
+.endwrap footer{background:transparent;position:relative;z-index:1}
 .cta:before{display:none!important}
-.cglow{position:absolute;left:50%;top:44%;width:min(1100px,90vw);height:min(820px,84vh);pointer-events:none;z-index:0;border-radius:50%;
-  background:radial-gradient(closest-side,rgba(37,211,102,.20),rgba(37,211,102,.15) 18%,rgba(37,211,102,.09) 38%,rgba(37,211,102,.045) 58%,rgba(37,211,102,.015) 78%,rgba(37,211,102,0));
-  filter:blur(48px);transform:translate3d(-50%,-50%,0);will-change:transform}
-.cta:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.07;mix-blend-mode:overlay;
+.cglow{position:absolute;left:0;top:0;width:760px;height:760px;margin:-380px 0 0 -380px;pointer-events:none;z-index:0;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(37,211,102,.26),rgba(37,211,102,.22) 14%,rgba(37,211,102,.155) 30%,rgba(37,211,102,.09) 46%,rgba(37,211,102,.045) 62%,rgba(37,211,102,.016) 78%,rgba(37,211,102,.004) 90%,rgba(37,211,102,0));
+  filter:blur(18px);transform:translate3d(50vw,44vh,0);will-change:transform;opacity:.75;transition:opacity .6s}
+.endwrap.lit .cglow{opacity:1}
+.endwrap:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.07;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .cta-in,.cta .cta-txt{position:relative;z-index:1}
 /* ===== the click section ===== */
@@ -456,7 +459,8 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
 
 <section class="why" id="why"><h2 class="why-k" id="whyk"><span>כמו</span> <span>סוכן</span> <span>נסיעות,</span><br><em><span>רק</span> <span>בוואטסאפ.</span></em></h2></section>
 
-<div class="cta" id="go"><i class="cglow" aria-hidden="true"></i>
+<div class="endwrap" id="endwrap"><i class="cglow" aria-hidden="true"></i>
+<div class="cta" id="go">
   <div class="cta-in">
     <div class="cta-txt">
       <h2 class="sub2">אתם כותבים לאן ומתי,<br>אנחנו דואגים לכל השאר.</h2>
@@ -473,6 +477,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
   <span class="fbrand"><img src="/brand/hiker-180.png" alt="סוכן הטיול">סוכן הטיול · שירות של סומך טורס</span>
   <nav><a href="/about/"><span class="roll"><span data-t="מה זה סוכן הטיול?">מה זה סוכן הטיול?</span></span></a><a href="/faq/"><span class="roll"><span data-t="שאלות ותשובות">שאלות ותשובות</span></span></a><a href="/flights/"><span class="roll"><span data-t="טיסות">טיסות</span></span></a><a href="/routes/"><span class="roll"><span data-t="מדריכי מסלולים">מדריכי מסלולים</span></span></a><a href="/terms/"><span class="roll"><span data-t="תנאי השירות">תנאי השירות</span></span></a><a href="/privacy/"><span class="roll"><span data-t="מדיניות הפרטיות">מדיניות הפרטיות</span></span></a><a href="/passenger-rights/"><span class="roll"><span data-t="זכויות נוסעים בטיסה">זכויות נוסעים בטיסה</span></span></a><a href="/cancel/"><span class="roll"><span data-t="ביטול עסקה">ביטול עסקה</span></span></a><a href="/cookies/"><span class="roll"><span data-t="עוגיות">עוגיות</span></span></a></nav>
 </footer>
+</div>
 
 <script src="/brand/lenis.min.js"></script>
 <script>
@@ -540,15 +545,17 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
 
   // the cursor moves the light: the big glow drifts toward it (softly, never all the way) and the
   // box's bright edge turns to face it; both ease, and stop working once they have arrived
-  (function(){var c=document.getElementById('go'),g=c&&c.querySelector('.cglow'),b=c&&c.querySelector('.box');if(!g||!matchMedia('(hover:hover) and (pointer:fine)').matches)return;
-    var x=0,y=0,tx=0,ty=0,a=125,ta=125,run=false;
-    function go(){x+=(tx-x)*0.06;y+=(ty-y)*0.06;var da=((ta-a+540)%360)-180;a+=da*0.2;
-      g.style.transform='translate3d(calc(-50% + '+x.toFixed(1)+'px),calc(-50% + '+y.toFixed(1)+'px),0)';if(b)b.style.setProperty('--ang',a.toFixed(1)+'deg');
+  (function(){var c=document.getElementById('endwrap'),k=document.getElementById('go'),g=c&&c.querySelector('.cglow'),b=k&&k.querySelector('.box');if(!g||!matchMedia('(hover:hover) and (pointer:fine)').matches)return;
+    var home=function(){return [k.offsetWidth/2,k.offsetHeight*0.44]},h=home(),x=h[0],y=h[1],tx=x,ty=y,a=125,ta=125,run=false;
+    g.style.transform='translate3d('+x+'px,'+y+'px,0)';
+    function go(){x+=(tx-x)*0.22;y+=(ty-y)*0.22;var da=((ta-a+540)%360)-180;a+=da*0.2;
+      g.style.transform='translate3d('+x.toFixed(1)+'px,'+y.toFixed(1)+'px,0)';if(b)b.style.setProperty('--ang',a.toFixed(1)+'deg');
       if(Math.abs(tx-x)+Math.abs(ty-y)>0.3||Math.abs(da)>0.2)requestAnimationFrame(go);else run=false}
     function kick(){if(!run){run=true;requestAnimationFrame(go)}}
-    c.addEventListener('pointermove',function(e){var r=c.getBoundingClientRect();tx=(e.clientX-r.left-r.width/2)*0.5;ty=(e.clientY-r.top-r.height*0.44)*0.5;
+    c.addEventListener('pointermove',function(e){var r=c.getBoundingClientRect();tx=e.clientX-r.left;ty=e.clientY-r.top;c.classList.add('lit');
       if(b){var q=b.getBoundingClientRect();ta=Math.atan2(e.clientY-(q.top+q.height/2),e.clientX-(q.left+q.width/2))*180/Math.PI+270}kick()});
-    c.addEventListener('pointerleave',function(){tx=0;ty=0;ta=125;kick()});
+    c.addEventListener('pointerleave',function(){var h=home();tx=h[0];ty=h[1];ta=125;c.classList.remove('lit');kick()});
+    addEventListener('resize',function(){if(!c.classList.contains('lit')){var h=home();tx=h[0];ty=h[1];kick()}});
   })();
   // click section: the empty box types example asks letter by letter, fast, like someone typing;
   // an example tapped is typed into the box the same way; the box grows so nothing is cut off; Enter sends
