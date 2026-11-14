@@ -339,8 +339,8 @@ footer a{color:#C9CEC9}
   background:radial-gradient(closest-side,rgba(37,211,102,.26),rgba(37,211,102,.22) 14%,rgba(37,211,102,.155) 30%,rgba(37,211,102,.09) 46%,rgba(37,211,102,.045) 62%,rgba(37,211,102,.016) 78%,rgba(37,211,102,.004) 90%,rgba(37,211,102,0));
   filter:blur(18px);transform:translate3d(50vw,44vh,0);will-change:transform;opacity:.75;transition:opacity .6s}
 .endwrap.lit .cglow{opacity:1}
-.cglow.tr{width:520px;height:520px;margin:-260px 0 0 -260px;filter:blur(22px)}.cglow.t1{opacity:.42}.cglow.t2{opacity:.28;width:440px;height:440px;margin:-220px 0 0 -220px}.cglow.t3{opacity:.16;width:360px;height:360px;margin:-180px 0 0 -180px}
-.endwrap.lit .cglow.t1{opacity:.55}.endwrap.lit .cglow.t2{opacity:.36}.endwrap.lit .cglow.t3{opacity:.2}
+.cglcv{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;display:block}
+.endwrap.gl .cglow{display:none}
 .endwrap:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.07;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .cta-in,.cta .cta-txt{position:relative;z-index:1}
@@ -461,7 +461,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
 
 <section class="why" id="why"><h2 class="why-k" id="whyk"><span>כמו</span> <span>סוכן</span> <span>נסיעות,</span><br><em><span>רק</span> <span>בוואטסאפ.</span></em></h2></section>
 
-<div class="endwrap" id="endwrap"><i class="cglow tr t3" aria-hidden="true"></i><i class="cglow tr t2" aria-hidden="true"></i><i class="cglow tr t1" aria-hidden="true"></i><i class="cglow" aria-hidden="true"></i>
+<div class="endwrap" id="endwrap"><i class="cglow" aria-hidden="true"></i><canvas class="cglcv" aria-hidden="true"></canvas>
 <div class="cta" id="go">
   <div class="cta-in">
     <div class="cta-txt">
@@ -547,22 +547,47 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
 
   // the cursor moves the light: the big glow drifts toward it (softly, never all the way) and the
   // box's bright edge turns to face it; both ease, and stop working once they have arrived
-  (function(){var c=document.getElementById('endwrap'),k=document.getElementById('go'),g=c&&c.querySelector('.cglow:not(.tr)'),T=c?[c.querySelector('.t1'),c.querySelector('.t2'),c.querySelector('.t3')]:[],P=[],b=k&&k.querySelector('.box');if(!g||!matchMedia('(hover:hover) and (pointer:fine)').matches)return;
-    var home=function(){return [k.offsetWidth/2,k.offsetHeight*0.44]},h=home(),x=h[0],y=h[1],tx=x,ty=y,a=125,ta=125,run=false;
-    var put=function(el,px,py){el.style.transform='translate3d('+px.toFixed(1)+'px,'+py.toFixed(1)+'px,0)'};
-    put(g,x,y);T.forEach(function(el){P.push([x,y]);put(el,x,y)});
-    // the light lags a little behind the cursor (0.09 a frame) and three fainter lights follow it, each a step behind the one
-    // before, so a quick move leaves a short fading trail
-    function go(){x+=(tx-x)*0.09;y+=(ty-y)*0.09;var da=((ta-a+540)%360)-180;a+=da*0.2;put(g,x,y);
-      var lx=x,ly=y,moving=Math.abs(tx-x)+Math.abs(ty-y)>0.3||Math.abs(da)>0.2;
-      for(var i=0;i<T.length;i++){var q=P[i];q[0]+=(lx-q[0])*0.2;q[1]+=(ly-q[1])*0.2;put(T[i],q[0],q[1]);if(Math.abs(lx-q[0])+Math.abs(ly-q[1])>0.3)moving=true;lx=q[0];ly=q[1]}
-      if(b)b.style.setProperty('--ang',a.toFixed(1)+'deg');
-      if(moving)requestAnimationFrame(go);else run=false}
+  (function(){var c=document.getElementById('endwrap'),k=document.getElementById('go'),g=c&&c.querySelector('.cglow'),cv=c&&c.querySelector('.cglcv'),b=k&&k.querySelector('.box');if(!c||!k)return;
+    // THE GLOW (Aviv 14.11: no rings, a long trail, smooth): drawn on the GPU so the falloff has no 8-bit steps (dithered),
+    // the light rides a spring toward the cursor and leaves a trail along the path it really took. Mouse only; a phone or
+    // reduced motion keeps the still CSS glow in the middle.
+    var home=function(){return [k.offsetWidth/2,k.offsetHeight*0.44]},h=home();
+    var fine=matchMedia('(hover:hover) and (pointer:fine)').matches&&!matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(g)g.style.transform='translate3d('+h[0]+'px,'+h[1]+'px,0)';
+    if(!fine)return;
+    var gl=null;try{gl=cv.getContext('webgl',{premultipliedAlpha:true,alpha:true,antialias:false})}catch(e){}
+    var N=40,STEP=3,px=h[0],py=h[1],vx=0,vy=0,tx=px,ty=py,a=125,ta=125,run=false,hist=[],H=[];for(var i=0;i<N*STEP;i++)hist.push([px,py]);for(i=0;i<N;i++)H.push(hist[i*STEP]);
+    var prog,uP,uR,uW,uS,W=0,Hh=0,pts=new Float32Array(N*2),rad=new Float32Array(N),wt=new Float32Array(N);
+    for(i=0;i<N;i++){var f=i/(N-1);rad[i]=230*(1-0.55*f);wt[i]=(i==0?1:0.07*Math.pow(1-f,1.4))}
+    function sh(t,src){var o=gl.createShader(t);gl.shaderSource(o,src);gl.compileShader(o);return gl.getShaderParameter(o,gl.COMPILE_STATUS)?o:null}
+    if(gl){var vs=sh(gl.VERTEX_SHADER,'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}'),
+      fs=sh(gl.FRAGMENT_SHADER,'precision highp float;uniform vec2 P['+N+'];uniform float R['+N+'];uniform float Wt['+N+'];uniform vec2 S;'+
+        'float hash(vec2 q){return fract(sin(dot(q,vec2(12.9898,78.233)))*43758.5453);}'+
+        'void main(){vec2 q=vec2(gl_FragCoord.x,S.y-gl_FragCoord.y);float I=0.;for(int i=0;i<'+N+';i++){vec2 d=q-P[i];I+=Wt[i]*exp(-dot(d,d)/(R[i]*R[i]));}'+
+        'float al=clamp(0.24*(1.-exp(-1.5*I)),0.,1.);al+=(hash(gl_FragCoord.xy)-0.5)/255.;al=max(al,0.);'+
+        'gl_FragColor=vec4(vec3(0.145,0.827,0.4)*al,al);}');
+      if(vs&&fs){prog=gl.createProgram();gl.attachShader(prog,vs);gl.attachShader(prog,fs);gl.linkProgram(prog);
+        if(gl.getProgramParameter(prog,gl.LINK_STATUS)){gl.useProgram(prog);var bf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,bf);
+          gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);var loc=gl.getAttribLocation(prog,'p');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+          uP=gl.getUniformLocation(prog,'P');uR=gl.getUniformLocation(prog,'R');uW=gl.getUniformLocation(prog,'Wt');uS=gl.getUniformLocation(prog,'S');c.classList.add('gl')}else gl=null}else gl=null}
+    function size(){if(!gl)return;var w=c.clientWidth,hh=c.clientHeight;if(w!==W||hh!==Hh){W=w;Hh=hh;cv.width=w;cv.height=hh;gl.viewport(0,0,w,hh)}}
+    function draw(){size();for(var i=0;i<N;i++){pts[2*i]=H[i][0];pts[2*i+1]=H[i][1]}gl.uniform2fv(uP,pts);gl.uniform1fv(uR,rad);gl.uniform1fv(uW,wt);gl.uniform2f(uS,W,Hh);
+      gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);gl.drawArrays(gl.TRIANGLE_STRIP,0,4)}
+    function go(){
+      // a soft spring: a little behind the cursor, no jumps, a gentle settle
+      vx=(vx+(tx-px)*0.045)*0.84;vy=(vy+(ty-py)*0.045)*0.84;px+=vx;py+=vy;
+      // the trail is the path the light really took over the last ~2 seconds, fading along its length
+      hist.unshift([px,py]);hist.length=N*STEP;for(var i=0;i<N;i++)H[i]=hist[i*STEP];
+      var da=((ta-a+540)%360)-180;a+=da*0.2;if(b)b.style.setProperty('--ang',a.toFixed(1)+'deg');
+      if(gl)draw();else if(g)g.style.transform='translate3d('+px.toFixed(1)+'px,'+py.toFixed(1)+'px,0)';
+      var tail=H[N-1],still=Math.abs(tx-px)+Math.abs(ty-py)+Math.abs(vx)+Math.abs(vy)<0.2&&Math.abs(px-tail[0])+Math.abs(py-tail[1])<0.5&&Math.abs(da)<0.2;
+      if(still)run=false;else requestAnimationFrame(go)}
     function kick(){if(!run){run=true;requestAnimationFrame(go)}}
     c.addEventListener('pointermove',function(e){var r=c.getBoundingClientRect();tx=e.clientX-r.left;ty=e.clientY-r.top;c.classList.add('lit');
       if(b){var q=b.getBoundingClientRect();ta=Math.atan2(e.clientY-(q.top+q.height/2),e.clientX-(q.left+q.width/2))*180/Math.PI+270}kick()});
     c.addEventListener('pointerleave',function(){var h=home();tx=h[0];ty=h[1];ta=125;c.classList.remove('lit');kick()});
-    addEventListener('resize',function(){if(!c.classList.contains('lit')){var h=home();tx=h[0];ty=h[1];kick()}});
+    addEventListener('resize',function(){if(!c.classList.contains('lit')){var h=home();tx=h[0];ty=h[1]}if(gl){W=0;draw()}kick()});
+    if(gl)draw();
   })();
   // click section: the empty box types example asks letter by letter, fast, like someone typing;
   // an example tapped is typed into the box the same way; the box grows so nothing is cut off; Enter sends
