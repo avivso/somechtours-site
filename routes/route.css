@@ -100,7 +100,7 @@ html .toc{flex-wrap:nowrap;gap:6px}html .toc a{flex:1 1 0;min-width:0;justify-co
 :root{--bg:#F5F2EA;--card:rgba(255,255,255,.62)}
 body{background:var(--bg);overflow-x:clip}
 body:before{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none;opacity:.7;
-  background:radial-gradient(28vw 28vw at 92% 12%,#BFF0D2,transparent 70%),radial-gradient(26vw 26vw at 6% 92%,#FBD9B8,transparent 70%),radial-gradient(22vw 22vw at 48% 58%,#CDE3F6,transparent 70%)}
+  background:radial-gradient(28vw 28vw at 92% 12%,#BFF0D2,transparent 70%),radial-gradient(26vw 26vw at 6% 92%,#FBD9B8,transparent 70%)}
 /* the top: a floating capsule with the logo, no button (one WhatsApp button per page, at the end) */
 .top{position:sticky;top:12px;z-index:20;width:max-content;margin:12px auto 0;border:1px solid rgba(255,255,255,.9);border-radius:99px;padding:8px 18px;
   background:rgba(255,255,255,.72);backdrop-filter:blur(14px);box-shadow:0 8px 30px rgba(0,0,0,.08)}
