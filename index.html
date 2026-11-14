@@ -340,14 +340,6 @@ footer a{color:#C9CEC9}
   filter:blur(18px);transform:translate3d(50vw,44vh,0);will-change:transform;opacity:.75;transition:opacity .6s}
 .endwrap.lit .cglow{opacity:1}
 .cglcv{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;display:block}
-/* the light touches what it passes (Aviv 14.11): the headline's letters take a mint tint around it, the box lights from
-   inside where the light is; --gx / --gy are the light's point in each element's own box, set by the glow's script */
-.endwrap.gl .cta h2.sub2{color:transparent;-webkit-background-clip:text;background-clip:text;
-  background-image:radial-gradient(240px circle at var(--gx,-999px) var(--gy,-999px),#D8FFE6 0%,#8EF2B5 30%,#fff 72%);background-color:#fff}
-.endwrap.gl .box:after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;
-  background:radial-gradient(300px circle at var(--gx,-999px) var(--gy,-999px),rgba(37,211,102,.16),rgba(37,211,102,.06) 45%,transparent 72%)}
-.endwrap.gl .box>*{position:relative;z-index:1}
-.endwrap.gl .try button{transition:color .25s}
 .endwrap.gl .cglow{display:none}
 .endwrap:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.07;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
@@ -595,21 +587,14 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
         var d=Math.hypot(q[1]-px,q[2]-py);wb[i]=i?wt[i]*Math.min(1,d/90):1;if(d>moved)moved=d}
       var da=((ta-a+540)%360)-180;a+=da*Math.min(1,dt*12);if(b)b.style.setProperty('--ang',a.toFixed(1)+'deg');
       if(gl)draw();else if(g)g.style.transform='translate3d('+px.toFixed(1)+'px,'+py.toFixed(1)+'px,0)';
-      touch();
       var still=Math.abs(tx-px)+Math.abs(ty-py)<0.3&&Math.abs(vx)+Math.abs(vy)<0.5&&moved<0.5&&Math.abs(da)<0.2;
       if(still){run=false;last=0}else requestAnimationFrame(go)}
-    var hd=k.querySelector('h2.sub2'),tb=[].slice.call(k.querySelectorAll('.try button'));
-    function touch(){if(!gl)return;var cr=c.getBoundingClientRect(),X=cr.left+px,Y=cr.top+py;
-      [hd,b].forEach(function(el){if(!el)return;var r=el.getBoundingClientRect();el.style.setProperty('--gx',(X-r.left).toFixed(1)+'px');el.style.setProperty('--gy',(Y-r.top).toFixed(1)+'px')});
-      // the example asks brighten as the light comes near
-      tb.forEach(function(el){var r=el.getBoundingClientRect(),d=Math.hypot(X-(r.left+r.width/2),Y-(r.top+r.height/2)),t=Math.max(0,1-d/260);
-        el.style.color=t>0.02?'rgba('+Math.round(255-t*113)+','+Math.round(255-t*13)+','+Math.round(255-t*74)+','+(0.72+0.28*t).toFixed(2)+')':''})}
     function kick(){if(!run){run=true;requestAnimationFrame(go)}}
     c.addEventListener('pointermove',function(e){var r=c.getBoundingClientRect();tx=e.clientX-r.left;ty=e.clientY-r.top;c.classList.add('lit');
       if(b){var q=b.getBoundingClientRect();ta=Math.atan2(e.clientY-(q.top+q.height/2),e.clientX-(q.left+q.width/2))*180/Math.PI+270}kick()});
     c.addEventListener('pointerleave',function(){var h=home();tx=h[0];ty=h[1];ta=125;c.classList.remove('lit');kick()});
     addEventListener('resize',function(){if(!c.classList.contains('lit')){var h=home();tx=h[0];ty=h[1]}if(gl){W=0;draw()}kick()});
-    wb[0]=1;if(gl){draw();touch()}
+    wb[0]=1;if(gl)draw();
   })();
   // click section: the empty box types example asks letter by letter, fast, like someone typing;
   // an example tapped is typed into the box the same way; the box grows so nothing is cut off; Enter sends
