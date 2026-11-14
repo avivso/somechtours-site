@@ -106,6 +106,8 @@ body:before{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none;
   background:rgba(255,255,255,.72);backdrop-filter:blur(14px);box-shadow:0 8px 30px rgba(0,0,0,.08)}
 .top .wa{display:none}
 .top .brand{font-weight:800;font-size:16px}.top .brand img{width:30px;height:30px}
+/* no floating logo capsule at the top (Aviv 14.11: "i dont like the bubble header"); the footer carries the logo and every page */
+.top{display:none!important}
 .wrap{max-width:52rem}
 h1{font-size:clamp(40px,7vw,84px);letter-spacing:-.045em;line-height:.95;margin:40px 0 18px}
 h2{font-weight:800;letter-spacing:-.02em}
