@@ -638,6 +638,11 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     var mv=false;addEventListener('touchstart',function(){mv=false},{passive:true});addEventListener('touchmove',function(){mv=true},{passive:true});
     addEventListener('touchend',function(){if(mv&&(window.__p||0)>=0.70&&document.activeElement!==q){q.focus({preventScroll:true});window.__rideEnd()}},{passive:true});
     q.addEventListener('focus',function(){if((window.__zk||0)<0.999){window.__ride=Date.now();if(typeof lenis!=='undefined'&&lenis)lenis.scrollTo(endY());else window.scrollTo({top:endY(),behavior:'smooth'})}});
+    // WITH THE KEYBOARD OPEN THE SCREEN DOES NOT SLIDE (iPhone pans the page under an open keyboard, which pushed the box off
+    // the top and showed the footer): the last screen follows the visible part exactly, and the footer links wait.
+    (function(){var vv=window.visualViewport,zf=document.getElementById('zfoot');if(!vv)return;
+      function fix(){var kb=vv.height<innerHeight*0.82;stage.style.transform=kb&&vv.offsetTop?'translateY('+vv.offsetTop+'px)':'';if(zf)zf.style.visibility=kb?'hidden':''}
+      vv.addEventListener('resize',fix);vv.addEventListener('scroll',fix);q.addEventListener('blur',function(){setTimeout(fix,60)})})();
     // never past the end (an open keyboard lets some phones drag the page further)
     addEventListener('scroll',function(){var m=endY();if(scrollY>m+2)window.scrollTo(0,m)},{passive:true});})();
   requestAnimationFrame(frame);
