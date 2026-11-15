@@ -653,6 +653,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     addEventListener('scroll',function(){window.__sc=Date.now()},{passive:true});
     function wait(fn){if(window.__fine)return false;var foc=document.activeElement===q;if(!foc&&Date.now()-(window.__sc||0)>250)return false;
       if(foc&&q.placeholder!=='לאן ומתי?')q.placeholder='לאן ומתי?';tm=setTimeout(fn,200);return true}
+    q.addEventListener('focus',function(){if(!window.__fine&&!q.value)q.placeholder='לאן ומתי?'});
     // placeholder: type, hold, erase, next
     function demo(){stop();var t=Array.from(ex[k]),n=0;
       (function typeOn(){if(q.value){q.placeholder='לאן ומתי?';return}if(wait(typeOn))return;q.placeholder=t.slice(0,n).join('')+(n<t.length?'|':'');fit();
