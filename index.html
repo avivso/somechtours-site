@@ -660,9 +660,12 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     // Safari slides the page under a keyboard as it likes, so its real place is measured and the scene moved to suit.
     var mv=false,ty0=0,up=false,shut=0,vv=window.visualViewport,zf=document.getElementById('zfoot'),sty=0;
     window.__place=function(){if(!vv)return;var b=q.getBoundingClientRect(),c=(b.top+b.bottom)/2,want=vv.offsetTop+vv.height*0.46,d=want-c;
-      if(Math.abs(d)>1){sty+=d;stage.style.transform='translateY('+sty+'px)'}};
-    q.addEventListener('focus',function(){window.__vh0=window.__vh0||innerHeight;if(zf)zf.style.visibility='hidden';[350,700,1100].forEach(function(ms){setTimeout(function(){if(document.activeElement===q)window.__place()},ms)})});
-    if(vv)vv.addEventListener('resize',function(){if(document.activeElement===q)setTimeout(window.__place,60)});
+      if(Math.abs(d)>6){sty+=d;stage.style.transform='translateY('+sty+'px)'}};
+    q.addEventListener('focus',function(){window.__vh0=window.__vh0||innerHeight;if(zf)zf.style.visibility='hidden';[350,700,1100,1600,2300].forEach(function(ms){setTimeout(function(){if(document.activeElement===q)window.__place()},ms)})});
+    // Safari slides the page when the keyboard opens and slides it back a moment later; the box is put back in view after each
+    // slide has settled (not on every small move, so nothing shifts while typing)
+    var pt=0;function later(){clearTimeout(pt);pt=setTimeout(function(){if(document.activeElement===q)window.__place()},90)}
+    if(vv){vv.addEventListener('resize',later);vv.addEventListener('scroll',later)}
     q.addEventListener('blur',function(){sty=0;stage.style.transform='';if(zf)zf.style.visibility='';window.__vh0=0});
     var ly=0,lt=0,vel=0;
     addEventListener('touchstart',function(e){mv=false;up=false;ty0=ly=e.touches[0].clientY;lt=e.timeStamp;vel=0;if(document.activeElement!==q)window.__vh0=innerHeight},{passive:true});
