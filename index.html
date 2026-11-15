@@ -507,10 +507,13 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     var ph=f-Math.floor(f),cur=Math.min(N-1,Math.floor(f)),nx=Math.min(N-1,cur+1),bl=(function(x){return x*x*(3-2*x)})(clamp((ph-0.45)/0.55,0,1));
     var pos=mob?50:lerp(side(cur),side(nx),cur===N-1?0:bl), ry=-9*Math.cos(Math.PI*f)*(mob?0.6:1), rx=lerp(9,4,grow)+lean*(mob?0.7:1);if(gl)gl.style.transform='translateX('+(ry*1.6).toFixed(1)+'%)';
     // the last stretch of the scroll comes in on the phone's own message box, where the visitor writes
-    var zk=(function(x){return x*x*x*(x*(x*6-15)+10)})(clamp((p-0.81)/0.13,0,1)),zf=document.getElementById('zfoot');
+    var zk=(function(x){return x*x*x*(x*(x*6-15)+10)})(clamp((p-0.72)/0.24,0,1)),zf=document.getElementById('zfoot');
     if(zk>0){var scZ=mob?(vw-8)/dW*0.88:Math.min(maxSc*2.1,(vw*0.62)/dW),cy=vh*(mob?0.38:0.42),tyZ=cy-vh/2-(dH/2-78)*scZ;
       sc=lerp(sc,scZ,zk);ty=lerp(ty,tyZ,zk);rx=lerp(rx,0,zk);ry=lerp(ry,0,zk);pos=lerp(pos,50,zk)}
-    window.__zk=zk;window.__p=p;if(!window.__fine&&p<0.74&&Date.now()-(window.__ride||0)>2500&&document.activeElement&&document.activeElement.id==='q2')document.activeElement.blur();
+    window.__zk=zk;window.__p=p;
+    // past the last step the page finishes by itself: one ride to the box, so the zoom is the end of the scroll
+    if(p<0.6)window.__rode=false;else if(!window.__rode&&p>=0.72&&raw>=doneRaw&&window.__rideEnd){window.__rode=true;window.__rideEnd()}
+    if(!window.__fine&&p<0.64&&Date.now()-(window.__ride||0)>2500&&document.activeElement&&document.activeElement.id==='q2')document.activeElement.blur();
     var fo=clamp((zk-0.8)/0.2,0,1);zf.style.opacity=fo;zf.style.pointerEvents=fo>0.5?'auto':'none';
     [].forEach.call(stage.querySelectorAll('.count,.prog,.mk'),function(e){e.style.opacity=1-zk});
     var dx=(pos-50)/100*vw;
@@ -629,10 +632,11 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
   // from the swipe that brings it there, or from a tap on the box itself (which first rides the page to the end).
   (function(){var q=document.getElementById('q2');if(!q)return;var fine=window.__fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
     function endY(){return hero.offsetTop+hero.offsetHeight-innerHeight}
+    window.__rideEnd=function(){window.__ride=Date.now();if(typeof lenis!=='undefined'&&lenis)lenis.scrollTo(endY(),{duration:1.1});else window.scrollTo({top:endY(),behavior:'smooth'})};
     if(fine){var keep=function(){if(document.activeElement!==q)q.focus({preventScroll:true})};setTimeout(keep,1600);
       addEventListener('keydown',function(e){if(document.activeElement!==q&&!e.metaKey&&!e.ctrlKey&&!e.altKey&&e.key.length===1)q.focus({preventScroll:true})});return}
     var mv=false;addEventListener('touchstart',function(){mv=false},{passive:true});addEventListener('touchmove',function(){mv=true},{passive:true});
-    addEventListener('touchend',function(){if(mv&&(window.__p||0)>=0.79&&document.activeElement!==q)q.focus({preventScroll:true})},{passive:true});
+    addEventListener('touchend',function(){if(mv&&(window.__p||0)>=0.70&&document.activeElement!==q){q.focus({preventScroll:true});window.__rideEnd()}},{passive:true});
     q.addEventListener('focus',function(){if((window.__zk||0)<0.999){window.__ride=Date.now();if(typeof lenis!=='undefined'&&lenis)lenis.scrollTo(endY());else window.scrollTo({top:endY(),behavior:'smooth'})}});
     // never past the end (an open keyboard lets some phones drag the page further)
     addEventListener('scroll',function(){var m=endY();if(scrollY>m+2)window.scrollTo(0,m)},{passive:true});})();
