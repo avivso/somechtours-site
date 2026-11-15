@@ -529,7 +529,10 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     var fo=clamp((zk-0.8)/0.2,0,1);zf.style.opacity=fo;zf.style.pointerEvents=fo>0.5?'auto':'none';
     [].forEach.call(stage.querySelectorAll('.count,.prog,.mk'),function(e){e.style.opacity=1-zk});
     // the phone's side: thin metal layers stepping out behind it, away from the eye, as far as the tilt shows them
-    (function(){var PH=window.__ph||(window.__ph=dev.querySelector('.phone')),ex=-26*Math.sin(ry*Math.PI/180),ey=26*Math.sin(rx*Math.PI/180),L=['0 0 0 3px #B4B9BD','0 0 0 4px #6C7175'],C=['#C6CACD','#B3B8BC','#9EA3A7','#898E92','#757A7E','#63686C','#555A5E','#4A4E52'];
+    // phones: the edge is repainted only when it would look different (a whole pixel of tilt, a 5% step of the end fade);
+    // repainting eleven shadow layers on every frame made the scroll lag
+    var eKey=window.__fine?null:Math.round(26*Math.sin(ry*Math.PI/180))+'|'+Math.round(26*Math.sin(rx*Math.PI/180))+'|'+Math.round(zk*20);
+    if(eKey===null||eKey!==window.__ek)(function(){window.__ek=eKey;var PH=window.__ph||(window.__ph=dev.querySelector('.phone')),ex=-26*Math.sin(ry*Math.PI/180),ey=26*Math.sin(rx*Math.PI/180),L=['0 0 0 3px #B4B9BD','0 0 0 4px #6C7175'],C=['#C6CACD','#B3B8BC','#9EA3A7','#898E92','#757A7E','#63686C','#555A5E','#4A4E52'];
       for(var i=0;i<8;i++){var k=(i+1)/8;L.push((ex*k).toFixed(2)+'px '+(ey*k).toFixed(2)+'px 0 4px '+C[i])}
       L.push((ex*1.6).toFixed(1)+'px '+(60+ey*1.5).toFixed(1)+'px 110px rgba(20,40,20,'+(0.28*(1-zk)).toFixed(3)+')');var GL=window.__gl||(window.__gl=dev.querySelector('.glow'));if(GL)GL.style.opacity=1-zk;PH.style.setProperty('box-shadow',L.join(','),'important')})();
     var dx=(pos-50)/100*vw;
