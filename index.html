@@ -498,10 +498,11 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     // a phone with the keyboard open: the scene is at its end whatever the window does (Safari resizes and slides the page
     // under a keyboard), and the box is held in the part of the screen that can be seen
     var kbOn=!window.__fine&&document.activeElement&&document.activeElement.id==='q2';
-    if(kbOn){if(window.__place)window.__place();if(window.__zl!==1){window.__zl=1;window.__zz=Math.max(window.__zz||0,window.__zx||0)}vh=window.__vh0||vh} // the zoom carries on from where the scroll left it
+    if(window.__locked){raw=1;vh=window.__vh0||vh;window.__place()}
+    if(kbOn){if(window.__zl!==1){window.__zl=1;window.__zz=Math.max(window.__zz||0,window.__zx||0)}vh=window.__vh0||vh} // the zoom carries on from where the scroll left it
     window.__raw=raw;
     // nothing moved since the last drawn frame: draw nothing (no style writes while the page is still)
-    if(raw===doneRaw&&sp===raw&&Math.abs(lean)<0.002&&vw===doneW&&vh===doneH&&(window.__fine||(window.__zz||0)===(window.__zl||0))){prevRaw=raw;requestAnimationFrame(frame);return}
+    if(raw===doneRaw&&sp===raw&&Math.abs(lean)<0.002&&vw===doneW&&vh===doneH&&(window.__fine||((window.__zz||0)===(window.__zl||0)&&(window.__ck||0)===(window.__locked?1:0)))){prevRaw=raw;requestAnimationFrame(frame);return}
     if(!window.__fine&&dev.style.willChange!=='transform')dev.style.willChange='transform'; // phones move a cached picture (smooth); computers redraw sharp
     sp+=(raw-sp)*0.22;if(Math.abs(raw-sp)<0.0002)sp=raw;var p=sp;
     // scroll speed -> a soft lean that springs back when the scroll stops (the phone has weight)
@@ -521,7 +522,9 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     // last step, or a tap on the box) and stays until they scroll back above the last step.
     if(!window.__fine){if(kbOn)window.__zl=1;else if(p<0.70)window.__zl=0;var zz=(window.__zz||0)+((window.__zl||0)-(window.__zz||0))*0.07;if(Math.abs((window.__zl||0)-zz)<0.003)zz=window.__zl||0;window.__zz=zz;zx=Math.max(zx,zz)}
     var zk=(function(x){return x*x*x*(x*(x*6-15)+10)})(zx),zf=document.getElementById('zfoot');
-    if(zk>0){var scZ=mob?(vw-8)/dW*0.88:Math.min(maxSc*2.7,(vw*0.8)/dW),cy=vh*(mob?0.29:0.42),tyZ=cy-vh/2-(dH/2-50)*scZ;
+    // phones: the box rests in the middle of the screen; while the keyboard is open it rides up to the top quarter, clear of it
+    var ck=window.__fine?0:(window.__ck=(window.__ck||0)+((window.__locked?1:0)-(window.__ck||0))*0.14);if(!window.__fine&&Math.abs((window.__locked?1:0)-ck)<0.004)ck=window.__ck=window.__locked?1:0;
+    if(zk>0){var scZ=mob?(vw-8)/dW*0.88:Math.min(maxSc*2.7,(vw*0.8)/dW),cy=vh*(mob?lerp(0.46,0.24,ck):0.42),tyZ=cy-vh/2-(dH/2-50)*scZ;
       sc=lerp(sc,scZ,zk);ty=lerp(ty,tyZ,zk);rx=lerp(rx,0,zk);ry=lerp(ry,0,zk);pos=lerp(pos,50,zk);}
     window.__zk=zk;window.__p=p;
     // past the last step the page finishes by itself: one ride to the box, so the zoom is the end of the scroll
@@ -654,25 +657,24 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
   // A phone: the keyboard would hide the box anywhere but at the end, so it opens only when the zoomed box is on screen:
   // from the swipe that brings it there, or from a tap on the box itself (which first rides the page to the end).
   (function(){var q=document.getElementById('q2');if(!q)return;var fine=window.__fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
-    function endY(){return hero.offsetTop+hero.offsetHeight-innerHeight}
-    window.__rideEnd=function(){window.__ride=Date.now();if(typeof lenis!=='undefined'&&lenis)lenis.scrollTo(endY(),{duration:1.1});else window.scrollTo({top:endY(),behavior:'smooth'})};
+    window.__rideEnd=function(){var y=hero.offsetTop+hero.offsetHeight-innerHeight;window.__ride=Date.now();if(typeof lenis!=='undefined'&&lenis)lenis.scrollTo(y,{duration:1.1});else window.scrollTo({top:y,behavior:'smooth'})};
     if(fine){var keep=function(){if(document.activeElement!==q)q.focus({preventScroll:true})};setTimeout(keep,1600);
       addEventListener('keydown',function(e){if(document.activeElement!==q&&!e.metaKey&&!e.ctrlKey&&!e.altKey&&e.key.length===1)q.focus({preventScroll:true})});return}
-    // PHONES. The swipe that reaches the last step opens the keyboard on the phone's own box, and the scene finishes its
-    // zoom by itself (frame() holds it at the end while the box is in focus). The box is kept where it can be seen:
-    // Safari slides the page under a keyboard as it likes, so its real place is measured and the scene moved to suit.
+    // PHONES. The swipe that reaches the end opens the keyboard on the phone's own box, and the page LOCKS on that screen:
+    // while the box is in focus the document cannot scroll at all (body pinned), the last screen is pinned to the window
+    // itself (not to the scroll), and frame() draws the end state whatever the window reports. So there is one screen and
+    // only one, until the keyboard closes. (Every softer approach let Safari slide or scroll the page: Aviv, 15.11.)
     var mv=false,ty0=0,up=false,shut=0,vv=window.visualViewport,zf=document.getElementById('zfoot'),sty=0;
-    // with the keyboard open iPhones let the page be dragged under it; the last screen follows the visible part exactly, so
-    // dragging shows nothing new (no empty screen)
-    // ...and an open keyboard also lets the page itself scroll past its end, which carried the last screen off the top:
-    // whatever the page has gone past its end, the last screen is moved back by
-    window.__place=function(){var on=document.activeElement===q,past=on?Math.max(0,Math.round(scrollY-(hero.offsetTop+hero.offsetHeight-(window.__vh0||innerHeight)))):0,o=past+(on&&vv?Math.round(vv.offsetTop):0);if(o!==sty){sty=o;stage.style.transform=o?'translateY('+o+'px)':''}};
-    addEventListener('scroll',window.__place,{passive:true});
-    q.addEventListener('focus',function(){window.__vh0=window.__vh0||innerHeight;if(zf)zf.style.visibility='hidden';[350,700,1100,1600,2300].forEach(function(ms){setTimeout(function(){if(document.activeElement===q)window.__place()},ms)})});
-    // Safari slides the page when the keyboard opens and slides it back a moment later; the box is put back in view after each
-    // slide has settled (not on every small move, so nothing shifts while typing)
+    function endY(){return hero.offsetTop+hero.offsetHeight-(window.__vh0||innerHeight)}
+    window.__place=function(){var o=window.__locked&&vv?Math.round(vv.offsetTop):0;if(o!==sty){sty=o;stage.style.transform=o?'translateY('+o+'px)':''}};
+    function lock(){if(window.__locked)return;window.__vh0=window.__vh0||innerHeight;window.__locked=true;var b=document.body.style,st=stage.style;
+      window.__ly=scrollY;b.position='fixed';b.top=(-scrollY)+'px';b.left='0';b.right='0';
+      st.position='fixed';st.top='0';st.left='0';st.right='0';st.height=window.__vh0+'px';if(zf)zf.style.visibility='hidden'}
+    function unlock(){if(!window.__locked)return;var b=document.body.style,st=stage.style,y=endY();window.__locked=false;
+      b.position='';b.top='';b.left='';b.right='';st.position='';st.top='';st.left='';st.right='';st.height='';st.transform='';sty=0;
+      if(zf)zf.style.visibility='';window.scrollTo(0,y);window.__vh0=0}
+    q.addEventListener('focus',lock);q.addEventListener('blur',unlock);
     if(vv){vv.addEventListener('resize',window.__place);vv.addEventListener('scroll',window.__place)}
-    q.addEventListener('blur',function(){sty=0;stage.style.transform='';if(zf)zf.style.visibility='';window.__vh0=0});
     var ly=0,lt=0,vel=0;
     addEventListener('touchstart',function(e){mv=false;up=false;ty0=ly=e.touches[0].clientY;lt=e.timeStamp;vel=0;if(document.activeElement!==q)window.__vh0=innerHeight},{passive:true});
     addEventListener('touchmove',function(e){var y=e.touches[0].clientY,d=y-ty0,dt=e.timeStamp-lt;mv=true;if(d>14)up=true;if(dt>4){vel=0.6*vel+0.4*((ly-y)/dt);ly=y;lt=e.timeStamp}
