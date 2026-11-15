@@ -407,7 +407,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
 }
 
 .wa-in{flex-direction:column;align-items:stretch!important;gap:8px!important;padding:10px 10px 12px!important}
-.wa-in textarea{border:0;outline:0;resize:none;font:inherit;font-size:17px;line-height:1.35;background:#fff;border-radius:18px;padding:11px 15px;color:#111B21;min-height:64px;max-height:110px;direction:rtl}
+.wa-in textarea{border:0;outline:0;resize:none;font:inherit;font-size:17px;line-height:1.35;background:#fff;border-radius:18px;padding:11px 15px;color:#111B21;height:68px;overflow:auto;direction:rtl}
 .wa-in textarea::placeholder{color:#8696A0}
 .wa-in button{display:flex;align-items:center;justify-content:center;gap:9px;height:46px;border:0;border-radius:23px;background:#25D366;color:#fff;font:inherit;font-weight:700;font-size:16px;cursor:pointer;padding:0 14px}
 .wa-in button svg{width:22px;height:22px;background:none;padding:0;border-radius:0;fill:#fff}
@@ -611,7 +611,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
   // click section: the empty box types example asks letter by letter, fast, like someone typing;
   // an example tapped is typed into the box the same way; the box grows so nothing is cut off; Enter sends
   (function(){var q=document.getElementById('q2'),f=document.getElementById('ask2'),ex=['טיסה לבנגקוק בפברואר, שניים עם מזוודה','אוטובוס מהאנוי לסאפה ביום שישי','רכבת לילה מדלהי לג\'איפור','מעבורת מקוסמוי לקופנגן מחר בבוקר'],k=0,tm=null,typingVal=false;
-    function fit(){q.style.height='auto';q.style.height=q.scrollHeight+'px'}
+    function fit(){} // the box keeps one fixed size: growing and shrinking it as the example types shook the whole phone on iPhones
     function stop(){clearTimeout(tm);tm=null}
     function rnd(a,b){return a+Math.random()*(b-a)}
     // placeholder: type, hold, erase, next
