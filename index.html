@@ -398,7 +398,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
 .fbrand{order:2;display:inline-flex;align-items:center;gap:10px;color:#C9CEC9}.fbrand img{width:30px;height:30px;border-radius:50%;background:#fff;padding:3px}
 @media (max-width:820px){.fbrand{order:0}}
 @media (max-width:820px){
-  .hero{height:500vh}
+  .hero{height:580vh}
   .device{width:300px}.wa-view{height:430px}.wa-body{font-size:13px}.doc{width:220px}
   .w{font-size:clamp(44px,13vw,80px);white-space:normal;width:92vw}
   .w.side{font-size:clamp(36px,11vw,56px);width:94vw;text-align:center}
@@ -502,7 +502,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     sp+=(raw-sp)*0.22;if(Math.abs(raw-sp)<0.0002)sp=raw;var p=sp;
     // scroll speed -> a soft lean that springs back when the scroll stops (the phone has weight)
     var v=prevRaw<0?0:(raw-prevRaw)*(HH-vh);prevRaw=raw;lean+=(clamp(v*0.15,-3.5,3.5)-lean)*0.08;if(Math.abs(lean)<0.002)lean=0;
-    var f=Math.min(p/(window.__fine?0.80:0.985),0.9999)*N, step=Math.min(N-1,Math.floor(f));
+    var f=Math.min(p/0.80,0.9999)*N, step=Math.min(N-1,Math.floor(f));
     // the phone starts as an object below the headline and grows to own the screen
     var grow=ease(clamp((p-0.08)/0.42,0,1));
     var dW=DW,dH=DH,maxSc=mob?Math.min((vw-22)/dW,(vh*0.74)/dH):Math.min(1.5,(vh-170)/676);
@@ -515,7 +515,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     var zx=clamp((p-0.72)/0.24,0,1);
     // phones: the zoom is not part of the scroll. It is switched on by the touch that opens the keyboard (a swipe on the
     // last step, or a tap on the box) and stays until they scroll back above the last step.
-    if(!window.__fine){if(kbOn)window.__zl=1;else if(p<0.80)window.__zl=0;var zz=(window.__zz||0)+((window.__zl||0)-(window.__zz||0))*0.13;if(Math.abs((window.__zl||0)-zz)<0.003)zz=window.__zl||0;window.__zz=zz;zx=zz}
+    if(!window.__fine){if(kbOn)window.__zl=1;else if(p<0.70)window.__zl=0;var zz=(window.__zz||0)+((window.__zl||0)-(window.__zz||0))*0.13;if(Math.abs((window.__zl||0)-zz)<0.003)zz=window.__zl||0;window.__zz=zz;zx=Math.max(zx,zz)}
     var zk=(function(x){return x*x*x*(x*(x*6-15)+10)})(zx),zf=document.getElementById('zfoot');
     if(zk>0){var scZ=mob?(vw-8)/dW*0.88:Math.min(maxSc*2.1,(vw*0.62)/dW),cy=vh*(mob?0.38:0.42),tyZ=cy-vh/2-(dH/2-78)*scZ;
       sc=lerp(sc,scZ,zk);ty=lerp(ty,tyZ,zk);rx=lerp(rx,0,zk);ry=lerp(ry,0,zk);pos=lerp(pos,50,zk);zf.style.top=(mob?Math.max(cy+84*scZ+18,vh*0.56):cy+84*scZ+18)+'px';zf.style.bottom='auto'}
@@ -655,7 +655,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     addEventListener('touchstart',function(e){mv=false;up=false;ty0=ly=e.touches[0].clientY;lt=e.timeStamp;vel=0;if(document.activeElement!==q)window.__vh0=innerHeight},{passive:true});
     addEventListener('touchmove',function(e){var y=e.touches[0].clientY,d=y-ty0,dt=e.timeStamp-lt;mv=true;if(d>14)up=true;if(dt>4){vel=0.6*vel+0.4*((ly-y)/dt);ly=y;lt=e.timeStamp}
       if(document.activeElement===q&&e.target!==q){if(e.cancelable)e.preventDefault();if(Math.abs(d)>10){shut=Date.now();q.blur()}}},{passive:false});
-    addEventListener('touchend',function(){if(mv&&!up&&Date.now()-shut>700&&(window.__p||0)>=0.86&&document.activeElement!==q)q.focus({preventScroll:true})},{passive:true});
+    addEventListener('touchend',function(){if(mv&&!up&&Date.now()-shut>700&&(window.__p||0)>=0.74&&document.activeElement!==q)q.focus({preventScroll:true})},{passive:true});
 })();
   requestAnimationFrame(frame);
   var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting)en.target.classList.add('on')})},{threshold:.18});
