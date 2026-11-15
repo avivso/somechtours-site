@@ -524,7 +524,10 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     var zk=(function(x){return x*x*x*(x*(x*6-15)+10)})(zx),zf=document.getElementById('zfoot');
     // phones: the box rests in the middle of the screen; while the keyboard is open it rides up to the top quarter, clear of it
     var ck=window.__fine?0:(window.__ck=(window.__ck||0)+((window.__locked?1:0)-(window.__ck||0))*0.14);if(!window.__fine&&Math.abs((window.__locked?1:0)-ck)<0.004)ck=window.__ck=window.__locked?1:0;
-    if(zk>0){var scZ=mob?(vw-8)/dW*0.88:Math.min(maxSc*2.7,(vw*0.8)/dW),cy=vh*(mob?lerp(0.46,0.34,ck):0.42),tyZ=cy-vh/2-(dH/2-50)*scZ;
+    if(zk>0){var scZ=mob?(vw-8)/dW*0.88:Math.min(maxSc*2.7,(vw*0.8)/dW),cy=mob?lerp(vh*0.46,(function(){
+        // while typing, the phone's bottom edge sits just above what Safari leaves visible (its address bar and keyboard
+        // cover the rest of the screen; Aviv 15.11: the bottom of the phone was hidden behind them)
+        var vv=window.visualViewport,vis=vv&&window.__locked?vv.height:vh;return Math.min(vh*0.34,vis-50*scZ-12)})(),ck):vh*0.42,tyZ=cy-vh/2-(dH/2-50)*scZ;
       sc=lerp(sc,scZ,zk);ty=lerp(ty,tyZ,zk);rx=lerp(rx,0,zk);ry=lerp(ry,0,zk);pos=lerp(pos,50,zk);}
     window.__zk=zk;window.__p=p;
     // past the last step the page finishes by itself: one ride to the box, so the zoom is the end of the scroll
