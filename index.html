@@ -434,7 +434,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     <div class="words">
       <h1 class="w intro" data-s="0" data-nosnippet>כותבים לאן</h1>
       <div class="w side" data-s="1">מקבלים הצעה.<small>מחיר סופי, כולל הכבודה</small></div>
-      <div class="w g side" data-s="2">משלמים.<small>בקישור מאובטח, בלי לצאת מהצ'אט</small></div>
+      <div class="w g side" data-s="2">משלמים.<small>בקישור מאובטח</small></div>
       <div class="w g side" data-s="3">והכרטיס כבר כאן.</div>
       <div class="w side" data-s="4">צ'ק-אין עלינו.<small>כרטיס העלייה נשלח אליכם</small></div>
       <div class="w g side" data-s="5">זמינים <bdi dir="ltr">24/7</bdi>.<small>גם בשלוש בלילה, גם באמצע הטיול</small></div>
@@ -510,6 +510,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     var zk=(function(x){return x*x*x*(x*(x*6-15)+10)})(clamp((p-0.82)/0.17,0,1)),zf=document.getElementById('zfoot');
     if(zk>0){var scZ=mob?(vw-8)/dW*0.88:Math.min(maxSc*2.1,(vw*0.62)/dW),cy=vh*(mob?0.38:0.42),tyZ=cy-vh/2-(dH/2-78)*scZ;
       sc=lerp(sc,scZ,zk);ty=lerp(ty,tyZ,zk);rx=lerp(rx,0,zk);ry=lerp(ry,0,zk);pos=lerp(pos,50,zk)}
+    window.__atEnd=zk>=0.999;if(window.__atEnd&&!window.__wasEnd){var qq=document.getElementById('q2');try{qq.focus({preventScroll:true})}catch(e){}}window.__wasEnd=window.__atEnd;
     var fo=clamp((zk-0.8)/0.2,0,1);zf.style.opacity=fo;zf.style.pointerEvents=fo>0.5?'auto':'none';
     [].forEach.call(stage.querySelectorAll('.count,.prog,.mk'),function(e){e.style.opacity=1-zk});
     var dx=(pos-50)/100*vw;
@@ -626,6 +627,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
   // a scroll lets go of the phone's box, so the page is never stuck on it
   (function(){var q=document.getElementById('q2');if(!q)return;function out(e){if(document.activeElement===q&&e.target!==q)q.blur()}
     addEventListener('wheel',function(){if(document.activeElement===q)q.blur()},{passive:true});addEventListener('touchmove',out,{passive:true});
+    addEventListener('touchend',function(e){if(window.__atEnd&&document.activeElement!==q&&!(e.target.closest&&e.target.closest('a,button')))q.focus({preventScroll:true})},{passive:true});
     addEventListener('keydown',function(e){if(document.activeElement!==q&&false)return;if(document.activeElement===q&&(e.key==='PageUp'||e.key==='PageDown'||e.key==='Escape'))q.blur()})})();
   requestAnimationFrame(frame);
   var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting)en.target.classList.add('on')})},{threshold:.18});
