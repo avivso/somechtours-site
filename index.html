@@ -678,7 +678,11 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     var ly=0,lt=0,vel=0;
     addEventListener('touchstart',function(e){mv=false;up=false;ty0=ly=e.touches[0].clientY;lt=e.timeStamp;vel=0;if(document.activeElement!==q)window.__vh0=innerHeight},{passive:true});
     addEventListener('touchmove',function(e){var y=e.touches[0].clientY,d=y-ty0,dt=e.timeStamp-lt;mv=true;if(d>14)up=true;if(dt>4){vel=0.6*vel+0.4*((ly-y)/dt);ly=y;lt=e.timeStamp}
-      if(document.activeElement===q){if(e.cancelable)e.preventDefault();if(e.target!==q&&Math.abs(d)>10){shut=Date.now();q.blur()}}},{passive:false});
+      },{passive:true});
+    // the handler that may stop a touch exists ONLY while the page is locked. Left on the window all the time it made the
+    // phone ask this code before every scroll movement, on the whole page: that was the lag (Aviv, 15.11).
+    function hold(e){if(e.cancelable)e.preventDefault();if(e.target!==q&&Math.abs(e.touches[0].clientY-ty0)>10){shut=Date.now();q.blur()}}
+    q.addEventListener('focus',function(){addEventListener('touchmove',hold,{passive:false})});q.addEventListener('blur',function(){removeEventListener('touchmove',hold,{passive:false})});
     addEventListener('touchend',function(){if(mv&&!up&&Date.now()-shut>700&&(window.__p||0)>=0.74&&document.activeElement!==q)q.focus({preventScroll:true})},{passive:true});
 })();
   requestAnimationFrame(frame);
