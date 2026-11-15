@@ -623,6 +623,10 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     q.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();f.requestSubmit?f.requestSubmit():f.onsubmit(e)}});
     [].forEach.call(f.querySelectorAll('.try button'),function(c){c.addEventListener('click',function(){typeIn(c.dataset.q)})});
     demo();})();
+  // a scroll lets go of the phone's box, so the page is never stuck on it
+  (function(){var q=document.getElementById('q2');if(!q)return;function out(e){if(document.activeElement===q&&e.target!==q)q.blur()}
+    addEventListener('wheel',function(){if(document.activeElement===q)q.blur()},{passive:true});addEventListener('touchmove',out,{passive:true});
+    addEventListener('keydown',function(e){if(document.activeElement!==q&&false)return;if(document.activeElement===q&&(e.key==='PageUp'||e.key==='PageDown'||e.key==='Escape'))q.blur()})})();
   requestAnimationFrame(frame);
   var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting)en.target.classList.add('on')})},{threshold:.18});
   [].slice.call(document.querySelectorAll('.reveal')).forEach(function(el){io.observe(el)});
