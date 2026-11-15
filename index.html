@@ -697,9 +697,9 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
       },{passive:true});
     // the handler that may stop a touch exists ONLY while the page is locked. Left on the window all the time it made the
     // phone ask this code before every scroll movement, on the whole page: that was the lag (Aviv, 15.11).
-    function hold(e){if(e.cancelable)e.preventDefault();if(e.target!==q&&Math.abs(e.touches[0].clientY-ty0)>10){shut=Date.now();q.blur()}}
+    function hold(e){if(e.cancelable)e.preventDefault();if(e.target!==q&&Math.abs(e.touches[0].clientY-ty0)>40){shut=Date.now();q.blur()}}
     q.addEventListener('focus',function(){addEventListener('touchmove',hold,{passive:false})});q.addEventListener('blur',function(){removeEventListener('touchmove',hold,{passive:false})});
-    addEventListener('touchend',function(){if(mv&&!up&&Date.now()-shut>700&&(window.__p||0)>=0.74&&document.activeElement!==q)q.focus({preventScroll:true})},{passive:true});
+    addEventListener('touchend',function(){if(mv&&!up&&ty0-ly>40&&Date.now()-shut>700&&(window.__p||0)>=0.78&&document.activeElement!==q)q.focus({preventScroll:true})},{passive:true});
 })();
   requestAnimationFrame(frame);
   var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting)en.target.classList.add('on')})},{threshold:.18});
