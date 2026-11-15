@@ -519,7 +519,10 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
       else{w.style.left='79%';w.style.textAlign='right';w.style.transform='translate(-50%,calc(-50% + '+(-d*36)+'px))'}
       w.style.opacity=o*(1-out)});
     if(step!==last){last=step;
+      // the chat glides to its new height instead of jumping when a message is added or taken away
+      var wb=document.getElementById('wab'),h0=wb.offsetHeight;
       M.forEach(function(m){m.classList.toggle('on',+m.dataset.s<=step)});
+      var dh=wb.offsetHeight-h0;if(dh){wb.style.transition='none';wb.style.transform='translateY('+dh+'px)';void wb.offsetHeight;wb.style.transition='transform .6s cubic-bezier(.22,.9,.24,1)';wb.style.transform='translateY(0)'}
       typing.classList.toggle('on',false);
       cn.textContent='0'+(step+1);
     }
