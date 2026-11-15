@@ -682,10 +682,12 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     window.__place=function(){var o=window.__locked&&vv?Math.round(vv.offsetTop):0;if(o!==sty){sty=o;stage.style.transform=o?'translateY('+o+'px)':''}};
     function lock(){if(window.__locked)return;window.__vh0=window.__vh0||innerHeight;window.__locked=true;var b=document.body.style,st=stage.style;
       window.__ly=scrollY;b.position='fixed';b.top=(-scrollY)+'px';b.left='0';b.right='0';
-      st.position='fixed';st.top='0';st.left='0';st.right='0';st.height=window.__vh0+'px';if(zf)zf.style.visibility='hidden'}
+      st.position='fixed';st.top='0';st.left='0';st.right='0';st.height=window.__vh0+'px';if(zf)zf.style.visibility='hidden';
+      // the checkered background covers the whole screen while locked, whatever height the phone reports under a keyboard
+      var g=stage.querySelector('.grid');if(g){g.style.bottom='auto';g.style.height='100lvh'}}
     function unlock(){if(!window.__locked)return;var b=document.body.style,st=stage.style,y=endY();window.__locked=false;
       b.position='';b.top='';b.left='';b.right='';st.position='';st.top='';st.left='';st.right='';st.height='';st.transform='';sty=0;
-      if(zf)zf.style.visibility='';window.scrollTo(0,y);window.__vh0=0}
+      if(zf)zf.style.visibility='';var g=stage.querySelector('.grid');if(g){g.style.bottom='';g.style.height=''}window.scrollTo(0,y);window.__vh0=0}
     q.addEventListener('focus',lock);q.addEventListener('blur',unlock);
     if(vv){vv.addEventListener('resize',window.__place);vv.addEventListener('scroll',window.__place)}
     var ly=0,lt=0,vel=0;
