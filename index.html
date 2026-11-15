@@ -407,11 +407,12 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
 }
 
 .wa-in{flex-direction:row;flex-wrap:wrap;align-items:center!important;gap:7px!important;padding:8px 9px 9px!important}
-.wa-in textarea{flex:1;min-width:0;border:0;outline:0;resize:none;font:inherit;font-size:16px;line-height:1.3;background:#fff;border-radius:23px;padding:12px 16px;color:#111B21;height:46px;overflow:hidden;white-space:nowrap;direction:rtl}
+.wa-in textarea{flex:1;min-width:0;border:0;outline:0;resize:none;font:inherit;font-size:16px;line-height:1.3;background:#fff;border-radius:21px;padding:10px 13px;color:#111B21;height:42px;overflow:hidden;white-space:nowrap;direction:rtl}
 .wa-in textarea::placeholder{color:#8696A0}
-.wa-in button{flex:none;width:44px;height:44px;border:0;border-radius:50%;background:#25D366;cursor:pointer;padding:0;display:grid;place-items:center}
-.wa-in button svg{width:23px;height:23px;background:none;padding:0;border-radius:0;fill:#fff;transform:scaleX(-1) translateX(1.5px)}
+.wa-in button{flex:none;width:36px;height:36px;border:0;border-radius:50%;background:#25D366;cursor:pointer;padding:0;display:grid;place-items:center}
+.wa-in button svg{width:19px;height:19px;background:none;padding:0;border-radius:0;fill:#fff;transform:scaleX(-1) translateX(1.5px)}
 .wa-in .wa-plus{flex:none;width:26px;height:26px;position:relative}.wa-in .wa-plus:before,.wa-in .wa-plus:after{content:"";position:absolute;left:50%;top:50%;background:#54656F;border-radius:1px}.wa-in .wa-plus:before{width:18px;height:2px;margin:-1px 0 0 -9px}.wa-in .wa-plus:after{width:2px;height:18px;margin:-9px 0 0 -1px}
+@media (min-width:821px){.wa-in textarea{font-size:15px}}
 .wa-in .wa-hint{flex:0 0 100%;text-align:center;font-size:11px;font-weight:600;color:#0E7A41;line-height:1.2}
 .stage footer{position:absolute;left:0;right:0;bottom:18px;z-index:6;background:transparent!important;color:var(--soft);opacity:0;pointer-events:none;padding:0 clamp(16px,5vw,64px);font-size:13px;gap:10px 20px}
 .stage footer .fbrand img{background:none;padding:0;border-radius:0}
@@ -463,7 +464,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
           <div class="msg us" data-s="5">אנחנו על זה, מעדכנים אתכם כאן 🙏<span class="t">03:12</span></div>
 
         </div></div>
-        <form class="wa-in" id="ask2" onsubmit="return stAsk(this)"><i class="wa-plus" aria-hidden="true"></i><textarea name="q" id="q2" rows="1" maxlength="300" enterkeyhint="send" autocomplete="off" aria-label="לאן ומתי?" placeholder="לאן ומתי?"></textarea><button type="submit" aria-label="שלחו בוואטסאפ"><svg viewBox="0 0 24 24"><path d="M3.4 20.6c-.5.2-1-.2-.9-.8l1.5-6.1c.1-.4.4-.7.8-.7l8.700-1-8.700-1c-.4 0-.7-.3-.8-.7L2.500 4.200c-.1-.6.400-1 .900-.8l17.800 7.800c.6.300.600 1.300 0 1.600L3.400 20.600z"/></svg></button><small class="wa-hint">לחצו לשליחה בוואטסאפ</small></form>
+        <form class="wa-in" id="ask2" onsubmit="return stAsk(this)"><textarea name="q" id="q2" rows="1" maxlength="300" enterkeyhint="send" autocomplete="off" aria-label="לאן ומתי?" placeholder="לאן ומתי?"></textarea><button type="submit" aria-label="שלחו בוואטסאפ"><svg viewBox="0 0 24 24"><path d="M3.4 20.6c-.5.2-1-.2-.9-.8l1.5-6.1c.1-.4.4-.7.8-.7l8.700-1-8.700-1c-.4 0-.7-.3-.8-.7L2.500 4.200c-.1-.6.400-1 .900-.8l17.800 7.800c.6.300.600 1.300 0 1.600L3.400 20.600z"/></svg></button><small class="wa-hint">לחצו לשליחה בוואטסאפ</small></form>
       </div>
     </div>
     <footer id="zfoot">
@@ -520,7 +521,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     // last step, or a tap on the box) and stays until they scroll back above the last step.
     if(!window.__fine){if(kbOn)window.__zl=1;else if(p<0.70)window.__zl=0;var zz=(window.__zz||0)+((window.__zl||0)-(window.__zz||0))*0.13;if(Math.abs((window.__zl||0)-zz)<0.003)zz=window.__zl||0;window.__zz=zz;zx=Math.max(zx,zz)}
     var zk=(function(x){return x*x*x*(x*(x*6-15)+10)})(zx),zf=document.getElementById('zfoot');
-    if(zk>0){var scZ=mob?(vw-8)/dW*0.88:Math.min(maxSc*2.7,(vw*0.8)/dW),cy=vh*(mob?0.38:0.42),tyZ=cy-vh/2-(dH/2-54)*scZ;
+    if(zk>0){var scZ=mob?(vw-8)/dW*0.88:Math.min(maxSc*2.7,(vw*0.8)/dW),cy=vh*(mob?0.38:0.42),tyZ=cy-vh/2-(dH/2-50)*scZ;
       sc=lerp(sc,scZ,zk);ty=lerp(ty,tyZ,zk);rx=lerp(rx,0,zk);ry=lerp(ry,0,zk);pos=lerp(pos,50,zk);}
     window.__zk=zk;window.__p=p;
     // past the last step the page finishes by itself: one ride to the box, so the zoom is the end of the scroll
@@ -625,7 +626,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
   })();
   // click section: the empty box types example asks letter by letter, fast, like someone typing;
   // an example tapped is typed into the box the same way; the box grows so nothing is cut off; Enter sends
-  (function(){var q=document.getElementById('q2'),f=document.getElementById('ask2'),ex=['טיסה לבנגקוק ב-10.2','אוטובוס מהאנוי לסאפה','רכבת מדלהי לג\'איפור','מעבורת לקופנגן מחר'],k=0,tm=null,typingVal=false;
+  (function(){var q=document.getElementById('q2'),f=document.getElementById('ask2'),ex=['טיסה לבנגקוק בפברואר','אוטובוס מהאנוי לסאפה מחר','רכבת לילה מדלהי לג\'איפור','מעבורת לקופנגן מחר בבוקר'],k=0,tm=null,typingVal=false;
     function fit(){} // the box keeps one fixed size: growing and shrinking it as the example types shook the whole phone on iPhones
     function stop(){clearTimeout(tm);tm=null}
     function rnd(a,b){return a+Math.random()*(b-a)}
