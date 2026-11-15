@@ -625,7 +625,9 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     demo();})();
   // phones open the keyboard only from a touch: the finger lifting at the end of the scroll is that touch
   (function(){var q=document.getElementById('q2');if(!q)return;
-    addEventListener('touchend',function(e){if((window.__zp||0)>=0.86&&document.activeElement!==q&&!(e.target.closest&&e.target.closest('a,button')))q.focus({preventScroll:true})},{passive:true});})();
+    var mv=false;addEventListener('touchstart',function(){mv=false},{passive:true});addEventListener('touchmove',function(){mv=true},{passive:true});
+    // only the end of a scroll swipe opens it; a tap on the page does nothing (a tap on the box itself is the box's own)
+    addEventListener('touchend',function(){if(mv&&(window.__zp||0)>=0.86&&document.activeElement!==q)q.focus({preventScroll:true})},{passive:true});})();
   requestAnimationFrame(frame);
   var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting)en.target.classList.add('on')})},{threshold:.18});
   [].slice.call(document.querySelectorAll('.reveal')).forEach(function(el){io.observe(el)});
