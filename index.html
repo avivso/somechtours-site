@@ -662,18 +662,18 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     // zoom by itself (frame() holds it at the end while the box is in focus). The box is kept where it can be seen:
     // Safari slides the page under a keyboard as it likes, so its real place is measured and the scene moved to suit.
     var mv=false,ty0=0,up=false,shut=0,vv=window.visualViewport,zf=document.getElementById('zfoot'),sty=0;
-    window.__place=function(){if(!vv)return;var b=q.getBoundingClientRect(),c=(b.top+b.bottom)/2,vis=Math.min(vv.height,(window.__vh0||innerHeight)*0.5),want=vv.offsetTop+vis*0.46,d=want-c; // the keyboard takes about half the screen whether or not the browser reports it
-      void d};
+    // with the keyboard open iPhones let the page be dragged under it; the last screen follows the visible part exactly, so
+    // dragging shows nothing new (no empty screen)
+    window.__place=function(){if(!vv)return;var o=document.activeElement===q?Math.round(vv.offsetTop):0;if(o!==sty){sty=o;stage.style.transform=o?'translateY('+o+'px)':''}};
     q.addEventListener('focus',function(){window.__vh0=window.__vh0||innerHeight;if(zf)zf.style.visibility='hidden';[350,700,1100,1600,2300].forEach(function(ms){setTimeout(function(){if(document.activeElement===q)window.__place()},ms)})});
     // Safari slides the page when the keyboard opens and slides it back a moment later; the box is put back in view after each
     // slide has settled (not on every small move, so nothing shifts while typing)
-    var pt=0;function later(){clearTimeout(pt);pt=setTimeout(function(){if(document.activeElement===q)window.__place()},90)}
-    if(vv){vv.addEventListener('resize',later);vv.addEventListener('scroll',later)}
+    if(vv){vv.addEventListener('resize',window.__place);vv.addEventListener('scroll',window.__place)}
     q.addEventListener('blur',function(){sty=0;stage.style.transform='';if(zf)zf.style.visibility='';window.__vh0=0});
     var ly=0,lt=0,vel=0;
     addEventListener('touchstart',function(e){mv=false;up=false;ty0=ly=e.touches[0].clientY;lt=e.timeStamp;vel=0;if(document.activeElement!==q)window.__vh0=innerHeight},{passive:true});
     addEventListener('touchmove',function(e){var y=e.touches[0].clientY,d=y-ty0,dt=e.timeStamp-lt;mv=true;if(d>14)up=true;if(dt>4){vel=0.6*vel+0.4*((ly-y)/dt);ly=y;lt=e.timeStamp}
-      if(document.activeElement===q&&e.target!==q){if(e.cancelable)e.preventDefault();if(Math.abs(d)>10){shut=Date.now();q.blur()}}},{passive:false});
+      if(document.activeElement===q){if(e.cancelable)e.preventDefault();if(e.target!==q&&Math.abs(d)>10){shut=Date.now();q.blur()}}},{passive:false});
     addEventListener('touchend',function(){if(mv&&!up&&Date.now()-shut>700&&(window.__p||0)>=0.74&&document.activeElement!==q)q.focus({preventScroll:true})},{passive:true});
 })();
   requestAnimationFrame(frame);
