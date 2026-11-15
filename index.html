@@ -635,8 +635,10 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     window.__rideEnd=function(){window.__ride=Date.now();if(typeof lenis!=='undefined'&&lenis)lenis.scrollTo(endY(),{duration:1.1});else window.scrollTo({top:endY(),behavior:'smooth'})};
     if(fine){var keep=function(){if(document.activeElement!==q)q.focus({preventScroll:true})};setTimeout(keep,1600);
       addEventListener('keydown',function(e){if(document.activeElement!==q&&!e.metaKey&&!e.ctrlKey&&!e.altKey&&e.key.length===1)q.focus({preventScroll:true})});return}
-    var mv=false;addEventListener('touchstart',function(){mv=false},{passive:true});addEventListener('touchmove',function(){mv=true},{passive:true});
-    addEventListener('touchend',function(){if(mv&&(window.__zk||0)>=0.9&&document.activeElement!==q)q.focus({preventScroll:true})},{passive:true});
+    var mv=false,ty0=0,up=false;addEventListener('touchstart',function(e){mv=false;up=false;ty0=e.touches[0].clientY},{passive:true});
+    // a scroll back up closes the keyboard at once (the finger going down the screen is the page going up)
+    addEventListener('touchmove',function(e){mv=true;if(e.touches[0].clientY-ty0>14){up=true;if(document.activeElement===q&&e.target!==q)q.blur()}},{passive:true});
+    addEventListener('touchend',function(){if(mv&&!up&&(window.__zk||0)>=0.9&&document.activeElement!==q)q.focus({preventScroll:true})},{passive:true});
     q.addEventListener('focus',function(){if((window.__zk||0)<0.999){window.__ride=Date.now();if(typeof lenis!=='undefined'&&lenis)lenis.scrollTo(endY());else window.scrollTo({top:endY(),behavior:'smooth'})}});
     // WITH THE KEYBOARD OPEN THE SCREEN DOES NOT SLIDE (iPhone pans the page under an open keyboard, which pushed the box off
     // the top and showed the footer): the last screen follows the visible part exactly, and the footer links wait.
