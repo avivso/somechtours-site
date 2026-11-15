@@ -494,7 +494,9 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     // a phone with the keyboard open: the scene is at its end whatever the window does (Safari resizes and slides the page
     // under a keyboard), and the box is held in the part of the screen that can be seen
     var kbOn=!window.__fine&&document.activeElement&&document.activeElement.id==='q2';
-    if(kbOn){raw=1;vh=window.__vh0||vh;if(window.__place)window.__place()}
+    if(kbOn){var kk=clamp((performance.now()-(window.__kt||0))/900,0,1),r0=window.__kr||0;raw=Math.max(raw,r0+(1-r0)*(kk*kk*(3-2*kk)));vh=window.__vh0||vh;
+      if(kk>=1&&!window.__kdone){window.__kdone=true;window.scrollTo(0,hero.offsetTop+hero.offsetHeight-innerHeight)}if(window.__place)window.__place()}
+    window.__raw=raw;
     // nothing moved since the last drawn frame: draw nothing (no style writes while the page is still)
     if(raw===doneRaw&&sp===raw&&Math.abs(lean)<0.002&&vw===doneW&&vh===doneH){if(dev.style.willChange!=='auto')dev.style.willChange='auto';prevRaw=raw;requestAnimationFrame(frame);return}
     if(dev.style.willChange!=='transform')dev.style.willChange='transform';
@@ -644,12 +646,17 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     var mv=false,ty0=0,up=false,shut=0,vv=window.visualViewport,zf=document.getElementById('zfoot'),sty=0;
     window.__place=function(){if(!vv)return;var b=q.getBoundingClientRect(),c=(b.top+b.bottom)/2,want=vv.offsetTop+vv.height*0.46,d=want-c;
       if(Math.abs(d)>1){sty+=d;stage.style.transform='translateY('+sty+'px)'}};
-    q.addEventListener('focus',function(){window.__vh0=window.__vh0||innerHeight;if(zf)zf.style.visibility='hidden';window.scrollTo(0,endY())});
+    q.addEventListener('focus',function(){window.__vh0=window.__vh0||innerHeight;window.__kt=performance.now();window.__kr=window.__raw||0;window.__kdone=false;if(zf)zf.style.visibility='hidden'});
     q.addEventListener('blur',function(){sty=0;stage.style.transform='';if(zf)zf.style.visibility='';window.__vh0=0});
-    addEventListener('touchstart',function(e){mv=false;up=false;ty0=e.touches[0].clientY;if(document.activeElement!==q)window.__vh0=innerHeight},{passive:true});
-    addEventListener('touchmove',function(e){var d=e.touches[0].clientY-ty0;mv=true;if(d>14)up=true;
+    var ly=0,lt=0,vel=0;
+    addEventListener('touchstart',function(e){mv=false;up=false;ty0=ly=e.touches[0].clientY;lt=e.timeStamp;vel=0;if(document.activeElement!==q)window.__vh0=innerHeight},{passive:true});
+    addEventListener('touchmove',function(e){var y=e.touches[0].clientY,d=y-ty0,dt=e.timeStamp-lt;mv=true;if(d>14)up=true;if(dt>4){vel=0.6*vel+0.4*((ly-y)/dt);ly=y;lt=e.timeStamp}
       if(document.activeElement===q&&e.target!==q){if(e.cancelable)e.preventDefault();if(Math.abs(d)>10){shut=Date.now();q.blur()}}},{passive:false});
-    addEventListener('touchend',function(){if(mv&&!up&&Date.now()-shut>700&&(window.__p||0)>=0.66&&document.activeElement!==q)q.focus({preventScroll:true})},{passive:true});
+    // where the swipe will come to rest (a flick keeps gliding after the finger lifts, about 500 ms of its speed): if that is
+    // the end, the keyboard opens now, on this touch, because there will not be another
+    addEventListener('touchend',function(){if(!mv||up||Date.now()-shut<700||document.activeElement===q)return;
+      var land=(window.__raw||0)+Math.max(0,vel)*500/Math.max(1,hero.offsetHeight-innerHeight);
+      if((window.__p||0)>=0.66||land>=0.88)q.focus({preventScroll:true})},{passive:true});
 })();
   requestAnimationFrame(frame);
   var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting)en.target.classList.add('on')})},{threshold:.18});
