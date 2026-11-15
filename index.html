@@ -690,6 +690,9 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
       b.position='';b.top='';b.left='';b.right='';st.position='';st.top='';st.left='';st.right='';st.height='';st.transform='';sty=0;
       if(zf)zf.style.visibility='';var g=stage.querySelector('.grid');if(g){g.style.bottom='';g.style.height=''}window.scrollTo(0,y);window.__vh0=0}
     q.addEventListener('focus',lock);q.addEventListener('blur',unlock);
+    // a tap on the box: the page locks FIRST and the box is focused without letting Safari pan the page to it. Left to
+    // Safari, the tap panned the page, then the lock pulled it back, then the box glided: three moves (Aviv 15.11).
+    q.addEventListener('touchend',function(e){if(document.activeElement===q)return;if(e.cancelable)e.preventDefault();lock();q.focus({preventScroll:true})},{passive:false});
     if(vv){vv.addEventListener('resize',window.__place);vv.addEventListener('scroll',window.__place)}
     var ly=0,lt=0,vel=0;
     addEventListener('touchstart',function(e){mv=false;up=false;ty0=ly=e.touches[0].clientY;lt=e.timeStamp;vel=0;if(document.activeElement!==q)window.__vh0=innerHeight},{passive:true});
