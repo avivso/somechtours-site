@@ -490,8 +490,11 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
   function dims(){DW=dev.offsetWidth||300;DH=dev.offsetHeight||560;HH=hero.offsetHeight}dims();addEventListener('resize',dims);
   function frame(){
     // while they type in the phone's box nothing moves (the phone's keyboard resizes the window)
-    if(!window.__fine&&document.activeElement&&document.activeElement.id==='q2'){requestAnimationFrame(frame);return}
     var vw=innerWidth,vh=innerHeight,mob=vw<820,r=hero.getBoundingClientRect(),raw=clamp(-r.top/(HH-vh),0,1);
+    // a phone with the keyboard open: the scene is at its end whatever the window does (Safari resizes and slides the page
+    // under a keyboard), and the box is held in the part of the screen that can be seen
+    var kbOn=!window.__fine&&document.activeElement&&document.activeElement.id==='q2';
+    if(kbOn){raw=1;vh=window.__vh0||vh;if(window.__place)window.__place()}
     // nothing moved since the last drawn frame: draw nothing (no style writes while the page is still)
     if(raw===doneRaw&&sp===raw&&Math.abs(lean)<0.002&&vw===doneW&&vh===doneH){if(dev.style.willChange!=='auto')dev.style.willChange='auto';prevRaw=raw;requestAnimationFrame(frame);return}
     if(dev.style.willChange!=='transform')dev.style.willChange='transform';
@@ -635,17 +638,18 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     window.__rideEnd=function(){window.__ride=Date.now();if(typeof lenis!=='undefined'&&lenis)lenis.scrollTo(endY(),{duration:1.1});else window.scrollTo({top:endY(),behavior:'smooth'})};
     if(fine){var keep=function(){if(document.activeElement!==q)q.focus({preventScroll:true})};setTimeout(keep,1600);
       addEventListener('keydown',function(e){if(document.activeElement!==q&&!e.metaKey&&!e.ctrlKey&&!e.altKey&&e.key.length===1)q.focus({preventScroll:true})});return}
-    // PHONES. The keyboard opens on the phone's own box, at the end of the scroll: from the swipe that arrives there, or a
-    // tap on the box. While it is open the scene stands still (frame() skips: Safari resizes the window under a keyboard
-    // and every recomputation threw the phone off the screen, Aviv's recordings 15.11) and the page cannot be dragged:
-    // the first swipe only closes the keyboard, the next one scrolls.
-    var mv=false,ty0=0,up=false,shut=0;
-    addEventListener('touchstart',function(e){mv=false;up=false;ty0=e.touches[0].clientY},{passive:true});
+    // PHONES. The swipe that reaches the last step opens the keyboard on the phone's own box, and the scene finishes its
+    // zoom by itself (frame() holds it at the end while the box is in focus). The box is kept where it can be seen:
+    // Safari slides the page under a keyboard as it likes, so its real place is measured and the scene moved to suit.
+    var mv=false,ty0=0,up=false,shut=0,vv=window.visualViewport,zf=document.getElementById('zfoot'),sty=0;
+    window.__place=function(){if(!vv)return;var b=q.getBoundingClientRect(),c=(b.top+b.bottom)/2,want=vv.offsetTop+vv.height*0.46,d=want-c;
+      if(Math.abs(d)>1){sty+=d;stage.style.transform='translateY('+sty+'px)'}};
+    q.addEventListener('focus',function(){window.__vh0=window.__vh0||innerHeight;if(zf)zf.style.visibility='hidden';window.scrollTo(0,endY())});
+    q.addEventListener('blur',function(){sty=0;stage.style.transform='';if(zf)zf.style.visibility='';window.__vh0=0});
+    addEventListener('touchstart',function(e){mv=false;up=false;ty0=e.touches[0].clientY;if(document.activeElement!==q)window.__vh0=innerHeight},{passive:true});
     addEventListener('touchmove',function(e){var d=e.touches[0].clientY-ty0;mv=true;if(d>14)up=true;
       if(document.activeElement===q&&e.target!==q){if(e.cancelable)e.preventDefault();if(Math.abs(d)>10){shut=Date.now();q.blur()}}},{passive:false});
-    addEventListener('touchend',function(){if(mv&&!up&&Date.now()-shut>700&&(window.__zk||0)>=0.9&&document.activeElement!==q)q.focus({preventScroll:true})},{passive:true});
-    // a tap on the box before the end: no keyboard over a box nobody can see; the page goes to the end instead
-    q.addEventListener('focus',function(){if((window.__zk||0)<0.9){q.blur();window.scrollTo({top:endY(),behavior:'smooth'})}});
+    addEventListener('touchend',function(){if(mv&&!up&&Date.now()-shut>700&&(window.__p||0)>=0.66&&document.activeElement!==q)q.focus({preventScroll:true})},{passive:true});
 })();
   requestAnimationFrame(frame);
   var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting)en.target.classList.add('on')})},{threshold:.18});
