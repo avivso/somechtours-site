@@ -6,7 +6,7 @@
 <meta name="google-site-verification" content="b9nmY1mm3xYlzqOBeRb20ki-YZ2vUDpp-F0vQmCCizw">
 <link rel="canonical" href="https://somechtours.com/">
 <meta name="robots" content="index,follow">
-<meta name="theme-color" content="#FFFFFF">
+<meta name="theme-color" content="#F5F2EA">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="סוכן הטיול">
 <meta property="og:title" content="סוכן הטיול · טיסות, וכל מה שאחרי">
@@ -101,6 +101,7 @@
 @font-face{font-family:"Rubik";src:url(/brand/fonts/rubik-latin.woff2) format("woff2");font-weight:300 900}
 :root{--bg:#F5F2EA;--ink:#121412;--soft:#666A64;--green:#25D366;--deep:#0E7A41;--mint:#DFF7E8;--line:rgba(18,20,18,.08);--card:rgba(255,255,255,.62)}
 *{box-sizing:border-box;margin:0;padding:0}
+html{background:#F5F2EA}
 body{background:var(--bg);color:var(--ink);font-family:"Rubik",system-ui,Arial,sans-serif;overflow-x:clip}
 a{color:inherit}
 /* soft moving glow behind everything (modern AI look) */
@@ -268,9 +269,9 @@ h2 .g{background:linear-gradient(90deg,var(--deep),var(--green));-webkit-backgro
 .mbtn i{display:flex;gap:5px}.mbtn i b{width:5px;height:5px;border-radius:50%;background:var(--ink);transition:transform .4s}
 body.menu .mbtn{background:#fff}
 body.menu .mbtn i b:first-child{transform:translateX(5px)}body.menu .mbtn i b:last-child{transform:translateX(-5px)}
-#menu{position:fixed;inset:0;z-index:65;background:var(--night);color:#fff;clip-path:circle(0 at 54px 44px);transition:clip-path .9s cubic-bezier(.76,0,.24,1);
+#menu{position:fixed;inset:0;z-index:65;background:var(--night);color:#fff;clip-path:circle(0 at 54px 44px);visibility:hidden;transition:clip-path .9s cubic-bezier(.76,0,.24,1),visibility 0s .9s;
   display:flex;flex-direction:column;justify-content:center;padding:0 clamp(24px,8vw,120px)}
-body.menu #menu{clip-path:circle(150% at 54px 44px)}
+body.menu #menu{clip-path:circle(150% at 54px 44px);visibility:visible;transition:clip-path .9s cubic-bezier(.76,0,.24,1),visibility 0s}
 #menu nav{display:flex;flex-direction:column;gap:6px}
 #menu nav a{font-size:clamp(36px,6vw,92px);font-weight:900;letter-spacing:-.04em;line-height:1.08;text-decoration:none;color:#fff;width:max-content}
 #menu nav a:hover{color:var(--green)}
