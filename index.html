@@ -491,7 +491,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
   function ease(t){t=clamp(t,0,1);return 1-Math.pow(1-t,3)}
   var last=-1,N=6,sp=0,lean=0,prevRaw=-1,DW=0,DH=0,HH=0,doneRaw=-1,doneW=0,doneH=0,gl=null;
   (function(){var ph=dev.querySelector('.phone');if(ph){gl=document.createElement('i');gl.className='glare';ph.appendChild(gl)}})();
-  function dims(){DW=dev.offsetWidth||300;DH=dev.offsetHeight||560;HH=hero.offsetHeight}dims();addEventListener('resize',dims);
+  function dims(){var z=dev.style.zoom;dev.style.zoom='';DW=dev.offsetWidth||300;DH=dev.offsetHeight||560;dev.style.zoom=z;HH=hero.offsetHeight}dims();addEventListener('resize',dims);
   function frame(){
     // while they type in the phone's box nothing moves (the phone's keyboard resizes the window)
     var vw=innerWidth,vh=innerHeight,mob=vw<820,r=hero.getBoundingClientRect(),raw=clamp(-r.top/(HH-vh),0,1);
@@ -533,7 +533,11 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
       for(var i=0;i<8;i++){var k=(i+1)/8;L.push((ex*k).toFixed(2)+'px '+(ey*k).toFixed(2)+'px 0 4px '+C[i])}
       L.push((ex*1.6).toFixed(1)+'px '+(60+ey*1.5).toFixed(1)+'px 110px rgba(20,40,20,'+(0.28*(1-zk)).toFixed(3)+')');var GL=window.__gl||(window.__gl=dev.querySelector('.glow'));if(GL)GL.style.opacity=1-zk;PH.style.setProperty('box-shadow',L.join(','),'important')})();
     var dx=(pos-50)/100*vw;
-    dev.style.transform='translate(calc(-50% + '+dx+'px),calc(-50% + '+(ty-out*vh*0.12)+'px)) rotateX('+rx+'deg) rotateY('+ry+'deg) rotate('+rz+'deg) scale('+(sc*(1-out*0.08))+')';
+    // computers: the phone's size is real size (zoom), not a stretched picture, so every frame is drawn sharp; and once it
+    // lies flat the turn functions are left out, so the browser draws it as plain 2D
+    var scF=sc*(1-out*0.08),flat=Math.abs(rx)<0.02&&Math.abs(ry)<0.02&&Math.abs(rz)<0.02;
+    if(window.__fine){dev.style.zoom=scF;dev.style.transform='translate(calc(-50% + '+(dx/scF)+'px),calc(-50% + '+((ty-out*vh*0.12)/scF)+'px))'+(flat?'':' rotateX('+rx+'deg) rotateY('+ry+'deg) rotate('+rz+'deg)')}
+    else dev.style.transform='translate(calc(-50% + '+dx+'px),calc(-50% + '+(ty-out*vh*0.12)+'px)) rotateX('+rx+'deg) rotateY('+ry+'deg) rotate('+rz+'deg) scale('+scF+')';
     dev.style.opacity=1-out;stage.style.setProperty('--fade',1-out);
     // words: the first sits above the phone, later ones flank it, smaller, as the phone takes the stage
     W.forEach(function(w,i){var d=f-i-0.5,o=clamp((0.44-Math.abs(d))/0.1,0,1);if(i===0&&f<0.5)o=1;if(i===N-1&&f>N-0.5)o=1;
