@@ -521,7 +521,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     // last step, or a tap on the box) and stays until they scroll back above the last step.
     if(!window.__fine){if(kbOn)window.__zl=1;else if(p<0.70)window.__zl=0;var zz=(window.__zz||0)+((window.__zl||0)-(window.__zz||0))*0.13;if(Math.abs((window.__zl||0)-zz)<0.003)zz=window.__zl||0;window.__zz=zz;zx=Math.max(zx,zz)}
     var zk=(function(x){return x*x*x*(x*(x*6-15)+10)})(zx),zf=document.getElementById('zfoot');
-    if(zk>0){var scZ=mob?(vw-8)/dW*0.88:Math.min(maxSc*2.7,(vw*0.8)/dW),cy=vh*(mob?0.38:0.42),tyZ=cy-vh/2-(dH/2-50)*scZ;
+    if(zk>0){var scZ=mob?(vw-8)/dW*0.88:Math.min(maxSc*2.7,(vw*0.8)/dW),cy=vh*(mob?0.29:0.42),tyZ=cy-vh/2-(dH/2-50)*scZ;
       sc=lerp(sc,scZ,zk);ty=lerp(ty,tyZ,zk);rx=lerp(rx,0,zk);ry=lerp(ry,0,zk);pos=lerp(pos,50,zk);}
     window.__zk=zk;window.__p=p;
     // past the last step the page finishes by itself: one ride to the box, so the zoom is the end of the scroll
@@ -663,7 +663,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     // Safari slides the page under a keyboard as it likes, so its real place is measured and the scene moved to suit.
     var mv=false,ty0=0,up=false,shut=0,vv=window.visualViewport,zf=document.getElementById('zfoot'),sty=0;
     window.__place=function(){if(!vv)return;var b=q.getBoundingClientRect(),c=(b.top+b.bottom)/2,vis=Math.min(vv.height,(window.__vh0||innerHeight)*0.5),want=vv.offsetTop+vis*0.46,d=want-c; // the keyboard takes about half the screen whether or not the browser reports it
-      if(Math.abs(d)>6){sty+=d;stage.style.transform='translateY('+sty+'px)'}};
+      void d};
     q.addEventListener('focus',function(){window.__vh0=window.__vh0||innerHeight;if(zf)zf.style.visibility='hidden';[350,700,1100,1600,2300].forEach(function(ms){setTimeout(function(){if(document.activeElement===q)window.__place()},ms)})});
     // Safari slides the page when the keyboard opens and slides it back a moment later; the box is put back in view after each
     // slide has settled (not on every small move, so nothing shifts while typing)
