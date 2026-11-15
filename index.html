@@ -686,8 +686,10 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
 // (a route, a sentence) goes as they wrote it (Aviv, 2026-10-30). An empty box sends the site's general opening line
 // (Aviv, 2026-11-14), the same one the inner pages' buttons send. Opened through stOpenWa so the lead is counted for the ads.
 function stAsk(f){var d=(f.q.value||"").trim().replace(/\s+/g," ").slice(0,300);
-  var free=/\s(to|from)\s|[-–>→←]|(^|\s)מ\S+\s+ל\S|\S\s+ל\S|\s\S+\s/i.test(d);
-  var t=!d?"היי! הגעתי מהאתר ואשמח לבדוק כרטיס":free?d:"אפשר כרטיס ל"+d+"?";
+  // What they wrote goes as they wrote it. If it does not already ask for a ticket or name a way to travel, our line is added
+  // after it, so the chat opens on a request whatever they typed ("זה מטורף!" -> "זה מטורף! אשמח להזמין כרטיס"; Aviv, 15.11).
+  var asks=/כרטיס|להזמין|הזמנה|טיסה|טיסות|לטוס|אוטובוס|רכבת|מעבורת|ואן|הסעה|flight|bus|train|ferry|ticket/i.test(d);
+  var t=!d?"היי! הגעתי מהאתר ואשמח לבדוק כרטיס":asks?d:d+(/[.!?…]$/.test(d)?" ":", ")+"אשמח להזמין כרטיס";
   var url="https://wa.me/972559171333?text="+encodeURIComponent(t);
   if(window.stOpenWa)stOpenWa(url,"home-box");else location.href=url;return false;}
 </script>
