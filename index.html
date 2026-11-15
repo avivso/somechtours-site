@@ -499,7 +499,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     window.__raw=raw;
     // nothing moved since the last drawn frame: draw nothing (no style writes while the page is still)
     if(raw===doneRaw&&sp===raw&&Math.abs(lean)<0.002&&vw===doneW&&vh===doneH&&(window.__fine||(window.__zz||0)===(window.__zl||0))){if(dev.style.willChange!=='auto')dev.style.willChange='auto';prevRaw=raw;requestAnimationFrame(frame);return}
-    if(dev.style.willChange!=='transform')dev.style.willChange='transform';
+    if(!window.__fine&&dev.style.willChange!=='transform')dev.style.willChange='transform'; // computers redraw the phone sharp at every size
     sp+=(raw-sp)*0.22;if(Math.abs(raw-sp)<0.0002)sp=raw;var p=sp;
     // scroll speed -> a soft lean that springs back when the scroll stops (the phone has weight)
     var v=prevRaw<0?0:(raw-prevRaw)*(HH-vh);prevRaw=raw;lean+=(clamp(v*0.15,-3.5,3.5)-lean)*0.08;if(Math.abs(lean)<0.002)lean=0;
