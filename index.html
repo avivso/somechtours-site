@@ -301,14 +301,14 @@ footer a{color:#C9CEC9}
 /* ===== simple 3D iPhone ===== */
 .stage{perspective:1300px}
 .device{transform-style:preserve-3d}
-.device .glow{transform:translateZ(-40px)}
+.device .glow{transform:none}
 .phone{position:relative;border-radius:54px!important;border:9px solid #0B0B0C!important;background:#0B0B0C!important;
-  box-shadow:0 0 0 3px #A9AEB2,0 0 0 4px #6C7175,0 70px 120px rgba(20,40,20,.30)!important;transform:translateZ(1px)}
+  box-shadow:0 0 0 3px #A9AEB2,0 0 0 4px #6C7175,0 70px 120px rgba(20,40,20,.30);transform:none}
 .glare{position:absolute;top:0;bottom:0;left:-60%;width:220%;pointer-events:none;z-index:6;background:linear-gradient(115deg,transparent 38%,rgba(255,255,255,.16) 47%,transparent 56%);will-change:transform}
 @media (max-width:820px){.depth i:nth-child(even){display:none}}
-.depth{position:absolute;inset:-4px;transform-style:preserve-3d;pointer-events:none}
+.depth{display:none!important}
 .depth i{position:absolute;inset:0;border-radius:58px;background:linear-gradient(135deg,#C9CDD0,#7F8488 35%,#4A4E52 60%,#9DA2A6)}
-.sb{position:absolute;width:5px;border-radius:2px;background:linear-gradient(90deg,#8E9397,#C7CBCE);transform:translateZ(-9px)}
+.sb{position:absolute;width:5px;border-radius:2px;background:linear-gradient(90deg,#8E9397,#C7CBCE)}
 .sb.s1{left:-7px;top:120px;height:30px}.sb.s2{left:-7px;top:168px;height:58px}.sb.s3{left:-7px;top:236px;height:58px}.sb.s4{right:-7px;top:190px;height:92px}
 .island{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:96px;height:28px;border-radius:20px;background:#000;z-index:5}
 .wa-top{padding-top:16px!important}
@@ -526,6 +526,10 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     if(p<0.6)window.__rode=false;else if(window.__fine&&!window.__rode&&p>=0.72&&raw>=doneRaw&&window.__rideEnd){window.__rode=true;window.__rideEnd()}
     var fo=clamp((zk-0.8)/0.2,0,1);zf.style.opacity=fo;zf.style.pointerEvents=fo>0.5?'auto':'none';
     [].forEach.call(stage.querySelectorAll('.count,.prog,.mk'),function(e){e.style.opacity=1-zk});
+    // the phone's side: thin metal layers stepping out behind it, away from the eye, as far as the tilt shows them
+    (function(){var PH=window.__ph||(window.__ph=dev.querySelector('.phone')),ex=-26*Math.sin(ry*Math.PI/180),ey=26*Math.sin(rx*Math.PI/180),L=['0 0 0 3px #B4B9BD','0 0 0 4px #6C7175'],C=['#C6CACD','#B3B8BC','#9EA3A7','#898E92','#757A7E','#63686C','#555A5E','#4A4E52'];
+      for(var i=0;i<8;i++){var k=(i+1)/8;L.push((ex*k).toFixed(2)+'px '+(ey*k).toFixed(2)+'px 0 4px '+C[i])}
+      L.push((ex*1.6).toFixed(1)+'px '+(60+ey*1.5).toFixed(1)+'px 110px rgba(20,40,20,.28)');PH.style.setProperty('box-shadow',L.join(','),'important')})();
     var dx=(pos-50)/100*vw;
     dev.style.transform='translate(calc(-50% + '+dx+'px),calc(-50% + '+(ty-out*vh*0.12)+'px)) rotateX('+rx+'deg) rotateY('+ry+'deg) rotate('+rz+'deg) scale('+(sc*(1-out*0.08))+')';
     dev.style.opacity=1-out;stage.style.setProperty('--fade',1-out);
