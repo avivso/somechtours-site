@@ -118,7 +118,7 @@ a{color:inherit}
 
 /* ===== HERO: the conversation grows to fill the screen as you scroll ===== */
 .hero{height:620vh;position:relative}
-.stage{position:sticky;top:0;height:100vh;overflow-x:clip;overflow-y:visible}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow-x:clip;overflow-y:visible}
 .grid{opacity:var(--fade,1);position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(70% 70% at 50% 50%,#000 40%,transparent 100%)}
 .words{position:absolute;inset:0;pointer-events:none}
 .w{position:absolute;left:50%;top:50%;font-weight:900;letter-spacing:-.045em;line-height:.9;text-align:center;font-size:clamp(56px,11vw,210px);opacity:0;will-change:transform,opacity;white-space:nowrap}
@@ -509,7 +509,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     var zk=(function(x){return x*x*x*(x*(x*6-15)+10)})(clamp((p-0.82)/0.17,0,1)),zf=document.getElementById('zfoot');
     if(zk>0){var scZ=mob?(vw-8)/dW*0.88:Math.min(maxSc*2.1,(vw*0.62)/dW),cy=vh*(mob?0.38:0.42),tyZ=cy-vh/2-(dH/2-78)*scZ;
       sc=lerp(sc,scZ,zk);ty=lerp(ty,tyZ,zk);rx=lerp(rx,0,zk);ry=lerp(ry,0,zk);pos=lerp(pos,50,zk)}
-    window.__zp=p;if(p<0.78&&document.activeElement&&document.activeElement.id==='q2')document.activeElement.blur();window.__atEnd=zk>=0.999;if(window.__atEnd&&!window.__wasEnd){var qq=document.getElementById('q2');try{qq.focus({preventScroll:true})}catch(e){}}window.__wasEnd=window.__atEnd;
+    window.__zk=zk;if(!window.__fine&&zk<0.9&&Date.now()-(window.__ride||0)>2500&&document.activeElement&&document.activeElement.id==='q2')document.activeElement.blur();
     var fo=clamp((zk-0.8)/0.2,0,1);zf.style.opacity=fo;zf.style.pointerEvents=fo>0.5?'auto':'none';
     [].forEach.call(stage.querySelectorAll('.count,.prog,.mk'),function(e){e.style.opacity=1-zk});
     var dx=(pos-50)/100*vw;
@@ -623,11 +623,18 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     q.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();f.requestSubmit?f.requestSubmit():f.onsubmit(e)}});
     [].forEach.call(f.querySelectorAll('.try button'),function(c){c.addEventListener('click',function(){typeIn(c.dataset.q)})});
     demo();})();
-  // phones open the keyboard only from a touch: the finger lifting at the end of the scroll is that touch
-  (function(){var q=document.getElementById('q2');if(!q)return;
+  // THE BOX. A computer: it is in focus from the first moment and stays so through the whole scroll, so typing always works.
+  // A phone: the keyboard would hide the box anywhere but at the end, so it opens only when the zoomed box is on screen:
+  // from the swipe that brings it there, or from a tap on the box itself (which first rides the page to the end).
+  (function(){var q=document.getElementById('q2');if(!q)return;var fine=window.__fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
+    function endY(){return hero.offsetTop+hero.offsetHeight-innerHeight}
+    if(fine){var keep=function(){if(document.activeElement!==q)q.focus({preventScroll:true})};setTimeout(keep,1600);
+      addEventListener('keydown',function(e){if(document.activeElement!==q&&!e.metaKey&&!e.ctrlKey&&!e.altKey&&e.key.length===1)q.focus({preventScroll:true})});return}
     var mv=false;addEventListener('touchstart',function(){mv=false},{passive:true});addEventListener('touchmove',function(){mv=true},{passive:true});
-    // only the end of a scroll swipe opens it; a tap on the page does nothing (a tap on the box itself is the box's own)
-    addEventListener('touchend',function(){if(mv&&(window.__zp||0)>=0.86&&document.activeElement!==q)q.focus({preventScroll:true})},{passive:true});})();
+    addEventListener('touchend',function(){if(mv&&(window.__zk||0)>=0.999&&document.activeElement!==q)q.focus({preventScroll:true})},{passive:true});
+    q.addEventListener('focus',function(){if((window.__zk||0)<0.999){window.__ride=Date.now();if(typeof lenis!=='undefined'&&lenis)lenis.scrollTo(endY());else window.scrollTo({top:endY(),behavior:'smooth'})}});
+    // never past the end (an open keyboard lets some phones drag the page further)
+    addEventListener('scroll',function(){var m=endY();if(scrollY>m+2)window.scrollTo(0,m)},{passive:true});})();
   requestAnimationFrame(frame);
   var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting)en.target.classList.add('on')})},{threshold:.18});
   [].slice.call(document.querySelectorAll('.reveal')).forEach(function(el){io.observe(el)});
