@@ -498,7 +498,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     // a phone with the keyboard open: the scene is at its end whatever the window does (Safari resizes and slides the page
     // under a keyboard), and the box is held in the part of the screen that can be seen
     var kbOn=!window.__fine&&document.activeElement&&document.activeElement.id==='q2';
-    if(kbOn){if(window.__zl!==1){window.__zl=1;window.__zz=Math.max(window.__zz||0,window.__zx||0)}vh=window.__vh0||vh} // the zoom carries on from where the scroll left it
+    if(kbOn){if(window.__place)window.__place();if(window.__zl!==1){window.__zl=1;window.__zz=Math.max(window.__zz||0,window.__zx||0)}vh=window.__vh0||vh} // the zoom carries on from where the scroll left it
     window.__raw=raw;
     // nothing moved since the last drawn frame: draw nothing (no style writes while the page is still)
     if(raw===doneRaw&&sp===raw&&Math.abs(lean)<0.002&&vw===doneW&&vh===doneH&&(window.__fine||(window.__zz||0)===(window.__zl||0))){prevRaw=raw;requestAnimationFrame(frame);return}
@@ -664,7 +664,10 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     var mv=false,ty0=0,up=false,shut=0,vv=window.visualViewport,zf=document.getElementById('zfoot'),sty=0;
     // with the keyboard open iPhones let the page be dragged under it; the last screen follows the visible part exactly, so
     // dragging shows nothing new (no empty screen)
-    window.__place=function(){if(!vv)return;var o=document.activeElement===q?Math.round(vv.offsetTop):0;if(o!==sty){sty=o;stage.style.transform=o?'translateY('+o+'px)':''}};
+    // ...and an open keyboard also lets the page itself scroll past its end, which carried the last screen off the top:
+    // whatever the page has gone past its end, the last screen is moved back by
+    window.__place=function(){var on=document.activeElement===q,past=on?Math.max(0,Math.round(scrollY-(hero.offsetTop+hero.offsetHeight-(window.__vh0||innerHeight)))):0,o=past+(on&&vv?Math.round(vv.offsetTop):0);if(o!==sty){sty=o;stage.style.transform=o?'translateY('+o+'px)':''}};
+    addEventListener('scroll',window.__place,{passive:true});
     q.addEventListener('focus',function(){window.__vh0=window.__vh0||innerHeight;if(zf)zf.style.visibility='hidden';[350,700,1100,1600,2300].forEach(function(ms){setTimeout(function(){if(document.activeElement===q)window.__place()},ms)})});
     // Safari slides the page when the keyboard opens and slides it back a moment later; the box is put back in view after each
     // slide has settled (not on every small move, so nothing shifts while typing)
