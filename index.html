@@ -648,10 +648,15 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     function fit(){} // the box keeps one fixed size: growing and shrinking it as the example types shook the whole phone on iPhones
     function stop(){clearTimeout(tm);tm=null}
     function rnd(a,b){return a+Math.random()*(b-a)}
+    // phones: the example stops typing while the page scrolls and while they are in the box. Every letter redrew the phone
+    // picture about 25 times a second, under the scroll and under the keyboard (the lag, Aviv 15.11). Computers: unchanged.
+    addEventListener('scroll',function(){window.__sc=Date.now()},{passive:true});
+    function wait(fn){if(window.__fine)return false;var foc=document.activeElement===q;if(!foc&&Date.now()-(window.__sc||0)>250)return false;
+      if(foc&&q.placeholder!=='לאן ומתי?')q.placeholder='לאן ומתי?';tm=setTimeout(fn,200);return true}
     // placeholder: type, hold, erase, next
     function demo(){stop();var t=Array.from(ex[k]),n=0;
-      (function typeOn(){if(q.value){q.placeholder='לאן ומתי?';return}q.placeholder=t.slice(0,n).join('')+(n<t.length?'|':'');fit();
-        if(n<t.length){n++;tm=setTimeout(typeOn,rnd(28,60))}else tm=setTimeout(function erase(){if(q.value)return;n--;q.placeholder=t.slice(0,n).join('')||'\u200f';
+      (function typeOn(){if(q.value){q.placeholder='לאן ומתי?';return}if(wait(typeOn))return;q.placeholder=t.slice(0,n).join('')+(n<t.length?'|':'');fit();
+        if(n<t.length){n++;tm=setTimeout(typeOn,rnd(28,60))}else tm=setTimeout(function erase(){if(q.value)return;if(wait(erase))return;n--;q.placeholder=t.slice(0,n).join('')||'\u200f';
           if(n>0)tm=setTimeout(erase,14);else{k=(k+1)%ex.length;tm=setTimeout(demo,350)}},1700)})()}
     // a tapped example is typed into the box itself
     function typeIn(txt){stop();typingVal=true;var t=Array.from(txt),n=0;q.value='';q.focus();
