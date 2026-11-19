@@ -118,7 +118,7 @@ a{color:inherit}
 .bar .wa{padding:9px 16px;font-size:14px}
 
 /* ===== HERO: the conversation grows to fill the screen as you scroll ===== */
-.hero{height:620vh;position:relative}
+.hero{height:450vh;position:relative}
 .stage{position:sticky;top:0;height:100vh;height:100svh;overflow-x:clip;overflow-y:visible}
 .grid{opacity:var(--fade,1);position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(70% 70% at 50% 50%,#000 40%,transparent 100%)}
 .words{position:absolute;inset:0;pointer-events:none}
@@ -398,7 +398,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
 .fbrand{order:2;display:inline-flex;align-items:center;gap:10px;color:#C9CEC9}.fbrand img{width:30px;height:30px;border-radius:50%;background:#fff;padding:3px}
 @media (max-width:820px){.fbrand{order:0}}
 @media (max-width:820px){
-  .hero{height:580vh}
+  .hero{height:420vh}
   .device{width:300px}.wa-view{height:430px}.wa-body{font-size:13px}.doc{width:220px}
   .w{font-size:clamp(44px,13vw,80px);white-space:normal;width:92vw}
   .w.side{font-size:clamp(36px,11vw,56px);width:94vw;text-align:center}
@@ -482,14 +482,12 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
 <div class="hero" id="hero">
   <div class="stage">
     <div class="grid"></div>
-    <div class="count"><b id="cn">01</b> / 06</div>
+    <div class="count"><b id="cn">01</b> / 04</div>
     <div class="words">
       <h1 class="w intro" data-s="0" data-nosnippet>ספרו לנו לאן</h1>
-      <div class="w side" data-s="1">אנחנו מוצאים לכם.<small>מחיר סופי, עם המזוודה שביקשתם</small></div>
-      <div class="w g side" data-s="2">משלמים בשקט.<small>בקישור מאובטח, בשקלים</small></div>
-      <div class="w g side" data-s="3">והכרטיס אצלכם.<small>ישר לצ'אט</small></div>
-      <div class="w side" data-s="4">צ'ק-אין עלינו.<small>אתם רק אורזים</small></div>
-      <div class="w g side" data-s="5">איתכם כל הדרך.<small>זמינים <bdi dir="ltr">24/7</bdi>, גם באמצע הטיול</small></div>
+      <div class="w side" data-s="1">אנחנו נמצא עבורכם.<small>עם הכבודה שבחרתם</small></div>
+      <div class="w g side" data-s="2">משלמים בקישור.<small>מאובטח, בשקלים</small></div>
+      <div class="w g side" data-s="3">והכרטיס אצלכם.<small>ישר לוואטסאפ</small></div>
     </div>
     <div class="device" id="device"><div class="glow"></div>
       <div class="depth"><i style="transform:translateZ(-2px);filter:brightness(1.00)"></i><i style="transform:translateZ(-4px);filter:brightness(0.96)"></i><i style="transform:translateZ(-6px);filter:brightness(0.93)"></i><i style="transform:translateZ(-8px);filter:brightness(0.90)"></i><i style="transform:translateZ(-10px);filter:brightness(0.86)"></i><i style="transform:translateZ(-12px);filter:brightness(0.82)"></i><i style="transform:translateZ(-14px);filter:brightness(0.79)"></i><i style="transform:translateZ(-16px);filter:brightness(0.76)"></i><i style="transform:translateZ(-18px);filter:brightness(0.72)"></i><i style="transform:translateZ(-20px);filter:brightness(0.68)"></i><i style="transform:translateZ(-22px);filter:brightness(0.65)"></i><i style="transform:translateZ(-24px);filter:brightness(0.61)"></i><i style="transform:translateZ(-26px);filter:brightness(0.58)"></i><i style="transform:translateZ(-28px);filter:brightness(0.54)"></i></div><span class="sb s1"></span><span class="sb s2"></span><span class="sb s3"></span><span class="sb s4"></span><div class="phone">
@@ -536,7 +534,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
       W=[].slice.call(document.querySelectorAll('.w')),M=[].slice.call(document.querySelectorAll('.msg[data-s]'));
   function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
   function ease(t){t=clamp(t,0,1);return 1-Math.pow(1-t,3)}
-  var last=-1,N=6,sp=0,lean=0,prevRaw=-1,DW=0,DH=0,HH=0,doneRaw=-1,doneW=0,doneH=0,gl=null;
+  var last=-1,N=4,sp=0,lean=0,prevRaw=-1,DW=0,DH=0,HH=0,doneRaw=-1,doneW=0,doneH=0,gl=null;
   (function(){var ph=dev.querySelector('.phone');if(ph){gl=document.createElement('i');gl.className='glare';ph.appendChild(gl)}})();
   function dims(){var z=dev.style.zoom;dev.style.zoom='';DW=dev.offsetWidth||300;DH=dev.offsetHeight||560;dev.style.zoom=z;HH=hero.offsetHeight}dims();addEventListener('resize',dims);
   function frame(){
