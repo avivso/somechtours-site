@@ -5,8 +5,8 @@
 (function () {
   var CFG = {
     GA4: "G-VYY5XZ5JSP", /* Google Analytics 4: property somechtours.com, web stream "Site" */
-    ADS: "",        /* "AW-XXXXXXX"  Google Ads */
-    ADS_LEAD: "",   /* "AW-XXXXXXX/abcDEF" the Google Ads conversion for a WhatsApp click */
+    ADS: "AW-18583438653",        /* Google Ads, account 650-497-6707 (somechtours@gmail.com, 19.11) */
+    ADS_LEAD: "AW-18583438653/H6HLCLO0k7sdEL2Ko51F",   /* the Google Ads conversion "WhatsApp click" */
     PIXEL: "1804905007487330" /* Meta: the dataset "סוכן הטיול · הזמנות מהבוט", where the bot's Conversions API Purchase already lands */
   };
   var KEY = "st-consent-v1";

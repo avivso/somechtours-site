@@ -2921,7 +2921,7 @@ ${QUICK[r.slug] ? QUICK_CSS + "\n" : ""}<link rel="icon" href="/favicon.ico" siz
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
 <script type="application/ld+json">${JSON.stringify(webpage(r))}</script>
 <link rel="stylesheet" href="/routes/route.css?v=${CSS_V}">
-<script defer src="/brand/track.js?v=4"></script>
+<script defer src="/brand/track.js?v=5"></script>
 </head><body>
 <div class="top" role="banner"><a class="brand" href="/"><img src="/brand/hiker-180.png" alt="" width="38" height="38">סוכן הטיול</a><a class="wa" href="${waLink(`${FROM_SITE} מ${r.he.from} ל${r.he.to}`)}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>וואטסאפ</a></div>
 <div class="wrap" role="main">
@@ -3076,7 +3076,7 @@ const indexPage = () => `<!doctype html><html lang="he" dir="rtl"><head>
     url: `https://somechtours.com/routes/${r.slug}/`,
   })),
 })}</script>
-<script defer src="/brand/track.js?v=4"></script>
+<script defer src="/brand/track.js?v=5"></script>
 </head><body>
 <div class="top" role="banner"><a class="brand" href="/"><img src="/brand/hiker-180.png" alt="" width="38" height="38">סוכן הטיול</a><a class="wa" href="${WA}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#wa-ic"/></svg>וואטסאפ</a></div>
 <div class="wrap" role="main">
