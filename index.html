@@ -399,7 +399,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
 @media (max-width:820px){.fbrand{order:0}}
 @media (max-width:820px){
   .hero{height:420vh}
-  .device{width:300px}.wa-view{height:320px}.wa-body{font-size:13px}.doc{width:220px}
+  .doc{width:220px}
   .w{font-size:clamp(44px,13vw,80px);white-space:normal;width:92vw}
   .w.side{font-size:clamp(36px,11vw,56px);width:94vw;text-align:center}
   .prog,.mk{display:none}
@@ -452,7 +452,6 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
 .phone .lp b{display:block;font-size:.87em;line-height:1.2}.phone .lp small{display:block;font-size:.73em;color:#667781;direction:ltr;text-align:right}
 .phone .lnk{display:block;color:#027EB5;direction:ltr;text-align:right;overflow-wrap:anywhere}
 .phone .wa-in{background:#F6F6F6}
-@media (max-width:820px){.phone .wa-body{font-size:13px}}
 /* the phone's send bar (Aviv 19.11): only the field and the arrow, on one line, clear of the rounded corners, with the
    iPhone's bottom inset under them. While the chat scrolls it is inactive and shows no typing; at the end the hint line
    slides up above it (the chat makes room for it) and the box becomes live. 94.78px = its height before, so the frame
@@ -557,8 +556,8 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     var f=Math.min(p/0.80,0.9999)*N, step=Math.min(N-1,Math.floor(f));
     // the phone starts as an object below the headline and grows to own the screen
     var grow=ease(clamp((p-0.08)/0.42,0,1));
-    var dW=DW,dH=DH,maxSc=mob?Math.min((vw-22)/dW,1):Math.min(1.5,(vh-170)/676);
-    var sc=lerp(mob?0.7:0.62,maxSc,grow), ty=lerp(vh*(mob?0.3:0.34),mob?vh*0.30+dH*maxSc/2-vh/2:-12,grow), rz=lerp(-3,0,grow);
+    var dW=DW,dH=DH,maxSc=mob?Math.min((vw-22)/dW,(vh*0.72-8)/(dH-104)):Math.min(1.5,(vh-170)/676);
+    var sc=lerp(mob?0.7:0.62,maxSc,grow), ty=lerp(vh*(mob?0.3:0.34),mob?vh*0.28+dH*maxSc/2-vh/2:-12,grow), rz=lerp(-3,0,grow);
     var out=0;
     function side(i){return 50}
     var ph=f-Math.floor(f),cur=Math.min(N-1,Math.floor(f)),nx=Math.min(N-1,cur+1),bl=(function(x){return x*x*(3-2*x)})(clamp((ph-0.45)/0.55,0,1));
