@@ -453,15 +453,15 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
 .phone .lnk{display:block;color:#027EB5;direction:ltr;text-align:right;overflow-wrap:anywhere}
 .phone .wa-in{background:#F6F6F6}
 /* the phone's send bar (Aviv 19.11): only the field and the arrow, on one line, clear of the rounded corners, with the
-   iPhone's bottom inset under them. While the chat scrolls it is inactive and shows no typing; at the end the hint line
-   slides up above it (the chat makes room for it) and the box becomes live. 94.78px = its height before, so the frame
+   iPhone's bottom inset under them. While the chat scrolls it is inactive and shows no typing; the hint's grey band sits above it from the
+   first step and at the end only its text fades in, and the box becomes live. 94.78px = its height before, so the frame
    keeps its size. */
 .phone .wa-in{position:relative;z-index:3;height:94.78125px;padding:12px 14px 0!important;flex-wrap:nowrap;align-items:flex-start!important;gap:8px!important;background:#F6F6F6}
 .phone .wa-in textarea,.phone .wa-in button{margin:0}
-.phone .wa-in .wa-hint{position:absolute;left:0;right:0;bottom:calc(100% - 1px);padding:8px 16px 7px;background:#F6F6F6;clip-path:inset(100% 0 0 0);opacity:0;transition:clip-path .6s cubic-bezier(.65,0,.35,1),opacity .6s cubic-bezier(.65,0,.35,1)}
-.phone.live .wa-in .wa-hint{clip-path:inset(0 0 0 0);opacity:1}
-.phone .wa-body{transition:padding-bottom .6s cubic-bezier(.65,0,.35,1)}
-.phone.live .wa-body{padding-bottom:calc(.6em + 44px)}
+.phone .wa-in .wa-hint{position:absolute;left:0;right:0;bottom:calc(100% - 1px);height:44px;overflow:hidden;padding:8px 16px 7px;background:#F6F6F6;color:rgba(14,122,65,0);transition:color .4s ease}
+.phone.live .wa-in .wa-hint{color:#0E7A41}
+/* the hint's band is there from the first step (Aviv 19.11): the chat sits above it all along, so nothing moves when the line fades in */
+.phone .wa-body{padding-bottom:calc(.6em + 44px)}
 .phone:not(.live) .wa-in{pointer-events:none}
 .phone:not(.live) .wa-in textarea::placeholder{color:transparent}
 /* phones (Aviv 19.11): no step counter; the scroll cue gets a bobbing arrow */
