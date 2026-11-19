@@ -399,7 +399,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
 @media (max-width:820px){.fbrand{order:0}}
 @media (max-width:820px){
   .hero{height:420vh}
-  .device{width:300px}.wa-view{height:430px}.wa-body{font-size:13px}.doc{width:220px}
+  .device{width:300px}.wa-view{height:320px}.wa-body{font-size:13px}.doc{width:220px}
   .w{font-size:clamp(44px,13vw,80px);white-space:normal;width:92vw}
   .w.side{font-size:clamp(36px,11vw,56px);width:94vw;text-align:center}
   .prog,.mk{display:none}
@@ -465,16 +465,8 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
 .phone.live .wa-body{padding-bottom:calc(.6em + 44px)}
 .phone:not(.live) .wa-in{pointer-events:none}
 .phone:not(.live) .wa-in textarea::placeholder{color:transparent}
-/* phones (Aviv 19.11): the chat mockup is for computers; a phone gets one plain box that opens WhatsApp */
-.mbox{display:none}
-@media (max-width:820px){.device{display:none!important}
-  .mbox{display:flex;flex-wrap:wrap;align-items:center;gap:8px;position:absolute;left:16px;right:16px;top:40%;z-index:5;opacity:0;transform:translateY(18px);pointer-events:none;transition:opacity .6s cubic-bezier(.65,0,.35,1),transform .6s cubic-bezier(.65,0,.35,1)}
-  body.mlive .mbox{opacity:1;transform:none;pointer-events:auto}
-  .mbox .mhint{flex:0 0 100%;text-align:center;font-size:13px;font-weight:600;line-height:1.3;color:var(--deep);margin:0 0 2px}
-  .mbox textarea{flex:1;min-width:0;height:48px;font:inherit;font-size:17px;line-height:1.3;padding:13px 18px;border:0;outline:0;resize:none;overflow:hidden;white-space:nowrap;background:#fff;color:#111B21;border-radius:24px;text-align:right;direction:rtl;box-shadow:0 1px 2px rgba(11,20,26,.10),0 8px 24px rgba(20,40,20,.08)}
-  .mbox textarea::placeholder{color:#8696A0}
-  .mbox .msend{flex:none;width:48px;height:48px;border:0;border-radius:50%;background:#25D366;padding:0;display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 18px rgba(37,211,102,.35)}
-  .mbox .msend svg{width:22px;height:22px;fill:#fff;transform:scaleX(-1) translateX(1.5px)}
+/* phones (Aviv 19.11): no step counter; the scroll cue gets a bobbing arrow */
+@media (max-width:820px){
   .count{display:none!important}
   .hint:after{content:"";display:block;width:9px;height:9px;margin:9px auto 0;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);animation:hbob 1.6s ease-in-out infinite}}
 @keyframes hbob{50%{transform:translateY(5px) rotate(45deg)}}
@@ -522,8 +514,6 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
         <form class="wa-in" id="ask2" onsubmit="return stAsk(this)"><textarea tabindex="-1" name="q" id="q2" rows="1" maxlength="300" enterkeyhint="send" autocomplete="off" aria-label="לאן ומתי?" placeholder="לאן ומתי?"></textarea><button tabindex="-1" type="submit" aria-label="שלחו בוואטסאפ"><svg viewBox="0 0 24 24"><path d="M3.4 20.6c-.5.2-1-.2-.9-.8l1.5-6.1c.1-.4.4-.7.8-.7l8.700-1-8.700-1c-.4 0-.7-.3-.8-.7L2.500 4.200c-.1-.6.400-1 .900-.8l17.800 7.800c.6.300.600 1.300 0 1.600L3.400 20.600z"/></svg></button><small class="wa-hint">כתבו כאן לאן ומתי, ולחצו על החץ. השיחה תיפתח אצלכם בוואטסאפ</small></form>
       </div>
     </div>
-    <!-- phones (Aviv 19.11): no phone mockup, one plain box that opens WhatsApp with what they typed -->
-    <form class="mbox" id="ask3" onsubmit="return stAsk(this)"><p class="mhint">כתבו לאן ומתי, והשיחה תיפתח אצלכם בוואטסאפ</p><textarea tabindex="-1" name="q" id="q3" rows="1" maxlength="300" enterkeyhint="send" autocomplete="off" aria-label="לאן ומתי?" placeholder="לאן ומתי?"></textarea><button tabindex="-1" type="submit" class="msend" aria-label="שלחו בוואטסאפ"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3.4 20.6c-.5.2-1-.2-.9-.8l1.5-6.1c.1-.4.4-.7.8-.7l8.700-1-8.700-1c-.4 0-.7-.3-.8-.7L2.500 4.200c-.1-.6.400-1 .900-.8l17.800 7.800c.6.300.600 1.300 0 1.600L3.400 20.600z"/></svg></button></form>
     <footer id="zfoot">
   <span class="fbrand"><img src="/brand/hiker-180.png" alt="סוכן הטיול">סוכן הטיול · שירות של סומך טורס</span>
   <nav><a href="/about/"><span class="roll"><span data-t="מה זה סוכן הטיול?">מה זה סוכן הטיול?</span></span></a><a href="/faq/"><span class="roll"><span data-t="שאלות ותשובות">שאלות ותשובות</span></span></a><a href="/flights/"><span class="roll"><span data-t="טיסות">טיסות</span></span></a><a href="/routes/"><span class="roll"><span data-t="מדריכי מסלולים">מדריכי מסלולים</span></span></a><a href="/terms/"><span class="roll"><span data-t="תנאי השירות">תנאי השירות</span></span></a><a href="/privacy/"><span class="roll"><span data-t="מדיניות הפרטיות">מדיניות הפרטיות</span></span></a><a href="/passenger-rights/"><span class="roll"><span data-t="זכויות נוסעים בטיסה">זכויות נוסעים בטיסה</span></span></a><a href="/cancel/"><span class="roll"><span data-t="ביטול עסקה">ביטול עסקה</span></span></a><a href="/cookies/"><span class="roll"><span data-t="עוגיות">עוגיות</span></span></a></nav>
@@ -567,8 +557,8 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     var f=Math.min(p/0.80,0.9999)*N, step=Math.min(N-1,Math.floor(f));
     // the phone starts as an object below the headline and grows to own the screen
     var grow=ease(clamp((p-0.08)/0.42,0,1));
-    var dW=DW,dH=DH,maxSc=mob?Math.min((vw-22)/dW,(vh*0.74)/dH):Math.min(1.5,(vh-170)/676);
-    var sc=lerp(mob?0.7:0.62,maxSc,grow), ty=lerp(vh*(mob?0.3:0.34),mob?vh/2-14-dH*maxSc/2:-12,grow), rz=lerp(-3,0,grow);
+    var dW=DW,dH=DH,maxSc=mob?Math.min((vw-22)/dW,1):Math.min(1.5,(vh-170)/676);
+    var sc=lerp(mob?0.7:0.62,maxSc,grow), ty=lerp(vh*(mob?0.3:0.34),mob?vh*0.30+dH*maxSc/2-vh/2:-12,grow), rz=lerp(-3,0,grow);
     var out=0;
     function side(i){return 50}
     var ph=f-Math.floor(f),cur=Math.min(N-1,Math.floor(f)),nx=Math.min(N-1,cur+1),bl=(function(x){return x*x*(3-2*x)})(clamp((ph-0.45)/0.55,0,1));
@@ -592,10 +582,8 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     var fo=(function(x){return x*x*(3-2*x)})(clamp((zk-0.6)/0.4,0,1));zf.style.opacity=fo;zf.style.pointerEvents=fo>0.5?'auto':'none';
     // computers (Aviv 19.11): while the chat scrolls, the phone's bottom is WhatsApp's plain, inactive bar; the real box
     // (hint line, typing examples, send arrow, focus) switches on only at the end, when the footer comes in
-    if(window.__fine){var live=zk>0.75;if(live!==window.__live){window.__live=live;var PHL=dev.querySelector('.phone'),Q2=document.getElementById('q2'),B2=Q2&&Q2.form.querySelector('button');
-      PHL.classList.toggle('live',live);if(Q2){Q2.tabIndex=live?0:-1;B2.tabIndex=live?0:-1;if(live)Q2.focus({preventScroll:true});else if(document.activeElement===Q2)Q2.blur()}}}
-    else{var Q3=document.getElementById('q3'),ml=zk>0.75||(Q3&&document.activeElement===Q3);if(ml!==window.__ml){window.__ml=ml;document.body.classList.toggle('mlive',ml);
-      if(Q3){Q3.tabIndex=ml?0:-1;Q3.form.querySelector('button').tabIndex=ml?0:-1}}}
+    var Q2=document.getElementById('q2'),live=zk>0.75||(!window.__fine&&document.activeElement===Q2);if(live!==window.__live){window.__live=live;var PHL=dev.querySelector('.phone'),B2=Q2&&Q2.form.querySelector('button');
+      PHL.classList.toggle('live',live);if(Q2){Q2.tabIndex=live?0:-1;B2.tabIndex=live?0:-1;if(live&&window.__fine)Q2.focus({preventScroll:true});else if(!live&&document.activeElement===Q2)Q2.blur()}}
     [].forEach.call(stage.querySelectorAll('.count,.prog,.mk'),function(e){e.style.opacity=1-zk});
     // the phone's side: thin metal layers stepping out behind it, away from the eye, as far as the tilt shows them
     // phones: the edge is repainted only when it would look different (a whole pixel of tilt, a 5% step of the end fade);
@@ -621,7 +609,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     dev.style.opacity=1-out;stage.style.setProperty('--fade',1-out);
     // words: the first sits above the phone, later ones flank it, smaller, as the phone takes the stage
     W.forEach(function(w,i){var d=f-i-0.5,o=clamp((0.44-Math.abs(d))/0.1,0,1);if(i===0&&f<0.5)o=1;if(i===N-1&&f>N-0.5)o=1;
-      if(mob){w.style.left='50%';w.style.transform='translate(-50%,calc(-50% + '+(-vh*0.06-d*30)+'px))'}
+      if(mob){w.style.left='50%';w.style.transform='translate(-50%,calc(-50% + '+(-vh*0.30-d*30)+'px))'}
       else if(i===0){w.style.left='50%';w.style.transform='translate(-50%,calc(-50% + '+(-vh*0.24-d*40)+'px))'}
       else{w.style.left='79%';w.style.textAlign='right';w.style.transform='translate(-50%,calc(-50% + '+(-d*36)+'px))'}
       w.style.opacity=o*(1-out)*(1-zk)});
@@ -786,16 +774,5 @@ function stAsk(f){var d=(f.q.value||"").trim().replace(/\s+/g," ").slice(0,300);
   var t=!d?"היי! הגעתי מהאתר ואשמח לבדוק כרטיס":asks?d:d+(/[.!?…]$/.test(d)?" ":", ")+"אשמח להזמין כרטיס";
   var url="https://wa.me/972559171333?text="+encodeURIComponent(t);
   if(window.stOpenWa)stOpenWa(url,"home-box");else location.href=url;return false;}
-</script>
-<script>
-// phones: the plain box types example asks into its placeholder until they tap it (same examples as the computer box)
-(function(){var q=document.getElementById("q3"),f=document.getElementById("ask3");if(!q||!matchMedia("(max-width:820px)").matches)return;
-  var ex=["טיסה לבנגקוק בפברואר","אוטובוס מהאנוי לסאפה מחר","רכבת לילה מדלהי לג'איפור","מעבורת לקופנגן מחר בבוקר"],k=0,n=0,dir=1;
-  function tick(){var t=Array.from(ex[k]);if(q.value||document.activeElement===q){q.placeholder="לאן ומתי?";n=0;dir=1;return setTimeout(tick,500)}
-    n+=dir;q.placeholder=t.slice(0,n).join("")||"\u200f";
-    if(dir>0&&n>=t.length){dir=-1;return setTimeout(tick,1700)}if(dir<0&&n<=0){dir=1;k=(k+1)%ex.length;return setTimeout(tick,350)}
-    setTimeout(tick,dir>0?40:14)}
-  tick();
-  q.addEventListener("keydown",function(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();f.requestSubmit?f.requestSubmit():f.onsubmit(e)}});})();
 </script>
 </body></html>
