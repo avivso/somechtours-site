@@ -417,6 +417,43 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
 .stage footer{position:absolute;left:0;right:0;bottom:18px;z-index:6;background:transparent!important;color:var(--soft);opacity:0;pointer-events:none;padding:0 clamp(16px,5vw,64px);font-size:13px;gap:10px 20px}
 .stage footer .fbrand img{background:none;padding:0;border-radius:0}
 @media (min-width:821px){.stage footer{align-items:center}.stage footer .fbrand{flex-direction:row-reverse}}.stage footer a{color:var(--ink)}.stage footer nav a:hover{color:var(--deep)}.stage footer .fbrand{color:var(--soft)}.stage footer nav{gap:8px 16px}
+/* ===== the phone's chat, drawn like the voice ad (19.11): WhatsApp iOS in Hebrew. Colours, bubble shapes, tails, header
+   pills and the wallpaper come from ads/voice-ad-2026-11-18/voice.html, scaled from its 286px screen (base 12.1px) by em.
+   Only what is inside the phone changes: the header keeps its 62px, the chat its 520/430px, the send box is untouched in size.
+   Fonts: the system stack, so iPhones draw Apple's own SF (the SF files are never shipped). */
+.phone .wa-top,.phone .wa-body{font-family:-apple-system,BlinkMacSystemFont,"SF Hebrew","SF Pro Text",system-ui,"Rubik",Arial,sans-serif}
+.phone .wa-top{height:62px;padding:14px 10px 6px!important;gap:8px;background:#F7F7F7;border-bottom:0;position:relative;z-index:2}
+.phone .wa-top .wa-pill{flex:none;height:36px;margin:0;padding:0;border:0;border-radius:18px;background:#fff;box-shadow:0 .5px 2px rgba(0,0,0,.10),0 0 0 .3px rgba(0,0,0,.05);backdrop-filter:none;display:flex;align-items:center;justify-content:center;gap:4px;font-size:0}
+.phone .wa-top .wa-pill.back{width:38px}.phone .wa-top .wa-pill.back svg{width:9px;height:16px}
+.phone .wa-top .wa-pill.call{width:46px;margin-inline-start:auto}.phone .wa-top .wa-pill.call svg{width:17px;height:17px}.phone .wa-top .wa-pill.call svg+svg{width:8px;height:6px}
+.phone .wa-av{width:35px;height:35px;border:0;box-shadow:0 0 0 .5px rgba(0,0,0,.18);padding:2px}
+.phone .wa-id{min-width:0;white-space:nowrap}
+.phone .wa-id b{display:flex;align-items:center;gap:4px;font-size:15.5px;font-weight:600;line-height:1.15;color:#000}
+.phone .wa-id small{font-size:11.5px;line-height:1.25;color:#8A8A8A}
+.phone .wa-id .vb{width:12px;height:12px}
+.phone .wa-view{background:#EFEAE2 url(/brand/wa-wall.webp) 0 0/100% auto no-repeat}
+.phone .wa-view:before{content:"";position:absolute;left:0;right:0;top:0;height:10px;z-index:2;background:linear-gradient(#F7F7F7,rgba(247,247,247,0))}
+.phone .wa-body{gap:.25em;padding:.6em 1em;font-size:14.5px;line-height:1.24;color:#0B141A}
+.phone .day{background:#fff;color:#4A4A4A;font-size:.73em;padding:.45em 1em;border-radius:.8em;margin:.2em 0 .45em;box-shadow:0 .5px .5px rgba(11,20,26,.10)}
+.phone .msg{max-width:82%;padding:.5em .7em .36em;border-radius:.8em;box-shadow:0 .5px .5px rgba(11,20,26,.10);color:#0B141A;text-align:right}
+.phone .msg.me{background:#D9FDD3;border-top-left-radius:.8em}
+.phone .msg.us{background:#fff;border-top-right-radius:.8em}
+.phone .msg.me:before,.phone .msg.us:before{content:none}
+.phone .msg.tail.me{border-bottom-left-radius:2px}.phone .msg.tail.us{border-bottom-right-radius:2px}
+.phone .msg.tail:before{content:"";position:absolute;top:auto;bottom:0;width:.58em;height:.74em;background:none no-repeat 0 0/100% 100%}
+.phone .msg.tail.me:before{left:-.37em;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 9'><path fill='%23D9FDD3' d='M7 0v9H.8C.2 9-.1 8.4.2 8 2.2 5.6 3.8 3 4.7 0z'/></svg>")}
+.phone .msg.tail.us:before{right:-.37em;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 9'><path fill='%23FFFFFF' d='M0 0v9h6.2c.6 0 .9-.6.6-1C4.8 5.6 3.2 3 2.3 0z'/></svg>")}
+.phone .msg b{display:inline;font-weight:600}
+.phone .msg .l{display:block}.phone .msg .l.sp{height:.35em}.phone .msg .nw{white-space:nowrap}
+.phone .msg .t{position:absolute;left:.66em;bottom:.37em;margin:0;display:flex;align-items:center;gap:2px;font-size:.69em;line-height:1;color:#667781;direction:rtl}
+.phone .msg .tk{width:1.35em;height:.85em}
+.phone .msg .tsp{display:inline-block;height:1px;width:3.2em}.phone .msg.me .tsp{width:4.6em}
+.phone .lp{display:flex;align-items:center;gap:.5em;background:#F5F6F6;border-radius:.5em;padding:.42em;margin:0 -.33em .33em;overflow:hidden;direction:rtl}
+.phone .lpi{flex:none;width:2.64em;height:2.64em;border-radius:.42em;background:#0E7A41;display:grid;place-items:center}.phone .lpi svg{width:1.32em;height:1.32em;fill:#fff}
+.phone .lp b{display:block;font-size:.87em;line-height:1.2}.phone .lp small{display:block;font-size:.73em;color:#667781;direction:ltr;text-align:right}
+.phone .lnk{display:block;color:#027EB5;direction:ltr;text-align:right;overflow-wrap:anywhere}
+.phone .wa-in{background:#F6F6F6}
+@media (max-width:820px){.phone .wa-body{font-size:13px}}
 </style>
 <script defer src="/brand/track.js?v=5"></script>
 </head><body>
@@ -447,22 +484,20 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     <div class="device" id="device"><div class="glow"></div>
       <div class="depth"><i style="transform:translateZ(-2px);filter:brightness(1.00)"></i><i style="transform:translateZ(-4px);filter:brightness(0.96)"></i><i style="transform:translateZ(-6px);filter:brightness(0.93)"></i><i style="transform:translateZ(-8px);filter:brightness(0.90)"></i><i style="transform:translateZ(-10px);filter:brightness(0.86)"></i><i style="transform:translateZ(-12px);filter:brightness(0.82)"></i><i style="transform:translateZ(-14px);filter:brightness(0.79)"></i><i style="transform:translateZ(-16px);filter:brightness(0.76)"></i><i style="transform:translateZ(-18px);filter:brightness(0.72)"></i><i style="transform:translateZ(-20px);filter:brightness(0.68)"></i><i style="transform:translateZ(-22px);filter:brightness(0.65)"></i><i style="transform:translateZ(-24px);filter:brightness(0.61)"></i><i style="transform:translateZ(-26px);filter:brightness(0.58)"></i><i style="transform:translateZ(-28px);filter:brightness(0.54)"></i></div><span class="sb s1"></span><span class="sb s2"></span><span class="sb s3"></span><span class="sb s4"></span><div class="phone">
         <div class="wa-top">
-          <svg class="back" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="wa-pill back" aria-hidden="true"><svg viewBox="0 0 13 20"><path d="M3 2l8 8-8 8" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
           <img class="wa-av" src="/brand/hiker-180.png" alt="סוכן הטיול">
-          <div class="wa-id"><b>סוכן הטיול <svg class="vb" viewBox="0 0 40 40" aria-label="עסק מאומת"><g transform="translate(2.2 2.2) scale(.89)"><path fill="#0095F6" stroke="#0095F6" stroke-width="3.4" stroke-linejoin="round" d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Z"/><path fill="#fff" d="M27.413 14.319l2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z"/></g></svg></b><small>חשבון עסקי</small></div>
+          <div class="wa-id"><b>סוכן הטיול <svg class="vb" viewBox="0 0 40 40" aria-label="עסק מאומת"><g transform="translate(2.2 2.2) scale(.89)"><path fill="#1D9BF0" stroke="#1D9BF0" stroke-width="3.4" stroke-linejoin="round" d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Z"/><path fill="#fff" d="M27.413 14.319l2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z"/></g></svg></b><small>חשבון עסקי</small></div>
+          <span class="wa-pill call" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.7" stroke-linejoin="round"><path d="M20 15.6v3.1a1.9 1.9 0 0 1-2.1 1.9A17 17 0 0 1 3.4 6.1 1.9 1.9 0 0 1 5.3 4h3.1l1.6 4.1-2.1 1.3a11.4 11.4 0 0 0 6.7 6.7l1.3-2.1z"/></svg><svg viewBox="0 0 12 8"><path d="M1 1.5l5 5 5-5" fill="none" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </div>
         <div class="wa-view"><div class="wa-body" id="wab">
           <div class="day">היום</div>
-          <div class="msg me" data-s="1">טיסה לבנגקוק ב-10.2, עם מזוודה<span class="t">10:41 <svg class="tk" viewBox="0 0 18 11"><path fill="none" stroke="#53BDEB" stroke-width="1.6" d="M1 5.8l3.2 3.2L11 2M6.8 9l.8.8L15.6 2"/></svg></span></div>
+          <div class="msg me tail" data-s="0">היי, אנחנו זוג. רוצים לטוס לאתונה מרביעי 9.12 עד ראשון בבוקר, עם מזוודה. מה יש?<i class="tsp"></i><span class="t">10:40 <svg class="tk" viewBox="0 0 18 11"><path fill="none" stroke="#53BDEB" stroke-width="1.6" d="M1 5.8l3.2 3.2L11 2M6.8 9l.8.8L15.6 2"/></svg></span></div>
           <div class="typing" id="typing"><span></span><span></span><span></span></div>
-          <div class="msg us offer" data-s="1"><b>תל אביב ← בנגקוק</b><span class="al">יום רביעי 10.2 · אתיחאד · עצירה אחת</span><span class="price">סה״כ <bdi dir="ltr">₪1,527</bdi></span>, כולל מזוודה. מה דעתך?<span class="t">10:58</span></div>
-          <div class="msg me" data-s="2">מתאים לי<span class="t">11:02 <svg class="tk" viewBox="0 0 18 11"><path fill="none" stroke="#53BDEB" stroke-width="1.6" d="M1 5.8l3.2 3.2L11 2M6.8 9l.8.8L15.6 2"/></svg></span></div>
-          <div class="msg us doc" data-s="3"><div class="tix"><div class="tix-h"><img src="/brand/hiker-180.png" alt="סוכן הטיול"><b>סוכן הטיול</b><em>אישור הזמנה</em></div><div class="tix-ok"><span class="tix-v"><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg></span><div><b>ההזמנה אושרה</b><small>מספר הזמנה <bdi>ST-48213</bdi></small></div></div><div class="tix-cut"></div><div class="tix-f"><div><small>טיסה</small><b>EY 596</b></div><div><small>תאריך</small><b>10.02</b></div><div><small>המראה</small><b>23:20</b></div></div></div><span class="t">11:09</span></div>
-          <div class="msg us" data-s="4">עשיתי לך צ'ק-אין ✈️<span class="t">09:30</span></div>
-          <div class="msg us bp" data-s="4"><div class="bpc"><div class="bph"><span>BOARDING PASS</span><span>EY 596</span></div><div class="bpr"><div><small>FROM</small><b>TLV</b></div><div><small>SEAT</small><b>24A</b></div><div><small>TO</small><b>BKK</b></div></div><div class="qr"></div></div><span class="t">09:30</span></div>
-          <div class="msg me" data-s="5">הטיסה התעכבה, מה עושים?<span class="t">03:12 <svg class="tk" viewBox="0 0 18 11"><path fill="none" stroke="#53BDEB" stroke-width="1.6" d="M1 5.8l3.2 3.2L11 2M6.8 9l.8.8L15.6 2"/></svg></span></div>
-          <div class="msg us" data-s="5">אני על זה, מעדכן אותך כאן 🙏<span class="t">03:12</span></div>
-
+          <div class="msg us" data-s="1">בודק לך 🙏<i class="tsp"></i><span class="t">10:40</span></div>
+          <div class="msg us tail" data-s="1"><span class="l">מצאתי לך טיסה ישירה עם ישראייר</span><span class="l sp"></span><span class="l"><b>הלוך, רביעי 9.12</b>&nbsp; <span class="nw">06:10 ← 08:15</span></span><span class="l"><b>חזור, ראשון 13.12</b>&nbsp; <span class="nw">09:40 ← 11:35</span></span><span class="l sp"></span><span class="l">מזוודה וטרולי לכל אחד</span><span class="l">מחיר: ₪1,480 לאדם</span><span class="l sp"></span><span class="l">נוחתים בבוקר, יש לכם 4 ימים שלמים באתונה</span><span class="l sp"></span><span class="l">מה דעתך?<i class="tsp"></i></span><span class="t">10:49</span></div>
+          <div class="msg me tail" data-s="2">נשמע טוב, אפשר להזמין?<i class="tsp"></i><span class="t">10:51 <svg class="tk" viewBox="0 0 18 11"><path fill="none" stroke="#53BDEB" stroke-width="1.6" d="M1 5.8l3.2 3.2L11 2M6.8 9l.8.8L15.6 2"/></svg></span></div>
+          <div class="msg us" data-s="2"><div class="lp"><span class="lpi"><svg viewBox="0 0 24 24"><path d="M17 9V7A5 5 0 0 0 7 7v2H5v13h14V9h-2Zm-8 0V7a3 3 0 0 1 6 0v2H9Z"/></svg></span><span><b>סוכן הטיול · תשלום מאובטח</b><small>pay.somechtours.com</small></span></div><span class="l"><span class="lnk">pay.somechtours.com/<wbr>a7Kq2</span></span><span class="l">ברגע שהתשלום והפרטים אצלי, אני סוגר את ההזמנה ושולח לך את הכרטיס לכאן 🙏<i class="tsp"></i></span><span class="t">10:52</span></div>
+          <div class="msg us tail" data-s="3">מעולה, הכרטיס אצלי, שולח לך בקרוב הכל מסודר<i class="tsp"></i><span class="t">11:04</span></div>
         </div></div>
         <form class="wa-in" id="ask2" onsubmit="return stAsk(this)"><textarea name="q" id="q2" rows="1" maxlength="300" enterkeyhint="send" autocomplete="off" aria-label="לאן ומתי?" placeholder="לאן ומתי?"></textarea><button type="submit" aria-label="שלחו בוואטסאפ"><svg viewBox="0 0 24 24"><path d="M3.4 20.6c-.5.2-1-.2-.9-.8l1.5-6.1c.1-.4.4-.7.8-.7l8.700-1-8.700-1c-.4 0-.7-.3-.8-.7L2.500 4.200c-.1-.6.400-1 .900-.8l17.800 7.800c.6.300.600 1.300 0 1.600L3.400 20.600z"/></svg></button><small class="wa-hint">כתבו כאן לאן ומתי, ולחצו על החץ. השיחה תיפתח אצלכם בוואטסאפ</small></form>
       </div>
