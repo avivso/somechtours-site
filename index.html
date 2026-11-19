@@ -582,7 +582,7 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     // computers (Aviv 19.11): while the chat scrolls, the phone's bottom is WhatsApp's plain, inactive bar; the real box
     // (hint line, typing examples, send arrow, focus) switches on only at the end, when the footer comes in
     var Q2=document.getElementById('q2'),live=zk>0.75||(!window.__fine&&document.activeElement===Q2);if(live!==window.__live){window.__live=live;var PHL=dev.querySelector('.phone'),B2=Q2&&Q2.form.querySelector('button');
-      PHL.classList.toggle('live',live);if(Q2){Q2.tabIndex=live?0:-1;B2.tabIndex=live?0:-1;if(live&&window.__fine)Q2.focus({preventScroll:true});else if(!live&&document.activeElement===Q2)Q2.blur()}}
+      PHL.classList.toggle('live',live);if(Q2){Q2.tabIndex=live?0:-1;B2.tabIndex=live?0:-1;if(!live&&document.activeElement===Q2)Q2.blur()}}
     [].forEach.call(stage.querySelectorAll('.count,.prog,.mk'),function(e){e.style.opacity=1-zk});
     // the phone's side: thin metal layers stepping out behind it, away from the eye, as far as the tilt shows them
     // phones: the edge is repainted only when it would look different (a whole pixel of tilt, a 5% step of the end fade);
@@ -725,8 +725,8 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
   // from the swipe that brings it there, or from a tap on the box itself (which first rides the page to the end).
   (function(){var q=document.getElementById('q2');if(!q)return;var fine=window.__fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
     window.__rideEnd=function(){var y=hero.offsetTop+hero.offsetHeight-innerHeight;window.__ride=Date.now();if(typeof lenis!=='undefined'&&lenis)lenis.scrollTo(y,{duration:1.6,easing:function(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2}});else window.scrollTo({top:y,behavior:'smooth'})};
-    if(fine){var keep=function(){if(window.__live&&document.activeElement!==q)q.focus({preventScroll:true})};setTimeout(keep,1600);
-      addEventListener('keydown',function(e){if(window.__live&&document.activeElement!==q&&!e.metaKey&&!e.ctrlKey&&!e.altKey&&e.key.length===1)q.focus({preventScroll:true})});return}
+    // the box gets focus only from their own click or tap on it, never from reaching the end (Aviv 19.11)
+    if(fine)return;
     // PHONES. The swipe that reaches the end opens the keyboard on the phone's own box, and the page LOCKS on that screen:
     // while the box is in focus the document cannot scroll at all (body pinned), the last screen is pinned to the window
     // itself (not to the scroll), and frame() draws the end state whatever the window reports. So there is one screen and
@@ -755,7 +755,6 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     // phone ask this code before every scroll movement, on the whole page: that was the lag (Aviv, 15.11).
     function hold(e){if(e.cancelable)e.preventDefault();if(e.target!==q&&Math.abs(e.touches[0].clientY-ty0)>40){shut=Date.now();q.blur()}}
     q.addEventListener('focus',function(){addEventListener('touchmove',hold,{passive:false})});q.addEventListener('blur',function(){removeEventListener('touchmove',hold,{passive:false})});
-    addEventListener('touchend',function(){if(mv&&!up&&ty0-ly>40&&Date.now()-shut>700&&(window.__p||0)>=0.78&&document.activeElement!==q)q.focus({preventScroll:true})},{passive:true});
 })();
   requestAnimationFrame(frame);
   var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting)en.target.classList.add('on')})},{threshold:.18});
