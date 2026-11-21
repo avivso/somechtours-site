@@ -594,8 +594,12 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
       // phones: the soft shadow and the metal edge are their own pictures behind the phone. The shadow only slides and fades
       // (no redraw at all); the edge is a small picture of its own. Redrawing the whole phone with its big blurred shadow
       // on every bit of tilt is what made the scroll lag.
-      var G=window.__eg;if(!G){var PH0=dev.querySelector('.phone'),mk=function(css){var d=document.createElement('div');d.style.cssText='position:absolute;inset:0;border-radius:54px;pointer-events:none;'+css;PH0.parentNode.insertBefore(d,PH0);return d};
-        G=window.__eg={s:mk('box-shadow:0 60px 110px rgba(20,40,20,.28);will-change:transform,opacity'),e:mk('will-change:transform'),g:dev.querySelector('.glow')};if(G.g)G.g.style.willChange='opacity';PH0.style.setProperty('box-shadow','0 0 0 3px #B4B9BD,0 0 0 4px #6C7175','important')}
+      // computers (21.11, smoothness): the green glow and the big shadow sit in their own box just behind the phone, moved and
+      // sized by the same transform as the phone instead of the phone's zoom, so they are drawn once and only slide, grow and
+      // fade; under the zoom both were redrawn at the new size on every frame of the grow and the end (half of all drawing)
+      var G=window.__eg;if(!G){var PH0=dev.querySelector('.phone'),mk=function(css,par){var d=document.createElement('div');d.style.cssText='position:absolute;inset:0;border-radius:54px;pointer-events:none;'+css;(par||PH0.parentNode).insertBefore(d,par?null:PH0);return d},bk=null;
+        if(window.__fine){bk=document.createElement('div');bk.style.cssText='position:absolute;left:50%;top:50%;z-index:4;pointer-events:none;will-change:transform';stage.insertBefore(bk,dev);var g0=dev.querySelector('.glow');if(g0)bk.appendChild(g0)}
+        G=window.__eg={b:bk,s:mk('box-shadow:0 60px 110px rgba(20,40,20,.28);will-change:transform,opacity',bk),e:mk('will-change:transform'),g:(bk||dev).querySelector('.glow')};if(G.g)G.g.style.willChange='opacity';PH0.style.setProperty('box-shadow','0 0 0 3px #B4B9BD,0 0 0 4px #6C7175','important')}
       var ex2=-26*Math.sin(ry*Math.PI/180),ey2=26*Math.sin(rx*Math.PI/180);G.s.style.transform='translate('+(ex2*1.6).toFixed(1)+'px,'+(ey2*1.5).toFixed(1)+'px)';G.s.style.opacity=1-zk;if(G.g)G.g.style.opacity=1-zk;
       var k2=Math.round(ex2*2)+'|'+Math.round(ey2*2);if(k2!==window.__ek){window.__ek=k2;var C2=['#C6CACD','#B3B8BC','#9EA3A7','#898E92','#757A7E','#63686C','#555A5E','#4A4E52'],L2=[];for(var i2=0;i2<8;i2++){var kk=(i2+1)/8;L2.push((ex2*kk).toFixed(2)+'px '+(ey2*kk).toFixed(2)+'px 0 4px '+C2[i2])}G.e.style.boxShadow=L2.join(',')}
     }
@@ -603,7 +607,9 @@ footer nav{display:flex;gap:18px;flex-wrap:wrap}footer a{text-decoration:none}
     // computers: the phone's size is real size (zoom), not a stretched picture, so every frame is drawn sharp; and once it
     // lies flat the turn functions are left out, so the browser draws it as plain 2D
     var scF=sc*(1-out*0.08),flat=Math.abs(rx)<0.02&&Math.abs(ry)<0.02&&Math.abs(rz)<0.02;
-    if(window.__fine){dev.style.zoom=scF;dev.style.transform='translate(calc(-50% + '+(dx/scF)+'px),calc(-50% + '+((ty-out*vh*0.12)/scF)+'px))'+(flat?'':' rotateX('+rx+'deg) rotateY('+ry+'deg) rotate('+rz+'deg)')}
+    if(window.__fine){dev.style.zoom=scF;dev.style.transform='translate(calc(-50% + '+(dx/scF)+'px),calc(-50% + '+((ty-out*vh*0.12)/scF)+'px))'+(flat?'':' rotateX('+rx+'deg) rotateY('+ry+'deg) rotate('+rz+'deg)');
+      // the same place, turn and size for the glow and shadow box: scaling after the turn is what the zoom does to the phone
+      if(G.b){G.b.style.width=DW+'px';G.b.style.height=DH+'px';G.b.style.opacity=1-out;G.b.style.transform='translate(calc(-50% + '+dx+'px),calc(-50% + '+(ty-out*vh*0.12)+'px))'+(flat?'':' rotateX('+rx+'deg) rotateY('+ry+'deg) rotate('+rz+'deg)')+' scale('+scF+')'}}
     else dev.style.transform='translate(calc(-50% + '+dx+'px),calc(-50% + '+(ty-out*vh*0.12)+'px)) rotateX('+rx+'deg) rotateY('+ry+'deg) rotate('+rz+'deg) scale('+scF+')';
     dev.style.opacity=1-out;stage.style.setProperty('--fade',1-out);
     // words: the first sits above the phone, later ones flank it, smaller, as the phone takes the stage
